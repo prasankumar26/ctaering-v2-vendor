@@ -1,34 +1,34 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NoPage from "./pages/NoPage";
-import EnterLocationManually from './components/EnterLocationManually';
-import Landing from './components/Landing';
-import ProfileSteps from './components/ProfileSteps';
-import RegisterLogin from './components/RegisterLogin';
-import EnterLocation from './components/EnterLocation';
+import EnterLocationManually from './components/auth/EnterLocationManually';
+import Landing from './components/auth/Landing';
+import ProfileSteps from './components/auth/ProfileSteps';
+import RegisterLogin from './components/auth/RegisterLogin';
+import EnterLocation from './components/auth/EnterLocation';
 import Layout from './layout/Layout';
 import DashboardComponent from './pages/DashboardComponent';
+import Inquiries from './pages/Inquiries';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/landing" element={<Landing />} />
           <Route path="/create-account" element={<RegisterLogin />} />
           <Route path="/enter-location" element={<EnterLocation />} />
           <Route path="/enter-location-manually" element={<EnterLocationManually />} />
           <Route path="/profile-steps" element={<ProfileSteps />} />
-          <Route path="/dashboard" element={<DashboardComponent />} />
           <Route path="*" element={<NoPage />} />
+
+          <Route path="/" element={<Layout />}>
+          <Route index element={<DashboardComponent />} />
+          <Route path='/dashboard/inquiries' element={<Inquiries />} />
+        </Route>
+
         </Routes>
       </BrowserRouter>
-
-      {/* <Landing /> */}
-      {/* <RegisterLogin /> */}
-      {/* <EnterLocation /> */}
-      {/* <EnterLocationManually /> */}
-      {/* <ProfileSteps /> */}
     </>
   );
 }

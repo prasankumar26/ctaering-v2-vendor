@@ -106,7 +106,7 @@ const ProfileSteps = () => {
                                         <Typography sx={{ mt: 2, mb: 1 }} className='ps-2'>
                                             All steps completed - you&apos;re finished
                                         </Typography>
-                                        <Link to="/dashboard" className='text-decoration-none'>
+                                        <Link to="/" className='text-decoration-none'>
                                             <Button variant="contained" className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
                                                 Go to Dashboard
                                             </Button>

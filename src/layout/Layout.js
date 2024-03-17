@@ -1,23 +1,18 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Grid from '@mui/material/Grid';
+import LeftNav from "../components/nav/LeftNav";
 
 const Layout = () => {
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/blogs">Blogs</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <Outlet />
+      <Grid container spacing={0} >
+        <Grid item xs={12} sm={12} md={12} lg={2.5}>
+          <LeftNav />
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={9.5}>
+          <Outlet />
+        </Grid>
+      </Grid>
     </>
   )
 };
