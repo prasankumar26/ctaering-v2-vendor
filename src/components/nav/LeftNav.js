@@ -54,7 +54,7 @@ const LeftNav = () => {
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer} className="mobile-menu">
             <MenuIcon />
           </IconButton>
-          <RestaurantMenuIcon className="text-white" />  <h2 className="text-white ln-title">CATERER PAGE</h2>
+          <RestaurantMenuIcon className="text-white" />  <h2 className="ln-title">Catering Service</h2>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" className="mobile-none">

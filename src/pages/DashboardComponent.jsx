@@ -1,8 +1,10 @@
-import React from 'react'
+import Container from '@mui/material/Container';
 
 const DashboardComponent = () => {
   return (
-    <h1>Dashboard Component</h1>
+    <Container maxWidth="lg">
+      <h1>Dashboard Component</h1>
+    </Container>
   )
 }
 

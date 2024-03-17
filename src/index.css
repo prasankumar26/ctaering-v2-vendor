@@ -489,7 +489,10 @@ code {
 .text-white {
   color: var(--alternate) !important;
 }
-
+.card-box-shadow{
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: var(--radiusOne);
+}
 /* project global end */
 
 
@@ -809,8 +812,8 @@ code {
   .nav-bg {
     height: 100vh;
     overflow-y: scroll;
-    position: fixed;
-    width: 16%;
+    /* position: fixed; */
+    width: 100%;
   }
 
   .mobile-menu {
@@ -866,7 +869,10 @@ code {
   border-radius: 5px;
 }
 .ln-title{
-  font-size: 14px;
+  font-size: 16px;
+  color: #ffffff !important;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
 }
 .nav-name {
   font-size: 12px;
@@ -898,3 +904,69 @@ code {
 }
 
 /* left navbar end  */
+
+/* Top header start */
+.top-header-title{
+  font-size: 18px;
+  font-weight: 500;
+  font-family: var(--fontPrimary);
+  color: var(--primarytext);
+}
+.top-header-desc{
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--fontPrimary);
+  color: var(--secondarytext);
+}
+/* Top header end */
+
+/* inquiries page start  */
+.ic-img{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.ic-title{
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--fontPrimary);
+  color: var(--tertiary);
+}
+.ic-desc{
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--fontPrimary);
+  color: var(--secondarytext);
+}
+.ic-small-text{
+  color: var(--secondary);
+  font-size: 10px;
+  font-family: var(--fontPrimary);
+}
+.sort-reviews{
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--fontPrimary);
+  color: var(--secondarytext);
+}
+/* inquiries page end  */
+
+/* right side fixed start  */
+body{
+  height: 100vh !important;
+  overflow-y: hidden;
+}
+.outlet-container{
+  height: 100vh !important;
+  overflow-y: scroll !important;
+}
+
+.outlet-container::-webkit-scrollbar {
+  display: none;
+}
+
+.outlet-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+/* right side fixed end  */
