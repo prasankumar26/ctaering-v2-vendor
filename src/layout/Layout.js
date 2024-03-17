@@ -11,7 +11,9 @@ const Layout = () => {
           <LeftNav />
         </Grid>
         <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
-          <Outlet />
+          <div className="outlet-container mx-5">
+            <Outlet />
+          </div>
         </Grid>
       </Grid>
     </>

@@ -9,6 +9,7 @@ import EnterLocation from './components/auth/EnterLocation';
 import Layout from './layout/Layout';
 import DashboardComponent from './pages/DashboardComponent';
 import Inquiries from './pages/Inquiries';
+import Reviews from './pages/Reviews';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<Layout />}>
           <Route index element={<DashboardComponent />} />
           <Route path='/dashboard/inquiries' element={<Inquiries />} />
+          <Route path='/dashboard/reviews' element={<Reviews />} />
         </Route>
 
         </Routes>

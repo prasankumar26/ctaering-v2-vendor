@@ -22,7 +22,7 @@ const leftnav = [
   { "title": "Manage Your Account" },
   { "id": "1", "name": "Dashboard", "icon": <StackedBarChartRoundedIcon className="ln-icon" />, "url": "/" },
   { "id": "2", "name": "inquiries", "icon": <EditNoteIcon className="ln-icon" />, "url": "/dashboard/inquiries" },
-  { "id": "3", "name": "reviews", "icon": <AnnouncementIcon className="ln-icon" />, "url": "/reviews" },
+  { "id": "3", "name": "reviews", "icon": <AnnouncementIcon className="ln-icon" />, "url": "/dashboard/reviews" },
 
   { "title": "Services" },
   { "id": "4", "name": "Cuisines", "icon": <RestaurantRoundedIcon className="ln-icon" />, "url": "/cuisines" },

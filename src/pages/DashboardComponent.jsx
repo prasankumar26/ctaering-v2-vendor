@@ -1,10 +1,10 @@
-import Container from '@mui/material/Container';
+import TopHeader from "../components/global/TopHeader"
 
 const DashboardComponent = () => {
   return (
-    <Container maxWidth="lg">
-      <h1>Dashboard Component</h1>
-    </Container>
+    <>
+      <TopHeader title="My Dashboard" description="Below is your Business Overview" date="December 25, 2023" />
+    </>
   )
 }
 
