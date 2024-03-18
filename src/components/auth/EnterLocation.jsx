@@ -26,7 +26,7 @@ const EnterLocation = () => {
                             <div className="px-4">
                                 <h4 className='ct-box-loc-title'>Whats's your location?</h4>
                                 <p className='ct-box-loc-desc'>Could you please share your company location to receive personalized promotions</p>
-                                <img style={{ width: '250px' }} src="https://png.pngtree.com/png-vector/20231214/ourmid/pngtree-protect-heart-day-doctor-heart-disease-day-3d-building-isometric-png-image_11353346.png" alt="" className="img-fluid mx-auto" />
+                                <img style={{ width: '300px' }} src="/img/allowlocation.jpg" alt="" className="img-fluid mx-auto" />
 
                                 <Stack direction="column">
                                     <>

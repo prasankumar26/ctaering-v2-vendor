@@ -57,7 +57,7 @@ const CssTextFieldTwo = styled(TextField)(({ theme }) => ({
     },
 }));
 
-const steps = ['Step 1', 'Step 2', 'Step 3'];
+const steps = ['Step 1', 'Step 2'];
 
 const ProfileSteps = () => {
     const [checkedItems, setCheckedItems] = useState(false);
@@ -213,46 +213,80 @@ const ProfileSteps = () => {
                                         </div>
                                         }
                                         {activeStep === 1 && <div className="px-2">
-                                            <h4 className='ct-box-profile-title mb-2'>Upload Your FSSAI Document here</h4>
-                                            <Checkbox
-                                                size="small"
-                                                checked={checkedItems}
-                                                onChange={(e) => handleChange(e)}
-                                                className={checkedItems ? 'text-red' : 'checkbox-color'}
-                                                style={{ marginLeft: '0px', padding: '0px' }}
+                                            <h4 className='ct-box-profile-title mt-1'>Please Enter Your Aadhar Card Number *</h4>
+                                            <CssTextFieldTwo
+                                                // placeholder='9874789589'
+                                                id="outlined-number"
+                                                variant="outlined"
+                                                className='mt-2'
+                                                style={{ width: '100%' }}
+                                                InputLabelProps={{
+                                                    style: { color: '#777777', fontSize: '12px' },
+                                                }}
+                                                InputProps={{
+                                                    style: {
+                                                        borderRadius: '8px',
+                                                        backgroundColor: '#FFFFFF',
+                                                    },
+                                                }}
                                             />
-                                            <span className='agree-text ps-1'>I agree</span>
-                                            <p className='ct-box-loc-desc mt-2'>
-                                                By clicking 'I agree' or continuing to use our services, you acknowledge that you have
-                                                read and agree to abide by the terms and conditions outlined in catering's and tiffin's terms of service document, accessible at link, ensuring a clear understanding of the expectations governing our business relationship.
-                                            </p>
-                                            <Stack direction="row" spacing={2} className='mt-4'>
-                                                <Button variant="contained" className='ct-box-btn-upload'>
-                                                    Upload Now</Button>
-                                                <Button variant="contained" className='ct-box-btn-upload'>
-                                                    Upload Later</Button>
-                                            </Stack>
 
-                                            <div className='mb-1' style={{ marginTop: '20px', borderTop: '2px solid #c33332' }}>
-                                                <Divider />
-                                            </div>
-
-                                            <h4 className='ct-box-profile-title mb-2'>KFC Verification</h4>
-                                            <Checkbox
-                                                size="small"
-                                                checked={checkedItems}
-                                                onChange={(e) => handleChange(e)}
-                                                className={checkedItems ? 'text-red' : 'checkbox-color'}
-                                                style={{ marginLeft: '0px', padding: '0px' }}
+                                            <h4 className='ct-box-profile-title mt-1'>Please Enter Your PAN Number *</h4>
+                                            <CssTextFieldTwo
+                                                // placeholder='EQOPP8767N'
+                                                id="outlined-number"
+                                                variant="outlined"
+                                                className='mt-2'
+                                                style={{ width: '100%' }}
+                                                InputLabelProps={{
+                                                    style: { color: '#777777', fontSize: '12px' },
+                                                }}
+                                                InputProps={{
+                                                    style: {
+                                                        borderRadius: '8px',
+                                                        backgroundColor: '#FFFFFF',
+                                                    },
+                                                }}
                                             />
-                                            <span className='agree-text ps-1'>I agree</span>
-                                            <p className='ct-box-loc-desc mt-2'>
-                                                By clicking 'I agree' or continuing to use our services, you acknowledge that you have
-                                                read and agree to abide by the terms and conditions outlined in catering and tiffins terms of service document.
-                                            </p>
+
+                                            <h4 className='ct-box-profile-title mt-1'>Please Enter Your GSTIN Number *</h4>
+                                            <CssTextFieldTwo
+                                                id="outlined-number"
+                                                variant="outlined"
+                                                className='mt-2'
+                                                style={{ width: '100%' }}
+                                                InputLabelProps={{
+                                                    style: { color: '#777777', fontSize: '12px' },
+                                                }}
+                                                InputProps={{
+                                                    style: {
+                                                        borderRadius: '8px',
+                                                        backgroundColor: '#FFFFFF',
+                                                    },
+                                                }}
+                                            />
+
+                                            <h4 className='ct-box-profile-title mt-1'>Please Enter Your FSSAI Licence Number *</h4>
+                                            <CssTextFieldTwo
+                                                id="outlined-number"
+                                                variant="outlined"
+                                                className='mt-2'
+                                                style={{ width: '100%' }}
+                                                InputLabelProps={{
+                                                    style: { color: '#777777', fontSize: '12px' },
+                                                }}
+                                                InputProps={{
+                                                    style: {
+                                                        borderRadius: '8px',
+                                                        backgroundColor: '#FFFFFF',
+                                                    },
+                                                }}
+                                            />
+
+
                                         </div>
                                         }
-                                        {activeStep === 2 && <div className="px-2">
+                                        {/* {activeStep === 2 && <div className="px-2">
                                             <h4 className='ct-box-profile-title mb-0'>Aadhar Card</h4>
                                             <p className='ct-box-loc-desc mt-0'>
                                                 Please upload your Aadhar card below for compleating your first step of KYC
@@ -277,7 +311,7 @@ const ProfileSteps = () => {
                                                 }}
                                             />
 
-                                            <Stack direction="row" spacing={2} className='mt-3'>
+                                            <Stack direction="row" spacing={2} className='mt-2'>
                                                 <Button variant="contained" className='ct-box-btn-upload'>
                                                     Upload Now</Button>
                                                 <Button variant="contained" className='ct-box-btn-upload'>
@@ -319,7 +353,7 @@ const ProfileSteps = () => {
 
 
                                         </div>
-                                        }
+                                        } */}
 
                                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                             <Button
@@ -336,7 +370,7 @@ const ProfileSteps = () => {
                                                 {activeStep === steps.length - 1 ? (
                                                     'Submit'
                                                 ) : activeStep === steps.length - 2 ? (
-                                                    'Verify Now'
+                                                    'Next'
                                                 ) : (
                                                     'Next'
                                                 )}

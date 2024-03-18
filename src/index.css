@@ -497,7 +497,7 @@ code {
 
 
 
-/* one start */
+/* one landing start */
 .ct-heading {
   text-align: center;
   font-size: 18px;
@@ -505,6 +505,32 @@ code {
   color: var(--alternate);
   text-transform: uppercase;
   padding-top: 40px;
+}
+
+.ct-landing-box {
+  box-shadow: var(--card-box-shadow);
+  border-radius: var(--radiusOne);
+  padding: 30px;
+  background-color: var(--primarybg);
+  padding-top: 20px;
+  padding-bottom: 50px;
+  margin-bottom: 40px;
+}
+
+.landing-bg{
+  background-image: linear-gradient(to right, #c33332, #d9822b);
+  padding: 20px 0px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-para{
+  font-size: 14px;
+  font-family: var(--fontSecondary);
+  color: var(--secondarytext);
+  font-weight: 500;
 }
 
 .ct-box {
@@ -520,13 +546,23 @@ code {
 
 .ct-box-title {
   text-align: center;
-  font-size: 16px;
-  text-transform: uppercase;
+  font-size: 22px;
+  text-transform: capitalize;
   padding-top: 15px;
   color: var(--primarytext);
   font-weight: 500;
   font-family: var(--fontPrimary);
   margin-bottom: 4px;
+}
+
+.ct-box-landing-title{
+  text-align: center;
+  font-size: 22px;
+  text-transform: capitalize;
+  padding-top: 15px;
+  color: #ffffff;
+  font-weight: 500;
+  font-family: var(--fontPrimary);
 }
 
 .ct-box-line {
@@ -547,7 +583,7 @@ code {
   font-size: 12px !important;
   font-family: var(--fontPrimary) !important;
   font-weight: 500 !important;
-  border-radius: 99px !important;
+  border-radius: 8px !important;
   width: 180px !important;
   margin: 0px auto !important;
   margin-bottom: 10px !important;
@@ -558,7 +594,7 @@ code {
   font-size: 12px !important;
   font-family: var(--fontPrimary) !important;
   font-weight: 500 !important;
-  border-radius: 99px !important;
+  border-radius: 8px !important;
   width: 180px !important;
   margin: 0px auto !important;
 }
@@ -583,7 +619,7 @@ code {
   color: var(--secondary) !important;
 }
 
-/* one end */
+/* one landing  end */
 
 /* two start */
 .custom-tab-list .css-1aquho2-MuiTabs-indicator {
@@ -732,7 +768,7 @@ code {
 
 /* five profile update start  */
 .ct-box-profile-title {
-  font-size: 16px;
+  font-size: 14px;
   text-transform: capitalize;
   padding-top: 15px;
   color: var(--primarytext);
@@ -852,6 +888,24 @@ code {
   flex-direction: column;
   width: 100%;
   align-items: center;
+  position: relative;
+}
+
+.logout-btn{
+text-transform: uppercase;
+font-size: 14px;
+position: sticky;
+bottom: 0;
+width: 100%;
+background-color: var(--accent2);
+color: #ffffff;
+border: none;
+padding: 12px 0px;
+text-align: center;
+font-family: var(--fontPrimary);
+border-top: 1px solid #ffffff;
+left: 1%;
+cursor: pointer;
 }
 
 .nav-links {
@@ -953,7 +1007,7 @@ code {
 /* inquiries page end  */
 
 /* right side fixed start  */
-body{
+.dashboard-container{
   height: 100vh !important;
   overflow-y: hidden;
 }

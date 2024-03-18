@@ -19,7 +19,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
             border: '2px solid #F0F1F3',
-            borderRadius: '99px'
+            borderRadius: '8px'
         },
         '&:hover fieldset': {
             border: '2px solid #F0F1F3',
@@ -63,23 +63,40 @@ const RegisterLogin = () => {
                     <h1 className='ct-heading'>caterings Service</h1>
                 </div>
                 <Grid container spacing={2} className='box-negative'>
-                    <Grid item xs={12} sm={6.5} md={4.5} lg={5}>
+                    <Grid item xs={12} sm={6.5} md={4.5} lg={4.5}>
                         <div className="ct-box">
                             <Box sx={{ width: '100%', typography: 'body1' }}>
                                 <TabContext value={value}>
                                     <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }} className="custom-tab-list">
-                                        <TabList onChange={handleChange} aria-label="lab API tabs example" >
+                                        <TabList onChange={handleChange} aria-label="lab API tabs example">
                                             <Tab label="Create Account" value="1" sx={{ fontSize: '12px', '&.Mui-selected': { color: '#14181b' } }} />
                                             <Tab label="Log In" value="2" sx={{ fontSize: '12px', '&.Mui-selected': { color: '#14181b' } }} />
                                         </TabList>
                                     </Box>
-                                    <TabPanel value="1" style={{ padding: '0px' }}>
+                                    <TabPanel value="1" style={{ padding: '0px' }} className='mt-4'>
                                         <div>
-                                            <img style={{ width: '250px', margin: '0px auto' }} className='img-fluid' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGi8Xwursr5Hrevjhswt2HnuVBVm1iEPYiw1-VUSpc4S_6uNQzaEwwsM9I2cobjjfKcNw&usqp=CAU" alt="" />
+                                            {/* <img style={{ width: '250px', margin: '0px auto' }} className='img-fluid' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGi8Xwursr5Hrevjhswt2HnuVBVm1iEPYiw1-VUSpc4S_6uNQzaEwwsM9I2cobjjfKcNw&usqp=CAU" alt="" /> */}
 
                                             <div className="px-4">
                                                 <h4 className='ct-create-account'>Create Account</h4>
                                                 <p className='ct-create-para'>Let's get started by filling out the form below.</p>
+
+                                                <CssTextField
+                                                    id="outlined-number"
+                                                    variant="outlined"
+                                                    label="Enter your Name Here"
+                                                    className='mt-3'
+                                                    style={{ width: '100%' }}
+                                                    InputLabelProps={{
+                                                        style: { color: '#777777', fontSize: '12px' },
+                                                    }}
+                                                    InputProps={{
+                                                        style: {
+                                                            borderRadius: '8px',
+                                                            backgroundColor: '#FFFFFF',
+                                                        }
+                                                    }}
+                                                />
 
                                                 <CssTextField
                                                     id="outlined-number"
@@ -97,6 +114,7 @@ const RegisterLogin = () => {
                                                         }
                                                     }}
                                                 />
+
 
 
                                                 <div class="otp-input-fields mb-3">
@@ -121,9 +139,9 @@ const RegisterLogin = () => {
 
                                         </div>
                                     </TabPanel>
-                                    <TabPanel value="2" style={{ padding: '0px' }}>
+                                    <TabPanel value="2" style={{ padding: '0px' }} className='mt-4'>
                                         <div>
-                                            <img style={{ width: '250px', margin: '0px auto' }} className='img-fluid' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGi8Xwursr5Hrevjhswt2HnuVBVm1iEPYiw1-VUSpc4S_6uNQzaEwwsM9I2cobjjfKcNw&usqp=CAU" alt="" />
+                                            {/* <img style={{ width: '250px', margin: '0px auto' }} className='img-fluid' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGi8Xwursr5Hrevjhswt2HnuVBVm1iEPYiw1-VUSpc4S_6uNQzaEwwsM9I2cobjjfKcNw&usqp=CAU" alt="" /> */}
 
                                             <div className="px-4">
                                                 <h4 className='ct-create-account'>Welcome Back</h4>

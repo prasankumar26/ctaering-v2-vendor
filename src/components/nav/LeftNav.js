@@ -74,9 +74,9 @@ const LeftNav = () => {
       <div className="nav-bottom mobile-none">
         {leftnav.map((item, index) => {
           if (item.title) {
-            return <Stack direction="row" sx={{width: '100%'}} className="ps-3 pb-2">
-                 <p key={index} className="ln-sub-title">{item.title}</p>
-              </Stack>
+            return <Stack direction="row" sx={{ width: '100%' }} className="ps-3 pb-2">
+              <p key={index} className="ln-sub-title">{item.title}</p>
+            </Stack>
           } else {
             return (
               <NavLink className="text-white nav-links" to={item.url}>
@@ -87,27 +87,31 @@ const LeftNav = () => {
             )
           }
         })}
+        <button className="logout-btn">logout</button>
+
       </div>
 
       <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer} >
         <div style={{ backgroundColor: '#C33332' }} className="pt-4 ps-2">
-        {leftnav.map((item, index) => {
-          if (item.title) {
-            return <Stack direction="row" sx={{width: '100%'}} className="ps-3 pb-2">
-                 <p key={index} className="ln-sub-title">{item.title}</p>
+          {leftnav.map((item, index) => {
+            if (item.title) {
+              return <Stack direction="row" sx={{ width: '100%' }} className="ps-3 pb-2">
+                <p key={index} className="ln-sub-title">{item.title}</p>
               </Stack>
-          } else {
-            return (
-              <NavLink className="text-white nav-links" to={item.url}>
-                <Stack direction="row" alignItems="center" spacing={2} sx={{ width: '100%' }}>
-                  <span className="left-line"></span> <span>{item.icon} </span> <span className="nav-name">{item.name}</span>
-                </Stack>
-              </NavLink>
-            )
-          }
-        })}
+            } else {
+              return (
+                <NavLink className="text-white nav-links" to={item.url}>
+                  <Stack direction="row" alignItems="center" spacing={2} sx={{ width: '100%' }}>
+                    <span className="left-line"></span> <span>{item.icon} </span> <span className="nav-name">{item.name}</span>
+                  </Stack>
+                </NavLink>
+              )
+            }
+          })}
         </div>
       </Drawer>
+
+
     </div>
   )
 }
