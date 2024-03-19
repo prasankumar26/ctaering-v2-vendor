@@ -18,6 +18,7 @@ import PhotoGallery from './pages/PhotoGallery';
 import Branches from './pages/Branches';
 import Subscription from './pages/Subscription';
 import Settings from './pages/Settings';
+import SubscriptionPlan from './pages/SubscriptionPlan';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             <Route path='/dashboard/branches' element={<Branches />} />
 
             <Route path='/dashboard/subscription' element={<Subscription />} />
+            <Route path='/dashboard/subscription-plan' element={<SubscriptionPlan />} />
             <Route path='/dashboard/settings' element={<Settings />} />
 
 

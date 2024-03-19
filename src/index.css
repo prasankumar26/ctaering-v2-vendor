@@ -1269,3 +1269,161 @@ code {
 }
 
 /* Business profile page end */
+
+
+/* Subscription page start  */
+.subscription-type {
+  font-size: 12px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  color: var(--secondarytext);
+}
+
+.subscription-red {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  text-align: left;
+  color: var(--secondary);
+}
+
+.subscription-green {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  text-align: left;
+  color: var(--accent3);
+}
+
+.subscribe-btn {
+  background-color: var(--branded) !important;
+  border-radius: var(--radiusTwo) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+  padding: 2px 16px;
+}
+
+.subscription-dark {
+  font-size: 14px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  text-align: left;
+  color: var(--primarytext);
+}
+/* Subscription page end  */
+
+/* subscription plan page start  */
+.sub-plan-title{
+    font-size: 18px;
+    font-family: var(--fontPrimary);
+    font-weight: 500;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+}
+
+.sub-plan-yearly{
+  font-size: 14px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.sub-box-violet-title{
+  background-color: var(--branded);
+  padding: 15px 0px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+.sub-box-name{
+   color: #ffffff;
+   text-align: center;
+   font-family: var(--fontPrimary);
+   font-size: 16px;
+   font-weight: 400;
+}
+
+.subscription-plans-shadow{
+  box-shadow: var(--card-box-shadow);
+  width: 100%;
+  border-radius: 24px;
+}
+.sub-plan-month{
+  font-size: 10px;
+  color: var(--secondarytext);
+  font-weight: 400;
+  font-family: var(--fontPrimary);
+  margin-bottom: 4px;
+  text-align: center;
+}
+.sub-price h3{
+  color: var(--primarytext) !important;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: var(--fontPrimary);
+}
+.sub-plan-brand{
+  font-size: 12px;
+  color: var(--secondarytext);
+  font-weight: 400;
+  font-family: var(--fontPrimary);
+  margin-bottom: 4px;
+  text-align: center;
+}
+.sub-plan-para{
+  font-size: 12px;
+  color: var(--primarytext);
+  font-weight: 400;
+  font-family: var(--fontPrimary);
+  margin-bottom: 4px;
+}
+.sub-plan-btn{
+  background-color: var(--branded) !important;
+  border-radius: var(--radiusTwo) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+}
+
+.sub-box-green-title{
+  background-color: var(--accent3);
+  padding: 15px 0px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+.sub-plan-btn-green{
+  background-color: var(--accent3) !important;
+  border-radius: var(--radiusTwo) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+}
+.sub-box-red-title{
+  background-color: var(--secondary);
+  padding: 15px 0px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+.sub-plan-btn-red{
+  background-color: var(--secondary) !important;
+  border-radius: var(--radiusTwo) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+}
+.sub-box-yellow-title{
+  background-color: var(--primary);
+  padding: 15px 0px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+.sub-plan-btn-yellow{
+  background-color: var(--primary) !important;
+  border-radius: var(--radiusTwo) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+}
+/* subscription plan page end */
