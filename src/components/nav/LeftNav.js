@@ -25,18 +25,18 @@ const leftnav = [
   { "id": "3", "name": "reviews", "icon": <AnnouncementIcon className="ln-icon" />, "url": "/dashboard/reviews" },
 
   { "title": "Services" },
-  { "id": "4", "name": "Cuisines", "icon": <RestaurantRoundedIcon className="ln-icon" />, "url": "/cuisines" },
-  { "id": "5", "name": "occasions", "icon": <CelebrationRoundedIcon className="ln-icon" />, "url": "/occasions" },
-  { "id": "6", "name": "packages", "icon": <WebAssetRoundedIcon className="ln-icon" />, "url": "/packages" },
+  { "id": "4", "name": "Cuisines", "icon": <RestaurantRoundedIcon className="ln-icon" />, "url": "/dashboard/cuisines" },
+  { "id": "5", "name": "occasions", "icon": <CelebrationRoundedIcon className="ln-icon" />, "url": "/dashboard/occasions" },
+  { "id": "6", "name": "packages", "icon": <WebAssetRoundedIcon className="ln-icon" />, "url": "/dashboard/packages" },
 
   { "title": "Profiles" },
-  { "id": "7", "name": "business Profile", "icon": <CurrencyRupeeIcon className="ln-icon" />, "url": "/businesss-profile" },
-  { "id": "8", "name": "Photo gallery", "icon": <PhotoLibraryRoundedIcon className="ln-icon" />, "url": "/photo-gallery" },
-  { "id": "9", "name": "branches", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/branches" },
+  { "id": "7", "name": "business Profile", "icon": <CurrencyRupeeIcon className="ln-icon" />, "url": "/dashboard/businesss-profile" },
+  { "id": "8", "name": "Photo gallery", "icon": <PhotoLibraryRoundedIcon className="ln-icon" />, "url": "/dashboard/photo-gallery" },
+  { "id": "9", "name": "branches", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/dashboard/branches" },
 
   { "title": "Manage App" },
-  { "id": "10", "name": "Subscription", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/subscription" },
-  { "id": "11", "name": "Settings", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/settings" }
+  { "id": "10", "name": "Subscription", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/dashboard/subscription" },
+  { "id": "11", "name": "Settings", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/dashboard/settings" }
 ];
 
 

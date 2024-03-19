@@ -456,6 +456,10 @@ code {
 /* globals end */
 
 /* project global start */
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .img-fluid {
   width: 100%;
   display: block;
@@ -471,6 +475,10 @@ code {
   background-color: #C53A31;
   height: 155px;
   border-radius: var(--radiusOne);
+}
+
+.text-primary {
+  color: var(--secondary);
 }
 
 .mx-auto {
@@ -489,10 +497,12 @@ code {
 .text-white {
   color: var(--alternate) !important;
 }
-.card-box-shadow{
+
+.card-box-shadow {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   border-radius: var(--radiusOne);
 }
+
 /* project global end */
 
 
@@ -517,7 +527,7 @@ code {
   margin-bottom: 40px;
 }
 
-.landing-bg{
+.landing-bg {
   background-image: linear-gradient(to right, #c33332, #d9822b);
   padding: 20px 0px;
   height: 100vh;
@@ -526,7 +536,7 @@ code {
   align-items: center;
 }
 
-.landing-para{
+.landing-para {
   font-size: 14px;
   font-family: var(--fontSecondary);
   color: var(--secondarytext);
@@ -555,7 +565,7 @@ code {
   margin-bottom: 4px;
 }
 
-.ct-box-landing-title{
+.ct-box-landing-title {
   text-align: center;
   font-size: 22px;
   text-transform: capitalize;
@@ -875,8 +885,8 @@ code {
   font-size: 10px;
 }
 
-.ln-sub-title{
-  color: var(--alternate);
+.ln-sub-title {
+  color: #ffffff;
   font-size: 12px;
   text-align: left;
 }
@@ -891,21 +901,21 @@ code {
   position: relative;
 }
 
-.logout-btn{
-text-transform: uppercase;
-font-size: 14px;
-position: sticky;
-bottom: 0;
-width: 100%;
-background-color: var(--accent2);
-color: #ffffff;
-border: none;
-padding: 12px 0px;
-text-align: center;
-font-family: var(--fontPrimary);
-border-top: 1px solid #ffffff;
-left: 1%;
-cursor: pointer;
+.logout-btn {
+  text-transform: uppercase;
+  font-size: 14px;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--accent2);
+  color: #ffffff;
+  border: none;
+  padding: 12px 0px;
+  text-align: center;
+  font-family: var(--fontPrimary);
+  border-top: 1px solid #ffffff;
+  left: 1%;
+  cursor: pointer;
 }
 
 .nav-links {
@@ -922,19 +932,25 @@ cursor: pointer;
   padding: 5px 5px;
   border-radius: 5px;
 }
-.ln-title{
+
+.ln-title {
   font-size: 16px;
   color: #ffffff !important;
   font-family: var(--fontSecondary);
   font-weight: 400;
 }
+
 .nav-name {
   font-size: 12px;
   margin-left: 10px !important;
+  color: #ffffff !important;
 }
-.ln-icon{
+
+.ln-icon {
   font-size: 14px !important;
+  color: #ffffff !important;
 }
+
 .active {
   background-color: #940d0d;
   margin-bottom: 0px;
@@ -961,57 +977,65 @@ cursor: pointer;
 /* left navbar end  */
 
 /* Top header start */
-.top-header-title{
+.top-header-title {
   font-size: 18px;
   font-weight: 500;
   font-family: var(--fontPrimary);
   color: var(--primarytext);
 }
-.top-header-desc{
+
+.top-header-desc {
   font-size: 12px;
   font-weight: 400;
   font-family: var(--fontPrimary);
   color: var(--secondarytext);
 }
+
 /* Top header end */
 
 /* inquiries page start  */
-.ic-img{
+.ic-img {
   width: 45px;
   height: 45px;
   border-radius: 50%;
 }
-.ic-title{
+
+.ic-title {
   font-size: 14px;
   font-weight: 500;
   font-family: var(--fontPrimary);
   color: var(--tertiary);
 }
-.ic-desc{
+
+.ic-desc {
   font-size: 12px;
   font-weight: 400;
   font-family: var(--fontPrimary);
   color: var(--secondarytext);
 }
-.ic-small-text{
+
+.ic-small-text {
   color: var(--secondary);
   font-size: 10px;
   font-family: var(--fontPrimary);
 }
-.sort-reviews{
+
+.sort-reviews {
   font-size: 12px;
   font-weight: 400;
   font-family: var(--fontPrimary);
   color: var(--secondarytext);
 }
+
 /* inquiries page end  */
 
 /* right side fixed start  */
-.dashboard-container{
+.dashboard-container {
   height: 100vh !important;
   overflow-y: hidden;
 }
-.outlet-container{
+
+.outlet-container {
   height: 100vh !important;
   overflow-y: scroll !important;
 }
@@ -1024,4 +1048,134 @@ cursor: pointer;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 /* right side fixed end  */
+
+/* inquiries page start  */
+.inquiries-box {
+  box-shadow: var(--card-box-shadow);
+  border-radius: var(--radiusOne);
+  padding: 10px;
+}
+
+.inquiries-title {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.inquiries-date {
+  font-size: 12px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+  color: var(--secondarytext);
+}
+
+.inquiries-desc {
+  font-size: 12px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  color: var(--secondarytext);
+}
+
+.inquiries-btn {
+  background-color: var(--accent3) !important;
+  border-radius: var(--radiusOne) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+}
+
+.inquiries-red-btn {
+  background-color: var(--secondary) !important;
+  border-radius: var(--radiusOne) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+  padding: 10px 25px !important;
+}
+
+.rdrDefinedRangesWrapper {
+  display: none;
+}
+
+.rdrDateRangePickerWrapper {
+  border: 1px solid #cecaca;
+  box-shadow: 0px 2px 16px 0px rgba(26, 26, 26, .24);
+}
+
+.rdrDateRangePickerWrapper {
+  position: absolute !important;
+  left: -65px !important;
+}
+
+/* inquiries page end  */
+
+/* cuisines page start  */
+.cuisines-title {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.cusines-modal-title {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  text-align: center;
+  color: var(--secondary);
+}
+
+.cuisines-list-btn {
+  background-color: var(--secondary) !important;
+  border-radius: var(--radiusOne) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+}
+
+/* cuisines page end  */
+
+
+/* occasions page start  */
+.caterers-occasion-img {
+  border-top-right-radius: var(--radiusOne);
+  border-top-left-radius: var(--radiusOne);
+  border-bottom-right-radius: var(--radiusTwo);
+  border-bottom-left-radius: var(--radiusTwo);
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.caterers-occasion-title {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  font-family: "Outfit", sans-serif;
+  padding-bottom: 10px;
+}
+
+.explore-cator-box {
+  box-shadow: var(--card-box-shadow);
+  border-radius: var(--radiusTwo)
+}
+
+.occasions-modal-img{
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+}
+
+.occasions-modal-desc{
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--fontPrimary);
+  color: var(--secondarytext);
+}
+
+/* occasions page end  */
