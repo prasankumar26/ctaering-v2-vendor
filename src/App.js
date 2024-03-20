@@ -21,6 +21,7 @@ import Settings from './pages/Settings';
 import SubscriptionPlan from './pages/SubscriptionPlan';
 import AboutUs from './pages/AboutUs';
 import Faq from './pages/Faq';
+import Notification from './pages/Notification';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
             <Route path='/dashboard/settings' element={<Settings />} />
             <Route path='/dashboard/about-us' element={<AboutUs />} />
             <Route path='/dashboard/faq' element={<Faq />} />
+            <Route path='/dashboard/notification' element={<Notification />} />
 
 
           </Route>

@@ -66,7 +66,7 @@ const LeftNav = () => {
             </div>
           </Stack>
           <Stack>
-            <NotificationsNoneIcon className="text-white" />
+           <Link to="/dashboard/notification"> <NotificationsNoneIcon className="text-white" /> </Link>
           </Stack>
         </Stack>
       </div>
