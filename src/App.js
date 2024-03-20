@@ -19,6 +19,8 @@ import Branches from './pages/Branches';
 import Subscription from './pages/Subscription';
 import Settings from './pages/Settings';
 import SubscriptionPlan from './pages/SubscriptionPlan';
+import AboutUs from './pages/AboutUs';
+import Faq from './pages/Faq';
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
             <Route path='/dashboard/subscription' element={<Subscription />} />
             <Route path='/dashboard/subscription-plan' element={<SubscriptionPlan />} />
             <Route path='/dashboard/settings' element={<Settings />} />
+            <Route path='/dashboard/about-us' element={<AboutUs />} />
+            <Route path='/dashboard/faq' element={<Faq />} />
 
 
           </Route>

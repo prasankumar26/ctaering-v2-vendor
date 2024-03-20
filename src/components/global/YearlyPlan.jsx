@@ -10,7 +10,7 @@ const YearlyPlan = () => {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={3} style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3} className='mb-3' style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-violet-title">
@@ -30,7 +30,7 @@ const YearlyPlan = () => {
                                 <p className="sub-plan-para">- Phone/chat feature with customers </p>
                                 <p className="sub-plan-para">- Data analysis/improvement recommendation</p>
                                 <br />
-                                <Link to="/" className="text-decoration-none mt-3">
+                                <Link to="javascript:void(0)" className="text-decoration-none mt-3">
                                     <Button variant="contained" className="sub-plan-btn mx-auto taxt-center"> Subscribe Now </Button>
                                 </Link>
                                 <br />
@@ -38,7 +38,7 @@ const YearlyPlan = () => {
                         </div>
                     </div>
                 </Grid>
-                <Grid item xs={3} style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3} className='mb-3' style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-green-title">
@@ -58,7 +58,7 @@ const YearlyPlan = () => {
                                 <p className="sub-plan-para">- Phone/chat feature with customers </p>
                                 <p className="sub-plan-para">- Data analysis/improvement recommendation</p>
                                 <br />
-                                <Link to="/" className="text-decoration-none mt-3">
+                                <Link to="javascript:void(0)" className="text-decoration-none mt-3">
                                     <Button variant="contained" className="sub-plan-btn-green mx-auto taxt-center"> Subscribe Now </Button>
                                 </Link>
                                 <br />
@@ -66,7 +66,7 @@ const YearlyPlan = () => {
                         </div>
                     </div>
                 </Grid>
-                <Grid item xs={3} style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3} className='mb-3' style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-red-title">
@@ -86,7 +86,7 @@ const YearlyPlan = () => {
                                 <p className="sub-plan-para">- Phone/chat feature with customers </p>
                                 <p className="sub-plan-para">- Data analysis/improvement recommendation</p>
                                 <br />
-                                <Link to="/" className="text-decoration-none mt-3">
+                                <Link to="javascript:void(0)" className="text-decoration-none mt-3">
                                     <Button variant="contained" className="sub-plan-btn-red mx-auto taxt-center"> Subscribe Now </Button>
                                 </Link>
                                 <br />
@@ -94,7 +94,7 @@ const YearlyPlan = () => {
                         </div>
                     </div>
                 </Grid>
-                <Grid item xs={3} style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
+                <Grid item xs={12} sm={6} md={6} lg={3} xl={3} className='mb-3' style={{ display: 'flex', justifyContent: 'center', padding: '0px 5px' }}>
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-yellow-title">
@@ -114,7 +114,7 @@ const YearlyPlan = () => {
                                 <p className="sub-plan-para">- Phone/chat feature with customers </p>
                                 <p className="sub-plan-para">- Data analysis/improvement recommendation</p>
                                 <br />
-                                <Link to="/" className="text-decoration-none mt-3">
+                                <Link to="javascript:void(0)" className="text-decoration-none mt-3">
                                     <Button variant="contained" className="sub-plan-btn-yellow mx-auto taxt-center"> Subscribe Now </Button>
                                 </Link>
                                 <br />

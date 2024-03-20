@@ -17,6 +17,8 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+
 
 const Settings = () => {
 
@@ -120,7 +122,7 @@ const Settings = () => {
                     }}
                   />
 
-                  <p className="company-change-password mt-2 mb-3">Documents</p>
+                  <p className="company-change-password mt-3 mb-3">Documents</p>
 
                   <div>
                     <Accordion className="faq-bg" >
@@ -230,7 +232,36 @@ const Settings = () => {
                     }}
                   />
 
-                  <p className="company-change-password mt-2 mb-3">Links</p>
+                  <p className="company-change-password mt-3 mb-3">Links</p>
+
+                  <Link to="/dashboard/about-us" className="text-decoration-none">
+                    <Stack className="setting-link-box" direction="row" justifyContent="space-between" alignItems="center">
+                      <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}>About Us</p>
+                      <KeyboardArrowRightIcon style={{ fontSize: '18px', color: '#57636c' }} />
+                    </Stack>
+                  </Link>
+
+                  <Link to="/dashboard/faq" className="text-decoration-none">
+                    <Stack className="setting-link-box mt-3" direction="row" justifyContent="space-between" alignItems="center">
+                      <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}>FAQ's</p>
+                      <KeyboardArrowRightIcon style={{ fontSize: '18px', color: '#57636c' }} />
+                    </Stack>
+                  </Link>
+
+                  <Divider
+                    className='mt-3'
+                    variant="middle"
+                    style={{
+                      backgroundColor: '#c33332',
+                      margin: '0px'
+                    }}
+                  />
+
+
+                  <p className="company-change-password mt-3 mb-3">Help Desk / Support</p>
+
+                  <Button variant="contained" className="cuisines-list-btn" style={{width: '100%', fontWeight: '500'}}> Raise a Ticket </Button>
+
 
 
 

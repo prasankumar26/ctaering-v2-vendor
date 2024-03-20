@@ -1492,7 +1492,7 @@ code {
   margin-bottom: 10px;
 }
 
-.settings-faq-title{
+.settings-faq-title {
   font-size: 14px !important;
   font-family: var(--fontPrimary) !important;
   font-weight: 400 !important;
@@ -1502,7 +1502,7 @@ code {
   color: var(--primarytext) !important;
 }
 
-.settings-small{
+.settings-small {
   font-size: 10px;
   font-family: var(--fontSecondary);
   font-weight: 400;
@@ -1515,4 +1515,37 @@ code {
   font-size: 12px !important;
   text-transform: capitalize !important;
 }
+
+.setting-link-box {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  padding: 10px;
+  border-radius: var(--radiusOne);
+}
+
+.setting-link-title {
+  font-size: 10px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: var(--secondarytext);
+}
+
 /* settings end  */
+
+
+/* faq start  */
+.faq-heading{
+  font-size: 18px !important;
+  font-family: var(--fontPrimary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 5px !important;
+  text-transform: capitalize !important;
+  text-align: left !important;
+  color: var(--primarytext) !important;
+}
+.faq-para{
+  font-size: 12px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: var(--secondarytext);
+}
+/* faq end */
