@@ -1622,3 +1622,37 @@ code {
   color: green;
 }
 /* package end  */
+
+
+/* photo gallery page start  */
+.pg-gallery-img{
+  width: 150px;
+  border-radius: var(--radiusOne);
+}
+.pg-gallery-img-big{
+  width: 250px;
+  border-radius: var(--radiusOne);
+}
+.pg-shadow{
+  box-shadow: var(--card-box-shadow);
+  border-radius: var(--radiusOne);
+  margin-bottom: 10px !important;
+}
+.pg-img-icon{
+  font-size: 18px !important;
+  color: var(--primarytext);
+  cursor: pointer;
+}
+.pg-bg-white{
+  background-color: #fff !important;
+  color: var(--secondary) !important;
+}
+.cuisines-list-white-btn {
+  background-color: #ffffff !important;
+  border-radius: var(--radiusOne) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+  color: var(--secondary) !important;
+  font-weight: 500 !important;
+}
+/* photo gallery page end */
