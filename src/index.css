@@ -1533,7 +1533,7 @@ code {
 
 
 /* faq start  */
-.faq-heading{
+.faq-heading {
   font-size: 18px !important;
   font-family: var(--fontPrimary) !important;
   font-weight: 500 !important;
@@ -1542,10 +1542,83 @@ code {
   text-align: left !important;
   color: var(--primarytext) !important;
 }
-.faq-para{
+
+.faq-para {
   font-size: 12px;
   font-family: var(--fontSecondary);
   font-weight: 400;
   color: var(--secondarytext);
 }
+
 /* faq end */
+
+/* package start  */
+.package-capacity {
+  font-size: 16px !important;
+  font-family: var(--fontPrimary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 5px !important;
+  text-transform: capitalize !important;
+  text-align: center !important;
+  color: var(--primarytext) !important;
+}
+
+.max-min-capacity {
+  font-size: 12px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: var(--secondary);
+}
+
+.max-min-capacity-para {
+  font-size: 12px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: var(--secondarytext);
+}
+.max-min-capacity-para-green{
+  font-size: 12px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: var(--accent3);
+}
+.max-min-capacity-para-red{
+  font-size: 12px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: var(--accent4);
+}
+.package-icons {
+  width: 35px;
+  height: 35px;
+}
+
+.package-icon-title {
+  font-size: 14px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  color: var(--secondary);
+}
+
+.package-vn-title-veg {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  color: var(--accent3);
+}
+.package-vn-title-nonveg {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  color: var(--accent4);
+}
+.green-switch {
+  color: green;
+}
+/* package end  */
