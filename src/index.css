@@ -1316,18 +1316,19 @@ code {
   text-align: left;
   color: var(--primarytext);
 }
+
 /* Subscription page end  */
 
 /* subscription plan page start  */
-.sub-plan-title{
-    font-size: 18px;
-    font-family: var(--fontPrimary);
-    font-weight: 500;
-    margin-bottom: 5px;
-    text-transform: capitalize;
+.sub-plan-title {
+  font-size: 18px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: capitalize;
 }
 
-.sub-plan-yearly{
+.sub-plan-yearly {
   font-size: 14px;
   font-family: var(--fontPrimary);
   font-weight: 500;
@@ -1335,26 +1336,28 @@ code {
   text-transform: capitalize;
 }
 
-.sub-box-violet-title{
+.sub-box-violet-title {
   background-color: var(--branded);
   padding: 15px 0px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
 }
-.sub-box-name{
-   color: #ffffff;
-   text-align: center;
-   font-family: var(--fontPrimary);
-   font-size: 16px;
-   font-weight: 400;
+
+.sub-box-name {
+  color: #ffffff;
+  text-align: center;
+  font-family: var(--fontPrimary);
+  font-size: 16px;
+  font-weight: 400;
 }
 
-.subscription-plans-shadow{
+.subscription-plans-shadow {
   box-shadow: var(--card-box-shadow);
   width: 100%;
   border-radius: 24px;
 }
-.sub-plan-month{
+
+.sub-plan-month {
   font-size: 10px;
   color: var(--secondarytext);
   font-weight: 400;
@@ -1362,13 +1365,15 @@ code {
   margin-bottom: 4px;
   text-align: center;
 }
-.sub-price h3{
+
+.sub-price h3 {
   color: var(--primarytext) !important;
   font-size: 20px;
   font-weight: 500;
   font-family: var(--fontPrimary);
 }
-.sub-plan-brand{
+
+.sub-plan-brand {
   font-size: 12px;
   color: var(--secondarytext);
   font-weight: 400;
@@ -1376,54 +1381,138 @@ code {
   margin-bottom: 4px;
   text-align: center;
 }
-.sub-plan-para{
+
+.sub-plan-para {
   font-size: 12px;
   color: var(--primarytext);
   font-weight: 400;
   font-family: var(--fontPrimary);
   margin-bottom: 4px;
 }
-.sub-plan-btn{
+
+.sub-plan-btn {
   background-color: var(--branded) !important;
   border-radius: var(--radiusTwo) !important;
   font-size: 12px !important;
   text-transform: capitalize !important;
 }
 
-.sub-box-green-title{
+.sub-box-green-title {
   background-color: var(--accent3);
   padding: 15px 0px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
 }
-.sub-plan-btn-green{
+
+.sub-plan-btn-green {
   background-color: var(--accent3) !important;
   border-radius: var(--radiusTwo) !important;
   font-size: 12px !important;
   text-transform: capitalize !important;
 }
-.sub-box-red-title{
+
+.sub-box-red-title {
   background-color: var(--secondary);
   padding: 15px 0px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
 }
-.sub-plan-btn-red{
+
+.sub-plan-btn-red {
   background-color: var(--secondary) !important;
   border-radius: var(--radiusTwo) !important;
   font-size: 12px !important;
   text-transform: capitalize !important;
 }
-.sub-box-yellow-title{
+
+.sub-box-yellow-title {
   background-color: var(--primary);
   padding: 15px 0px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
 }
-.sub-plan-btn-yellow{
+
+.sub-plan-btn-yellow {
   background-color: var(--primary) !important;
   border-radius: var(--radiusTwo) !important;
   font-size: 12px !important;
   text-transform: capitalize !important;
 }
+
 /* subscription plan page end */
+
+
+/* settings start  */
+.settings-profile-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--radiusOne);
+}
+
+.settings-user-name {
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  text-align: left;
+  color: var(--primarytext);
+}
+
+.settings-user-number {
+  font-size: 12px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  color: var(--tertiary);
+}
+
+.company-id {
+  font-size: 18px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  text-align: left;
+  color: var(--primarytext);
+}
+
+.company-change-password {
+  font-size: 12px;
+  font-family: var(--fontPrimary);
+  font-weight: 400;
+  color: var(--secondarytext);
+}
+
+.faq-bg {
+  background-color: none;
+  border: 1px solid var(--alternate);
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  margin-bottom: 10px;
+}
+
+.settings-faq-title{
+  font-size: 14px !important;
+  font-family: var(--fontPrimary) !important;
+  font-weight: 400 !important;
+  margin-bottom: 5px !important;
+  text-transform: capitalize !important;
+  text-align: left !important;
+  color: var(--primarytext) !important;
+}
+
+.settings-small{
+  font-size: 10px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: var(--secondarytext);
+}
+
+.upload-btn {
+  background-color: var(--secondary) !important;
+  border-radius: var(--radiusOne) !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+}
+/* settings end  */
