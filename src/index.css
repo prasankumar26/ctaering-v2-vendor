@@ -936,10 +936,10 @@ code {
 }
 
 .ln-title {
-  font-size: 16px;
+  font-size: 18px;
   color: #ffffff !important;
   font-family: var(--fontSecondary);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .nav-name {
@@ -1706,3 +1706,52 @@ code {
 }
 
 /* notification end */
+
+
+/* dashboard start page */
+.dashboard-top{
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  padding: 5px 10px;
+  border-radius: var(--radiusOne); 
+}
+.sub-status{
+  font-size: 12px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  color: var(--primarytext);
+}
+.branded-btn {
+  background-color: var(--branded) !important;
+  border-radius: var(--radiusTwo) !important;
+  font-size: 10px !important;
+  text-transform: capitalize !important;
+  padding: 0px 16px !important;
+  height: 20px !important;
+}
+.dashboard-days{
+  font-size: 14px;
+  color: var(--accent1);
+}
+
+.dashboard-red{
+  background-color: var(--secondary);
+  padding: 10px;
+  border-radius: var(--radiusOne);
+  width: 100% !important;
+}
+
+.dashboard-sub-title{
+  font-size: 12px;
+  font-family: var(--fontSecondary);
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.dashboard-numbers{
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #fff;
+}
+/* dashboard end page */

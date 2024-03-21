@@ -50,11 +50,11 @@ const LeftNav = () => {
   return (
     <div className="nav-bg">
       <div className="red-nav-bg">
-        <Stack direction='row' alignItems="center" spacing={2} sx={{ marginBottom: '20px' }}>
+        <Stack direction='row' alignItems="center"  spacing={0} sx={{ marginBottom: '20px' }}>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer} className="mobile-menu">
             <MenuIcon />
           </IconButton>
-          <RestaurantMenuIcon className="text-white" />  <h2 className="ln-title">Catering Service</h2>
+          <RestaurantMenuIcon className="text-white" />  <h2 className="ln-title ms-2">Catering Service</h2>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" className="mobile-none">
