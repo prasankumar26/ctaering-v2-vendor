@@ -267,9 +267,9 @@ const PhotoGallery = () => {
           </div>
 
 
-          <Stack direction="row" justifyContent="center" className="mt-4">
+          {/* <Stack direction="row" justifyContent="center" className="mt-4">
             <Button variant="contained" className="inquiries-red-btn"> Update </Button>
-          </Stack>
+          </Stack> */}
 
 
 

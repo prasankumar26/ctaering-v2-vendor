@@ -64,7 +64,7 @@ const Packages = () => {
                             <h3 className='package-capacity mt-0'>Choose your food type Below</h3>
                             <p className='max-min-capacity-para text-center mb-3'>If you provide both Veg and Non-Veg, please check both checkboxes.</p>
 
-                            <Stack direction="row" alignItems="center" justifyContent="center" spacing={2} className='mb-5'>
+                            <Stack direction="row" alignItems="center" justifyContent="center" spacing={2} className='mb-5 green-switch'>
                                 <h4 className='package-vn-title-veg'>Veg</h4>  <Switch size='small' defaultChecked sx={{
                                     "&.MuiSwitch-root .MuiSwitch-switchBase": {
                                         color: "#57636c"

@@ -16,7 +16,9 @@ import StackedBarChartRoundedIcon from '@mui/icons-material/StackedBarChartRound
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-
+import PersonIcon from '@mui/icons-material/Person';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const leftnav = [
   { "title": "Manage Your Account" },
@@ -30,13 +32,13 @@ const leftnav = [
   { "id": "6", "name": "packages", "icon": <WebAssetRoundedIcon className="ln-icon" />, "url": "/dashboard/packages" },
 
   { "title": "Profiles" },
-  { "id": "7", "name": "business Profile", "icon": <CurrencyRupeeIcon className="ln-icon" />, "url": "/dashboard/businesss-profile" },
+  { "id": "7", "name": "business Profile", "icon": <PersonIcon className="ln-icon" />, "url": "/dashboard/businesss-profile" },
   { "id": "8", "name": "Photo gallery", "icon": <PhotoLibraryRoundedIcon className="ln-icon" />, "url": "/dashboard/photo-gallery" },
   { "id": "9", "name": "branches", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/dashboard/branches" },
 
   { "title": "Manage App" },
-  { "id": "10", "name": "Subscription", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/dashboard/subscription" },
-  { "id": "11", "name": "Settings", "icon": <BusinessRoundedIcon className="ln-icon" />, "url": "/dashboard/settings" }
+  { "id": "10", "name": "Subscription", "icon": <SubscriptionsIcon className="ln-icon" />, "url": "/dashboard/subscription" },
+  { "id": "11", "name": "Settings", "icon": <SettingsIcon className="ln-icon" />, "url": "/dashboard/settings" }
 ];
 
 
@@ -54,7 +56,7 @@ const LeftNav = () => {
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer} className="mobile-menu">
             <MenuIcon />
           </IconButton>
-          <RestaurantMenuIcon className="text-white" />  <h2 className="ln-title ms-2">Catering Service</h2>
+          <RestaurantMenuIcon style={{color: '#fff'}} />  <h2 className="ln-title ms-2">Catering Service</h2>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" className="mobile-none">
@@ -66,7 +68,7 @@ const LeftNav = () => {
             </div>
           </Stack>
           <Stack>
-           <Link to="/dashboard/notification"> <NotificationsNoneIcon className="text-white" /> </Link>
+           <Link to="/dashboard/notification"> <NotificationsNoneIcon style={{color: '#fff'}} /> </Link>
           </Stack>
         </Stack>
       </div>
@@ -87,7 +89,7 @@ const LeftNav = () => {
             )
           }
         })}
-        <button className="logout-btn">logout</button>
+        {/* <button className="logout-btn">logout</button> */}
 
       </div>
 

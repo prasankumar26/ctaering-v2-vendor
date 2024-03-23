@@ -66,7 +66,7 @@ const DatePickerSearch = () => {
                 variant="outlined"
                 className='search-btn'
                 style={{
-                    borderRadius: '0px',
+                    borderRadius: '8px',
                     fontSize: '12px',
                     fontWeight: 'bold',
                     color: '#C33332',

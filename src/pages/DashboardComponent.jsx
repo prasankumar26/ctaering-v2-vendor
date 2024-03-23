@@ -9,7 +9,6 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-
 const DashboardComponent = () => {
   return (
     <>
@@ -94,8 +93,6 @@ const DashboardComponent = () => {
               </div>
             </Grid>
           </Grid>
-
-
         </div>
       </Container>
     </>

@@ -10,6 +10,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body p,
+a,
+li,
+b,
+strong,
+div {
+  font-family: var(--fontPrimary);
+}
+
+body button{
+  font-family: var(--fontPrimary) !important;
+}
+
+body h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fontPrimary);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -954,7 +976,7 @@ code {
 }
 
 .active {
-  background-color: var(--accent4);
+  background-color: var(--accent2);
   /* margin-bottom: 0px;
   width: 84%;
   padding: 10px 0px 5px 5px;
@@ -979,7 +1001,7 @@ code {
 .left-line {
   width: 3px;
   height: 25px;
-  background-color: #180b0b57;
+  background-color: var(--accent2);
   border-radius: 3px;
 }
 
@@ -1305,6 +1327,7 @@ code {
   font-size: 12px !important;
   text-transform: capitalize !important;
   padding: 2px 16px;
+  height: 25px !important;
 }
 
 .subscription-dark {
@@ -1553,6 +1576,10 @@ code {
 /* faq end */
 
 /* package start  */
+.green-switch .MuiSwitch-track{
+  background-color: var(--accent3) !important;
+}
+
 .package-capacity {
   font-size: 16px !important;
   font-family: var(--fontPrimary) !important;

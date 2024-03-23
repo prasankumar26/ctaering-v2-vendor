@@ -12,7 +12,7 @@ const BranchesCard = () => {
                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4} >
                         <div className="branches-card">
                             <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                <Stack direction="row" alignItems="center" spacing={1}>
+                                <Stack direction="row" alignItems="center" spacing={1} className='green-switch'>
                                     <p className='branches-active'>Active</p>
                                     <Switch defaultChecked size="small" style={{ color: '#459412' }} />
                                 </Stack>
