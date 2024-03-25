@@ -19,7 +19,7 @@ const DashboardComponent = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={6} lg={4}>
               <div className="dashboard-top">
-                <Stack direction="row" spacing={1}>
+                <Stack direction="row" alignItems="center" spacing={1}>
                   <p className="sub-status">Your Subscription Status:</p>
                   <Stack direction="row" spacing={1} alignItems="center" className="ms-2">
                     <DoneIcon style={{ fontSize: '18px', color: '#459412' }} /> <h4 className="subscription-green ms-1"> Active</h4>
