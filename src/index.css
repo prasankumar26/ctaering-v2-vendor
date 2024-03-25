@@ -1782,3 +1782,26 @@ code {
   color: #fff;
 }
 /* dashboard end page */
+
+/* raise ticket page start */
+.rt-heading{
+  font-size: 16px;
+  font-family: var(--fontPrimary);
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-align: center;
+  text-transform: capitalize;
+  color: var(--primarytext);
+}
+
+.job-textarea {
+  border: 1px solid #ccc !important; 
+  transition: border-color 0.3s !important; 
+}
+
+.job-textarea:focus,
+.job-textarea:active {
+  border: 2px solid var(--secondary) !important; 
+}
+
+/* raise ticket page end */

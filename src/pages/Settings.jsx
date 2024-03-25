@@ -260,7 +260,9 @@ const Settings = () => {
 
                   <p className="company-change-password mt-3 mb-3">Help Desk / Support</p>
 
-                  <Button variant="contained" className="cuisines-list-btn" style={{width: '100%', fontWeight: '500'}}> Raise a Ticket </Button>
+                 <Link to="/dashboard/raise-ticket">
+                 <Button variant="contained" className="cuisines-list-btn" style={{width: '100%', fontWeight: '500'}}> Raise a Ticket </Button>
+                 </Link>
 
 
 
