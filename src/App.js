@@ -23,6 +23,7 @@ import AboutUs from './pages/AboutUs';
 import Faq from './pages/Faq';
 import Notification from './pages/Notification';
 import RaiseTicket from './pages/RaiseTicket';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -61,8 +62,8 @@ function App() {
 
 
           </Route>
-
         </Routes>
+          <Toaster />
       </BrowserRouter>
     </>
   );
