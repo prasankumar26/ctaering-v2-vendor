@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import LoginVendor from './LoginVendor';
 import useRegistration from '../../hooks/useRegistration';
 import { vendor_type } from '../../constant';
+import { api } from '../../api/apiConfig';
 
 
 const CssTextField = styled(TextField)(({ theme }) => ({
@@ -64,7 +65,6 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => { } }) => {
         //allow only one input
         newOtp[index] = value.substring(value.length - 1)
         setOtp(newOtp)
-        console.log(newOtp, "newOtp");
 
         // submit trigger 
         const combinedOtp = newOtp.join("");
@@ -125,7 +125,7 @@ const RegisterLogin = () => {
     const [otp, setOtp] = useState(['', '', '', '', '', ''])
     const user = useSelector((state) => state.user.userData)
     const dispatch = useDispatch()
-    const { loading, registerVendor, verifyOtp } = useRegistration();
+    const { loading, registerVendor, verifyOtp, resendOtp } = useRegistration();
 
     const otpInputs = useRef([])
 
@@ -151,11 +151,19 @@ const RegisterLogin = () => {
         registerVendor(register, setRegisterData, setShowOtp, setRegister, initialState);
     }
 
+    // resendOtp 
+    const handleResendOtp = async () => {
+        try {
+            await resendOtp(user); 
+        } catch (error) {
+            console.error('Error while resending OTP:', error);
+        }
+    }
 
-      // onOtpSubmit 
-      const onOtpSubmit = (otp) => {
-          verifyOtp(otp, user, setOtp, setValue);
-          console.log('Login Successfully', otp);
+    // onOtpSubmit 
+    const onOtpSubmit = (otp) => {
+        verifyOtp(otp, user, setOtp, setValue);
+        console.log('Login Successfully', otp);
     }
 
 
@@ -233,7 +241,7 @@ const RegisterLogin = () => {
                                                 <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
                                                     {loading ? 'Loading...' : 'Submit'}
                                                 </Button>
-                                                <p className='ct-box-both'>resend otp in : 30</p>
+                                                <p className='ct-box-both' onClick={handleResendOtp}>resend otp in : 30</p>
                                             </form>}
 
                                             <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />

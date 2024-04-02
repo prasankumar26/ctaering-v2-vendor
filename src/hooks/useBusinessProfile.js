@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-
 const useBusinessProfile = (url, accessToken) => {
     const [data, setData] = useState(null)
 
