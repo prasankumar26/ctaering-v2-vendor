@@ -63,9 +63,9 @@ const BusinesssProfile = () => {
   const [values, setValues] = useState(initialState)
   const { accessToken } = useSelector((state) => state.user.accessToken)
   const { vendor_id } = useSelector((state) => state?.user?.vendorId)
-  const [data] = useBusinessProfile('/get-vendor-business-profile', accessToken)
+  const [loading, setLoading] = useState(false)
+  const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
-  console.log(vendor_id, "vendorId vendorId");
 
   useEffect(() => {
     setValues({
@@ -97,9 +97,16 @@ const BusinesssProfile = () => {
     setValues({ ...values, [name]: value })
   }
 
-  const onHandleSubmit = (event) => {
+  const onHandleSubmit = async (event) => {
     event.preventDefault();
-    // updateBusinessProfile(values, vendor_id);
+    try {
+      setLoading(true);
+      await  updateBusinessProfile(values, vendor_id);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error('Error while updating business profile:', error);
+    }
   }
 
   return (
@@ -566,7 +573,8 @@ const BusinesssProfile = () => {
 
 
           <Stack direction="row" justifyContent="center" className="mt-4">
-            <Button type="submit" variant="contained" className="inquiries-red-btn"> Update </Button>
+            <Button type="submit" variant="contained" className="inquiries-red-btn" disabled={loading}>
+              {loading ? 'Loading...' : 'Update'}  </Button>
           </Stack>
 
 
