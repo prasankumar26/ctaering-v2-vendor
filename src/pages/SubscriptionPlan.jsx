@@ -1,31 +1,9 @@
 import TopHeader from "../components/global/TopHeader"
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-
-import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
 import YearlyPlan from "../components/global/YearlyPlan";
 
-
-const CssTextField = styled(TextField)(({ theme }) => ({
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            border: '2px solid #F0F1F3',
-        },
-        '&:hover fieldset': {
-            border: '2px solid #F0F1F3',
-        },
-        '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
-        },
-    },
-    '& input': {
-        border: 'none',
-        fontSize: '16px',
-        padding: '10px 20px',
-    },
-}));
 
 
 const SubscriptionPlan = () => {

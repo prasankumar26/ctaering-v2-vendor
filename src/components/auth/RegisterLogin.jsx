@@ -15,7 +15,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import LoginVendor from './LoginVendor';
 import useRegistration from '../../hooks/useRegistration';
 import { vendor_type } from '../../constant';
-import { api } from '../../api/apiConfig';
 
 
 const CssTextField = styled(TextField)(({ theme }) => ({

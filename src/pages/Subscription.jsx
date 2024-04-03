@@ -4,16 +4,10 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import DoneIcon from '@mui/icons-material/Done';
 
 const Subscription = () => {
 
-  const navigate = useNavigate();
-
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   return (
     <>

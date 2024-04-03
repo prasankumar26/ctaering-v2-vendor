@@ -1,7 +1,7 @@
 import TopHeader from '../components/global/TopHeader'
 import Container from '@mui/material/Container';
 import InquiriesCards from '../components/global/inquiriesCards';
-import Select, { components } from 'react-select';
+import Select from 'react-select';
 import Stack from '@mui/material/Stack';
 
 const names = [

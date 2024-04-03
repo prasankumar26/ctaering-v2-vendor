@@ -9,8 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
-import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 
