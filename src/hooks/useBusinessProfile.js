@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 const useBusinessProfile = (url, accessToken) => {
     const [data, setData] = useState(null)
 
+    
     const fetchBusinessProfile = async () => {
         try {
             const response = await axios.get(url, {
