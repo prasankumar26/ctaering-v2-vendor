@@ -12,7 +12,7 @@ const useRegistration = () => {
     const navigate = useNavigate();
 
     // registerVendor 
-    const registerVendor = async (registerData, setRegisterData, setShowOtp, setRegister, initialState) => {
+    const registerVendor = async (registerData, setShowOtp) => {
         setLoading(true);
         try {
             const response = await api.post('/register-vendor-send-otp', registerData);
@@ -21,7 +21,6 @@ const useRegistration = () => {
             setShowOtp(false);
             setLoading(false);
             toast.success(response?.data?.message);
-            setRegister(initialState);
         } catch (error) {
             setLoading(false);
             toast.error(error?.response?.data?.message);

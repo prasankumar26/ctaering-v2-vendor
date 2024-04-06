@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { api, BASE_URL, createAuthorizedInstance } from '../api/apiConfig'
+import { api, BASE_URL } from '../api/apiConfig'
 // import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios';
 import toast from 'react-hot-toast';

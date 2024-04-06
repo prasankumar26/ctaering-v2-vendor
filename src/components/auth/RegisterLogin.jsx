@@ -11,11 +11,12 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import LoginVendor from './LoginVendor';
 import useRegistration from '../../hooks/useRegistration';
 import { vendor_type } from '../../constant';
-
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
@@ -116,17 +117,11 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => { } }) => {
 
 
 const RegisterLogin = () => {
-    // const [loading, setLoading] = useState(false)
     const [value, setValue] = useState('1');
-    const [register, setRegister] = useState(initialState)
-    const [registerData, setRegisterData] = useState({})
     const [showOtp, setShowOtp] = useState(true)
     const [otp, setOtp] = useState(['', '', '', '', '', ''])
     const user = useSelector((state) => state.user.userData)
-    const dispatch = useDispatch()
     const { loading, registerVendor, verifyOtp, resendOtp } = useRegistration();
-
-    const otpInputs = useRef([])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -138,22 +133,27 @@ const RegisterLogin = () => {
         navigate(-1);
     };
 
-    // onHandleChangeRegister 
-    const onHandleChangeRegister = (event) => {
-        const { name, value } = event.target;
-        setRegister({ ...register, [name]: value })
-    }
+
+    // validation schema 
+    const schema = Yup.object().shape({
+        point_of_contact_name: Yup.string().required('Name is required.'),
+        phone_number: Yup.string()
+            .required('Phone number is required.')
+            .matches(/^[0-9]+$/, 'Phone number must contain only digits')
+            .min(10, 'Phone number must be at least 10 digits')
+            .max(15, 'Phone number must not exceed 15 digits'),
+    });
 
     // onHandleRegisterSubmit 
-    const onHandleRegisterSubmit = async (event) => {
-        event.preventDefault();
-        registerVendor(register, setRegisterData, setShowOtp, setRegister, initialState);
+    const handleSubmit = async (regData, resetForm) => {
+        registerVendor(regData, setShowOtp, initialState);
+        resetForm(initialState);
     }
 
     // resendOtp 
     const handleResendOtp = async () => {
         try {
-            await resendOtp(user); 
+            await resendOtp(user);
         } catch (error) {
             console.error('Error while resending OTP:', error);
         }
@@ -185,63 +185,73 @@ const RegisterLogin = () => {
                                     </Box>
                                     <TabPanel value="1" style={{ padding: '0px' }} className='mt-4'>
                                         <div>
-                                            {showOtp ? <form onSubmit={onHandleRegisterSubmit} className="px-4">
-                                                <h4 className='ct-create-account'>Create Account</h4>
-                                                <p className='ct-create-para'>Let's get started by filling out the form below.</p>
+                                            {showOtp ?
+                                                <>
+                                                    <Formik initialValues={initialState} validationSchema={schema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
+                                                        {({ values, errors, handleChange, handleSubmit }) => (
+                                                            <form onSubmit={handleSubmit} className="px-4">
+                                                                <h4 className='ct-create-account'>Create Account</h4>
+                                                                <p className='ct-create-para'>Let's get started by filling out the form below.</p>
 
-                                                <CssTextField
-                                                    required
-                                                    variant="outlined"
-                                                    label="Enter your Name Here"
-                                                    className='mt-3'
-                                                    name='point_of_contact_name'
-                                                    value={register.point_of_contact_name}
-                                                    onChange={onHandleChangeRegister}
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        }
-                                                    }}
-                                                />
+                                                                <CssTextField
+                                                                    variant="outlined"
+                                                                    label="Enter your Name Here"
+                                                                    className='mt-3'
+                                                                    name='point_of_contact_name'
+                                                                    value={values?.point_of_contact_name}
+                                                                    onChange={handleChange}
+                                                                    style={{ width: '100%' }}
+                                                                    InputLabelProps={{
+                                                                        style: { color: '#777777', fontSize: '12px' },
+                                                                    }}
+                                                                    InputProps={{
+                                                                        style: {
+                                                                            borderRadius: '8px',
+                                                                            backgroundColor: '#FFFFFF',
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                {errors.point_of_contact_name && <small className='text-danger mt-2 ms-1'>{errors.point_of_contact_name}</small>}
 
-                                                <CssTextField
-                                                    required
-                                                    variant="outlined"
-                                                    label="Enter your Phone Number"
-                                                    className='mt-3 mb-3'
-                                                    style={{ width: '100%' }}
-                                                    name='phone_number'
-                                                    value={register.phone_number}
-                                                    onChange={onHandleChangeRegister}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        }
-                                                    }}
-                                                />
+                                                                <CssTextField
+                                                                    variant="outlined"
+                                                                    label="Enter your Phone Number"
+                                                                    className='mt-3'
+                                                                    style={{ width: '100%' }}
+                                                                    name='phone_number'
+                                                                    value={values?.phone_number}
+                                                                    onChange={handleChange}
+                                                                    InputLabelProps={{
+                                                                        style: { color: '#777777', fontSize: '12px' },
+                                                                    }}
+                                                                    InputProps={{
+                                                                        style: {
+                                                                            borderRadius: '8px',
+                                                                            backgroundColor: '#FFFFFF',
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                {errors.phone_number && <small className='text-danger mt-2 ms-1'>{errors.phone_number}</small>}
 
-                                                <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
-                                                    {loading ? 'Loading...' : 'Get Otp'}
-                                                </Button>
-                                            </form> : <form>
-                                                <div className="otp-input-fields mb-3">
-                                                    <OtpInput length={6} onOtpSubmit={onOtpSubmit} />
-                                                </div>
+                                                                <div className="mt-3">
+                                                                    <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering ' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
+                                                                        {loading ? 'Loading...' : 'Get Otp'}
+                                                                    </Button>
+                                                                </div>
+                                                            </form>
+                                                        )}
+                                                    </Formik>
+                                                </>
+                                                : <form>
+                                                    <div className="otp-input-fields mb-3">
+                                                        <OtpInput length={6} onOtpSubmit={onOtpSubmit} />
+                                                    </div>
 
-                                                <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
-                                                    {loading ? 'Loading...' : 'Submit'}
-                                                </Button>
-                                                <p className='ct-box-both' onClick={handleResendOtp}>resend otp in : 30</p>
-                                            </form>}
+                                                    <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
+                                                        {loading ? 'Loading...' : 'Submit'}
+                                                    </Button>
+                                                    <p className='ct-box-both' onClick={handleResendOtp}>resend otp in : 30</p>
+                                                </form>}
 
                                             <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />
                                         </div>
@@ -254,7 +264,7 @@ const RegisterLogin = () => {
                         </div>
                     </Grid>
                 </Grid>
-            </Container>
+            </Container >
         </>
     )
 }

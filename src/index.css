@@ -475,6 +475,9 @@ code {
   font-size: calc(1.325rem + .9vw) !important
 }
 
+.text-danger{
+  color: var(--secondary);
+}
 /* globals end */
 
 /* project global start */
