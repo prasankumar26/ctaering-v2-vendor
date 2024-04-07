@@ -12,9 +12,12 @@ import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux'
 import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 import { Link } from 'react-router-dom';
 import { api, BASE_URL } from '../../api/apiConfig';
+import KycUpdate from './KycUpdate';
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
@@ -36,25 +39,6 @@ const CssTextField = styled(TextField)(({ theme }) => ({
     },
 }));
 
-const CssTextFieldTwo = styled(TextField)(({ theme }) => ({
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            border: '2px solid #F0F1F3',
-            borderRadius: '8px'
-        },
-        '&:hover fieldset': {
-            border: '2px solid #F0F1F3',
-        },
-        '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
-        },
-    },
-    '& input': {
-        border: 'none',
-        fontSize: '16px',
-        padding: '6px 20px',
-    },
-}));
 
 const steps = ['Step 1', 'Step 2'];
 
@@ -68,12 +52,7 @@ const initialProfileState = {
 }
 
 
-const initialKycState = {
-    aadhar_card_number: '',
-    pan_number: '',
-    gstin_number: '',
-    fssai_document_filename: ''
-}
+
 
 const formatPhoneNumber = (phoneNumber) => {
     const countryCode = '+91';
@@ -93,16 +72,29 @@ const formatLandlineNumber = (landlineNumber) => {
 
 const ProfileSteps = () => {
     const { accessToken } = useSelector((state) => state.user.accessToken)
-    const [profileUpdate, setProfileUpdate] = useState(initialProfileState)
-    const [kycUpdate, setKycUpdate] = useState(initialKycState)
 
     const navigate = useNavigate();
-
     const [activeStep, setActiveStep] = useState(0);
 
-    const profileCallApiCall = async () => {
+    // validationSchema 
+    const validationSchema = Yup.object().shape({
+        vendor_service_name: Yup.string().required('Vendor service name is required'),
+        point_of_contact_name: Yup.string().required('Point of contact name is required'),
+        business_phone_number: Yup.string()
+            .required('Business phone number is required')
+            .matches(/^[0-9]+$/, 'Business phone number must contain only digits'),
+        landline_number: Yup.string()
+            .required('Landline number is required')
+            .matches(/^[0-9]+$/, 'Landline number must contain only digits'),
+        whatsapp_business_phone_number: Yup.string()
+            .required('Whatsapp Business phone number is required')
+            .matches(/^[0-9]+$/, 'Whatsapp Business phone number must contain only digits'),
+    });
+
+
+    const profileCallApiCall = async (values) => {
         try {
-            const { vendor_service_name, point_of_contact_name, business_phone_number, landline_number, whatsapp_business_phone_number } = profileUpdate;
+            const { vendor_service_name, point_of_contact_name, business_phone_number, landline_number, whatsapp_business_phone_number } = values;
 
             const formattedPhoneNumber = formatPhoneNumber(business_phone_number);
             const formattedlandline_number = formatLandlineNumber(landline_number);
@@ -112,7 +104,7 @@ const ProfileSteps = () => {
                 vendor_service_name,
                 point_of_contact_name,
                 business_phone_number: formattedPhoneNumber,
-                landline_number:formattedlandline_number,
+                landline_number: formattedlandline_number,
                 whatsapp_business_phone_number: formattedwhatsapp_business_phone_number
             }
 
@@ -129,31 +121,17 @@ const ProfileSteps = () => {
         }
     }
 
-    const handleNext = () => {
-        if (validateFields()) {
+
+
+    const handleSubmit = async (values, { resetForm }) => {
+        try {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            profileCallApiCall()
-            setProfileUpdate(initialProfileState)
-            console.log(profileUpdate, "profileUpdate");
-        } else {
-            alert("Please fill in all required fields.");
+            await profileCallApiCall(values);
+            resetForm();
+        } catch (error) {
+            console.error("Error while submitting the form:", error);
         }
     };
-
-
-    const validateFields = () => {
-        return (
-            profileUpdate.vendor_service_name.trim() !== "" &&
-            profileUpdate.point_of_contact_name.trim() !== "" &&
-            profileUpdate.business_phone_number.trim() !== ""
-        );
-    };
-
-
-    const handleProfileChange = (e) => {
-        const { name, value } = e.target;
-        setProfileUpdate({ ...profileUpdate, [name]: value })
-    }
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -163,39 +141,7 @@ const ProfileSteps = () => {
         setActiveStep(0);
     };
 
-    const handleKycChange = (e) => {
-        const { name, value } = e.target;
-        setKycUpdate({ ...kycUpdate, [name]: value })
-    }
 
-    const onKycSubmit = async (e) => {
-        e.preventDefault()
-
-        try {
-            const { aadhar_card_number, pan_number, gstin_number, fssai_document_filename } = kycUpdate;
-            const data = {
-                aadhar_card_number,
-                pan_number,
-                gstin_number,
-                fssai_document_filename
-            }
-            const response = await api.post('/register-vendor-kyc-update', data, {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            toast.success(response?.data?.message);
-            setKycUpdate(kycUpdate)
-            if (response?.data) {
-                navigate("/");
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error?.response?.data?.message)
-            toast.error(error?.response?.data?.data_validation_errors[0].msg)
-        }
-    }
 
 
     return (
@@ -239,229 +185,145 @@ const ProfileSteps = () => {
                                         {activeStep === 0 && <div className="px-2">
                                             <h4 className='ct-box-profile-title pb-1'>Profile Update</h4>
                                             <p className='ct-box-loc-desc'>Let's get started by filling out the form below</p>
-
-                                            <form>
-                                                <CssTextField
-                                                    required
-                                                    value={profileUpdate.vendor_service_name}
-                                                    onChange={handleProfileChange}
-                                                    name="vendor_service_name"
-                                                    variant="outlined"
-                                                    label="Enter Your Name"
-                                                    className='mt-3'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
-
-                                                <CssTextField
-                                                    required
-                                                    value={profileUpdate.point_of_contact_name}
-                                                    onChange={handleProfileChange}
-                                                    name="point_of_contact_name"
-                                                    variant="outlined"
-                                                    label="Enter Catering Service Name / Display Name"
-                                                    className='mt-3'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
+                                            <Formik initialValues={initialProfileState} validationSchema={validationSchema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
+                                                {({ values, errors, handleChange, handleSubmit, isValid }) => (
+                                                    <form onSubmit={handleSubmit}>
+                                                        <CssTextField
+                                                            value={values.vendor_service_name}
+                                                            onChange={handleChange}
+                                                            name="vendor_service_name"
+                                                            variant="outlined"
+                                                            label="Enter Your Name"
+                                                            className='mt-3'
+                                                            style={{ width: '100%' }}
+                                                            InputLabelProps={{
+                                                                style: { color: '#777777', fontSize: '12px' },
+                                                            }}
+                                                            InputProps={{
+                                                                style: {
+                                                                    borderRadius: '8px',
+                                                                    backgroundColor: '#FFFFFF',
+                                                                },
+                                                            }}
+                                                        />
+                                                        {errors.vendor_service_name && <small className='text-danger mt-2 ms-1'>{errors.vendor_service_name}</small>}
 
 
-                                                <CssTextField
-                                                    required
-                                                    value={profileUpdate.business_phone_number}
-                                                    onChange={handleProfileChange}
-                                                    name="business_phone_number"
-                                                    variant="outlined"
-                                                    label="Business Phone Number"
-                                                    className='mt-3'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
+                                                        <CssTextField
+                                                            value={values.point_of_contact_name}
+                                                            onChange={handleChange}
+                                                            name="point_of_contact_name"
+                                                            variant="outlined"
+                                                            label="Enter Catering Service Name / Display Name"
+                                                            className='mt-3'
+                                                            style={{ width: '100%' }}
+                                                            InputLabelProps={{
+                                                                style: { color: '#777777', fontSize: '12px' },
+                                                            }}
+                                                            InputProps={{
+                                                                style: {
+                                                                    borderRadius: '8px',
+                                                                    backgroundColor: '#FFFFFF',
+                                                                },
+                                                            }}
+                                                        />
+                                                        {errors.point_of_contact_name && <small className='text-danger mt-2 ms-1'>{errors.point_of_contact_name}</small>}
 
 
-                                                <CssTextField
-                                                    required
-                                                    value={profileUpdate.landline_number}
-                                                    onChange={handleProfileChange}
-                                                    name="landline_number"
-                                                    variant="outlined"
-                                                    label="Add Landline Number (Optional)"
-                                                    className='mt-3'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
+
+                                                        <CssTextField
+                                                            value={values.business_phone_number}
+                                                            onChange={handleChange}
+                                                            type='tel'
+                                                            name="business_phone_number"
+                                                            variant="outlined"
+                                                            label="Business Phone Number"
+                                                            className='mt-3'
+                                                            style={{ width: '100%' }}
+                                                            InputLabelProps={{
+                                                                style: { color: '#777777', fontSize: '12px' },
+                                                            }}
+                                                            InputProps={{
+                                                                style: {
+                                                                    borderRadius: '8px',
+                                                                    backgroundColor: '#FFFFFF',
+                                                                },
+                                                            }}
+                                                        />
+                                                        {errors.business_phone_number && <small className='text-danger mt-2 ms-1'>{errors.business_phone_number}</small>}
 
 
-                                                <CssTextField
-                                                    required
-                                                    value={profileUpdate.whatsapp_business_phone_number}
-                                                    onChange={handleProfileChange}
-                                                    name="whatsapp_business_phone_number"
-                                                    variant="outlined"
-                                                    label="Add Whatsapp Business Number (Optional)"
-                                                    className='mt-3'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
 
-                                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                                    <Button
-                                                        color="inherit"
-                                                        disabled={activeStep === 0}
-                                                        onClick={handleBack}
-                                                        sx={{ mr: 1 }}
-                                                    >
-                                                        Back
-                                                    </Button>
-                                                    <Box sx={{ flex: '1 1 auto' }} />
+                                                        <CssTextField
+                                                            value={values.landline_number}
+                                                            onChange={handleChange}
+                                                            name="landline_number"
+                                                            variant="outlined"
+                                                            label="Add Landline Number (Optional)"
+                                                            className='mt-3'
+                                                            style={{ width: '100%' }}
+                                                            InputLabelProps={{
+                                                                style: { color: '#777777', fontSize: '12px' },
+                                                            }}
+                                                            InputProps={{
+                                                                style: {
+                                                                    borderRadius: '8px',
+                                                                    backgroundColor: '#FFFFFF',
+                                                                },
+                                                            }}
+                                                        />
+                                                        {errors.landline_number && <small className='text-danger mt-2 ms-1'>{errors.landline_number}</small>}
 
-                                                    <Button type='submit' onClick={() => handleNext()} className='ct-box-btn-profile-step'>
-                                                        Next
-                                                    </Button>
 
-                                                </Box>
 
-                                            </form>
 
+                                                        <CssTextField
+                                                            value={values.whatsapp_business_phone_number}
+                                                            onChange={handleChange}
+                                                            name="whatsapp_business_phone_number"
+                                                            variant="outlined"
+                                                            label="Add Whatsapp Business Number (Optional)"
+                                                            className='mt-3'
+                                                            style={{ width: '100%' }}
+                                                            InputLabelProps={{
+                                                                style: { color: '#777777', fontSize: '12px' },
+                                                            }}
+                                                            InputProps={{
+                                                                style: {
+                                                                    borderRadius: '8px',
+                                                                    backgroundColor: '#FFFFFF',
+                                                                },
+                                                            }}
+                                                        />
+                                                        {errors.whatsapp_business_phone_number && <small className='text-danger mt-2 ms-1'>{errors.whatsapp_business_phone_number}</small>}
+
+
+                                                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                                            <Button
+                                                                color="inherit"
+                                                                disabled={activeStep === 0}
+                                                                onClick={handleBack}
+                                                                sx={{ mr: 1 }}
+                                                            >
+                                                                Back
+                                                            </Button>
+                                                            <Box sx={{ flex: '1 1 auto' }} />
+
+                                                            <Button type='submit' disabled={!isValid} className='ct-box-btn-profile-step'>
+                                                                Next
+                                                            </Button>
+                                                            {/* <Button type='submit' onClick={() => handleNext()} className='ct-box-btn-profile-step'>
+                                                                Next
+                                                            </Button> */}
+                                                        </Box>
+                                                    </form>
+                                                )}
+                                            </Formik>
                                         </div>
                                         }
                                         {activeStep === 1 && <div className="px-2">
 
-                                            <form onSubmit={onKycSubmit}>
-
-                                                <h4 className='ct-box-profile-title mt-1'>Please Enter Your Aadhar Card Number *</h4>
-                                                <CssTextFieldTwo
-                                                    value={kycUpdate.aadhar_card_number}
-                                                    name="aadhar_card_number"
-                                                    onChange={handleKycChange}
-                                                    variant="outlined"
-                                                    className='mt-2'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
-
-                                                <h4 className='ct-box-profile-title mt-1'>Please Enter Your PAN Number *</h4>
-                                                <CssTextFieldTwo
-                                                    value={kycUpdate.pan_number}
-                                                    name="pan_number"
-                                                    onChange={handleKycChange}
-                                                    variant="outlined"
-                                                    className='mt-2'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
-
-                                                <h4 className='ct-box-profile-title mt-1'>Please Enter Your GSTIN Number *</h4>
-                                                <CssTextFieldTwo
-                                                    value={kycUpdate.gstin_number}
-                                                    name="gstin_number"
-                                                    onChange={handleKycChange}
-                                                    variant="outlined"
-                                                    className='mt-2'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
-
-                                                <h4 className='ct-box-profile-title mt-1'>Please Enter Your FSSAI Licence Number *</h4>
-                                                <CssTextFieldTwo
-                                                    value={kycUpdate.fssai_document_filename}
-                                                    name="fssai_document_filename"
-                                                    onChange={handleKycChange}
-                                                    variant="outlined"
-                                                    className='mt-2'
-                                                    style={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        style: { color: '#777777', fontSize: '12px' },
-                                                    }}
-                                                    InputProps={{
-                                                        style: {
-                                                            borderRadius: '8px',
-                                                            backgroundColor: '#FFFFFF',
-                                                        },
-                                                    }}
-                                                />
-
-                                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                                    <Button
-                                                        color="inherit"
-                                                        disabled={activeStep === 0}
-                                                        onClick={handleBack}
-                                                        sx={{ mr: 1 }}
-                                                    >
-                                                        Back
-                                                    </Button>
-                                                    <Box sx={{ flex: '1 1 auto' }} />
-
-                                                    <Button type='submit' className='ct-box-btn-profile-step'>
-                                                        Submit
-                                                    </Button>
-                                                </Box>
-
-                                            </form>
+                                            <KycUpdate activeStep={activeStep} setActiveStep={setActiveStep} />
 
                                         </div>
                                         }

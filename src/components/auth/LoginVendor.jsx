@@ -3,11 +3,13 @@ import { InputAdornment, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useNavigate } from 'react-router-dom';
-
+import { api, BASE_URL } from '../../api/apiConfig';
+import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
@@ -31,12 +33,16 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 
 const LoginVendor = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { accessToken } = useSelector((state) => state.user.accessToken)
+    const { userData } = useSelector((state) => state.user)
+    console.log(userData, "userData");
+    console.log(accessToken, "accessToken");
+
 
     const handleTogglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
+        setShowPassword(prevState => !prevState);
     };
 
-    
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -70,7 +76,7 @@ const LoginVendor = () => {
                 <CssTextField
                     id="outlined-number"
                     variant="outlined"
-                    type='password'
+                    type={showPassword ? 'text' : 'password'}
                     label="Password"
                     className='mb-3'
                     style={{ width: '100%' }}
@@ -88,13 +94,13 @@ const LoginVendor = () => {
                                     aria-label="toggle password visibility"
                                     onClick={handleTogglePasswordVisibility}
                                     edge="end"
+                                    size="large"
                                 >
                                     {showPassword ? <Visibility style={{ fontSize: '16px' }} /> : <VisibilityOff style={{ fontSize: '16px' }} />}
                                 </IconButton>
                             </InputAdornment>
                         ),
                     }}
-
                 />
 
                 <Link to="/enter-location" className='text-decoration-none'>
@@ -106,9 +112,8 @@ const LoginVendor = () => {
 
                 <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />
             </div>
-
         </div>
     )
 }
 
-export default LoginVendor
+export default LoginVendor;
