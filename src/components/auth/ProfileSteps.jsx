@@ -72,7 +72,7 @@ const formatLandlineNumber = (landlineNumber) => {
 
 const ProfileSteps = () => {
     const { accessToken } = useSelector((state) => state.user.accessToken)
-
+console.log(accessToken, "accessToken");
     const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
 

@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import { api, BASE_URL } from '../../api/apiConfig';
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
@@ -31,12 +34,24 @@ const CssTextField = styled(TextField)(({ theme }) => ({
     },
 }));
 
+const initialloginState = {
+    company_id: '',
+    password: ''
+}
+
+
 const LoginVendor = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { accessToken } = useSelector((state) => state.user.accessToken)
-    const { userData } = useSelector((state) => state.user)
-    console.log(userData, "userData");
-    console.log(accessToken, "accessToken");
+    // const { accessToken } = useSelector((state) => state.user.accessToken)
+    // const { userData } = useSelector((state) => state.user)
+
+    // validationSchema 
+    const validationSchema = Yup.object().shape({
+        company_id: Yup.string()
+            .required('Company ID is required'),
+        password: Yup.string()
+            .required('Password is required')
+    });
 
 
     const handleTogglePasswordVisibility = () => {
@@ -49,6 +64,10 @@ const LoginVendor = () => {
         navigate(-1);
     };
 
+    const handleSubmit = (values, resetForm) => {
+        console.log(values, "values");
+        resetForm()
+    }
 
     return (
         <div>
@@ -56,63 +75,84 @@ const LoginVendor = () => {
                 <h4 className='ct-create-account'>Welcome Back</h4>
                 <p className='ct-create-para'>Fill out the information below in order to access your account.</p>
 
-                <CssTextField
-                    id="outlined-number"
-                    variant="outlined"
-                    label="Business ID"
-                    className='mt-3 mb-3'
-                    style={{ width: '100%' }}
-                    InputLabelProps={{
-                        style: { color: '#777777', fontSize: '12px' },
-                    }}
-                    InputProps={{
-                        style: {
-                            borderRadius: '8px',
-                            backgroundColor: '#FFFFFF',
-                        }
-                    }}
-                />
+                <Formik initialValues={initialloginState} validationSchema={validationSchema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
+                    {({ values, errors, handleChange, handleSubmit, isValid }) => (
+                        <form onSubmit={handleSubmit}>
 
-                <CssTextField
-                    id="outlined-number"
-                    variant="outlined"
-                    type={showPassword ? 'text' : 'password'}
-                    label="Password"
-                    className='mb-3'
-                    style={{ width: '100%' }}
-                    InputLabelProps={{
-                        style: { color: '#777777', fontSize: '12px' },
-                    }}
-                    InputProps={{
-                        style: {
-                            borderRadius: '8px',
-                            backgroundColor: '#FFFFFF',
-                        },
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleTogglePasswordVisibility}
-                                    edge="end"
-                                    size="large"
-                                >
-                                    {showPassword ? <Visibility style={{ fontSize: '16px' }} /> : <VisibilityOff style={{ fontSize: '16px' }} />}
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                />
+                            <CssTextField
+                                value={values.company_id}
+                                onChange={handleChange}
+                                name="company_id"
+                                id="outlined-number"
+                                variant="outlined"
+                                label="Business ID"
+                                className='mt-3 mb-0'
+                                style={{ width: '100%' }}
+                                InputLabelProps={{
+                                    style: { color: '#777777', fontSize: '12px' },
+                                }}
+                                InputProps={{
+                                    style: {
+                                        borderRadius: '8px',
+                                        backgroundColor: '#FFFFFF',
+                                    }
+                                }}
+                            />
+                            {errors.company_id && <small className='text-danger mb-2 ms-1'>{errors.company_id}</small>}
 
-                <Link to="/enter-location" className='text-decoration-none'>
-                    <Button variant="contained" className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
-                        Get Otp
-                    </Button>
-                </Link>
+
+                            <CssTextField
+                                value={values.password}
+                                onChange={handleChange}
+                                name="password"
+                                id="outlined-number"
+                                variant="outlined"
+                                type={showPassword ? 'text' : 'password'}
+                                label="Password"
+                                className='mt-3'
+                                style={{ width: '100%' }}
+                                InputLabelProps={{
+                                    style: { color: '#777777', fontSize: '12px' },
+                                }}
+                                InputProps={{
+                                    style: {
+                                        borderRadius: '8px',
+                                        backgroundColor: '#FFFFFF',
+                                    },
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleTogglePasswordVisibility}
+                                                edge="end"
+                                                size="large"
+                                            >
+                                                {showPassword ? <Visibility style={{ fontSize: '16px' }} /> : <VisibilityOff style={{ fontSize: '16px' }} />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            {errors.password && <small className='text-danger mb-2 ms-1'>{errors.password}</small>} 
+
+
+                            {/* <Link to="/enter-location" className='text-decoration-none'> */}
+                            <div className="mt-3">
+                            <Button type='submit' variant="contained" className='ct-box-btn-catering' 
+                            style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
+                                Get Otp
+                            </Button>
+                            </div>
+                            {/* </Link> */}
+                        </form>
+                    )}
+                </Formik>
+
                 <p className='ct-box-both' style={{ fontWeight: '600', color: '#14181b' }}>Forgot Password?</p>
 
                 <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />
             </div>
-        </div>
+        </div >
     )
 }
 
