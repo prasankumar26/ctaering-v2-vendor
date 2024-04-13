@@ -11,7 +11,32 @@ const EnterLocation = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-      navigate(-1);
+        navigate(-1);
+    };
+
+    const getCurrentLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+
+                    const geocoder = new window.google.maps.Geocoder();
+                    const latlng = new window.google.maps.LatLng(latitude, longitude);
+
+                    geocoder.geocode({ location: latlng }, (results, status) => {
+                        console.log(latlng, "latlng");
+                        console.log(results, "results");
+                        console.log(status, "status");
+                    });
+
+                },
+                (error) => {
+                    console.error("Error getting current location:", error);
+                }
+            );
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+        }
     };
 
     return (
@@ -30,12 +55,10 @@ const EnterLocation = () => {
 
                                 <Stack direction="column">
                                     <>
-                                    <Link to="/profile-steps" className="text-decoration-none text-center">
-                                        <Button variant="contained" className='ct-box-allow-location'>Allow Location Access</Button>
-                                    </Link>
-                                    <Link to="/enter-location-manually" className="text-decoration-none text-center">
-                                        <Button variant="contained" className='ct-box-loc'>Enter Location Manually</Button>
-                                    </Link>
+                                        <Button variant="contained" className='ct-box-allow-location' onClick={getCurrentLocation}>Allow Location Access</Button>
+                                        <Link to="/enter-location-manually" className="text-decoration-none text-center">
+                                            <Button variant="contained" className='ct-box-loc'>Enter Location Manually</Button>
+                                        </Link>
                                     </>
                                 </Stack>
 
