@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setData, setVendorId, setAccessToken } from '../features/user/userSlice';
+import { setData, setVendorId, setAccessToken, setLoginUserData } from '../features/user/userSlice';
 import toast from 'react-hot-toast';
 import { api } from '../api/apiConfig';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,12 @@ const useLogin = () => {
     const navigate = useNavigate();
 
     // registerVendor 
-    const loginVendor = async (registerData, setShowOtp) => {
+    const loginVendor = async (loginData, setShowOtp) => {
         setLoading(true);
         try {
-            const response = await api.post('/login-vendor-send-otp', registerData);
-            dispatch(setVendorId(response?.data?.data));
-            dispatch(setData(registerData));
+            const response = await api.post('/login-vendor-send-otp', loginData);
+            console.log(response, "response");
+            dispatch(setLoginUserData(loginData));
             setShowOtp(false);
             setLoading(false);
             toast.success(response?.data?.message);
@@ -28,17 +28,16 @@ const useLogin = () => {
     };
 
     // verifyOtp 
-    const verifyOtp = async (otp, user, setOtp, setValue) => {
+    const verifyOtp = async (otp, loginUserData, setOtp, setValue) => {
         const data = {
-            phone_number: user?.phone_number,
             otp_code: otp,
-            vendor_type: user?.vendor_type
+            company_id: loginUserData?.company_id
         };
         setLoading(true);
         try {
             const response = await api.post('/login-vendor-verify-otp', data);
             dispatch(setAccessToken(response?.data?.data));
-            navigate('/enter-location')
+            navigate('/profile-steps')
             toast.success(response?.data?.message);
             setLoading(false);
             setOtp(['', '', '', '', '', '']);
@@ -50,19 +49,19 @@ const useLogin = () => {
 
 
     // Resend otp 
-    const resendOtp = async (user) => {
+    const resendOtp = async (loginUserData) => {
         try {
-         const data = {
-             phone_number: user?.phone_number,
-             vendor_type: user?.vendor_type
-         }
-          const response = await api.post('/login-vendor-resend-otp', data)
-           toast.success(response?.data?.message);
+            const data = {
+                company_id: loginUserData?.company_id,
+                password: loginUserData?.password
+            }
+            const response = await api.post('/login-vendor-resend-otp', data)
+            toast.success(response?.data?.message);
         } catch (error) {
-         console.log(error);
-         toast.error(error?.response?.data?.message);
+            console.log(error);
+            toast.error(error?.response?.data?.message);
         }
-     }
+    }
 
     return { loading, loginVendor, verifyOtp, resendOtp };
 };

@@ -36,8 +36,8 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const initialState = {
-    company_id: '682505',
-    password: '2rdXsWPs'
+    company_id: '595119',
+    password: 'rgsVhWcI'
 }
 
 
@@ -117,12 +117,16 @@ const LoginVendor = () => {
     const [showOtp, setShowOtp] = useState(true)
     const [otp, setOtp] = useState(['', '', '', '', '', ''])
     const user = useSelector((state) => state.user.userData)
+    const loginUserData = useSelector((state) => state.user.loginUserData)
+    const { accessToken } = useSelector((state) => state.user.accessToken)
+
+    console.log(user, "user");
+    console.log(loginUserData, "loginUserData");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    // const { accessToken } = useSelector((state) => state.user.accessToken)
     // const { userData } = useSelector((state) => state.user)
 
     // validationSchema 
@@ -152,7 +156,7 @@ const LoginVendor = () => {
      // resendOtp 
      const handleResendOtp = async () => {
         try {
-            await resendOtp(user);
+            await resendOtp(loginUserData);
         } catch (error) {
             console.error('Error while resending OTP:', error);
         }
@@ -161,10 +165,32 @@ const LoginVendor = () => {
 
     // onOtpSubmit 
     const onOtpSubmit = (otp) => {
-        verifyOtp(otp, user, setOtp, setValue);
+        verifyOtp(otp, loginUserData, setOtp, setValue);
         console.log('Login Successfully', otp);
     }
 
+
+    // login creds 
+    const fetchLoginCreds = async () =>{
+        const data = {
+            phone_number: user?.phone_number
+        }
+         try {
+            const response = await axios.get(`${BASE_URL}/get-vendor-creds`, {
+                params: data,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            console.log(response, "response");
+         } catch (error) {
+            console.log(error);
+         }
+    }
+
+    useEffect(() =>{
+      fetchLoginCreds();
+    }, [])
 
 
     return (
