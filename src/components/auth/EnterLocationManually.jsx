@@ -17,6 +17,7 @@ import { api, BASE_URL } from '../../api/apiConfig';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { DATA_VALIDATION_ERROR, datavalidationerror, successToast } from '../../utils';
+import axios from 'axios';
 
 
 const CssTextField = styled(TextField)(({ theme }) => ({
@@ -50,7 +51,13 @@ const initialState = {
     state: '',
     country: '',
     formatted_address: '',
+    place_id: '',
 }
+
+const options = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+};
 
 const EnterLocationManually = () => {
     const navigate = useNavigate();
@@ -117,6 +124,7 @@ const EnterLocationManually = () => {
             state: state,
             country: country,
             formatted_address: formatted_address,
+            place_id: places?.place_id
         })
     }
 
@@ -126,59 +134,60 @@ const EnterLocationManually = () => {
         setLocationPlaceId(item?.place_id)
     }
 
-    const getCurrentLocation = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const { latitude, longitude } = position.coords;
+    const getAddressComponent = (addressComponents, type) => {
+        const component = addressComponents.find(component => component.types.includes(type));
+        return component ? component.long_name : '';
+    };
 
-                    const geocoder = new window.google.maps.Geocoder();
-                    const latlng = new window.google.maps.LatLng(latitude, longitude);
+    const successCallback = async (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
-
-
-                    geocoder.geocode({ location: latlng }, (results, status) => {
-                        console.log(latlng, "latlng");
-                        console.log(results, "results");
-                        console.log(status, "status");
-
-                        // if (status === "OK") {
-                        //   if (results[0]) {
-                        //     const place = results[0];
-                        //     console.log(place, "place");
-                        //     savePlaceDetailsToState(place);
-                        //   } else {
-                        //     console.error("No results found");
-                        //   }
-                        // } else {
-                        //   console.error("Geocoder failed due to: " + status);
-                        // }
-                    });
-
-                },
-                (error) => {
-                    console.error("Error getting current location:", error);
-                }
-            );
-        } else {
-            console.error("Geolocation is not supported by this browser.");
+        try {
+            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.REACT_APP_GOOGLE}`);
+            const addressComponents = response.data.results[0].address_components;
+            const addressData = {
+                street_name: getAddressComponent(addressComponents, 'route'),
+                area: getAddressComponent(addressComponents, 'sublocality_level_1'),
+                pincode: getAddressComponent(addressComponents, 'postal_code'),
+                latitude: latitude,
+                longitude: longitude,
+                address: getAddressComponent(addressComponents, 'sublocality_level_2'),
+                city: getAddressComponent(addressComponents, 'locality'),
+                state: getAddressComponent(addressComponents, 'administrative_area_level_1'),
+                country: getAddressComponent(addressComponents, 'country'),
+                formatted_address: response.data.results[0].formatted_address,
+                place_id: response.data.results[0].place_id,
+            };
+            handleCurrentLocationSubmit(addressData);
+        } catch (error) {
+            console.log(error);
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const errorCallback = (error) => {
+        console.log(error);
+    };
+
+
+    const getCurrentLocation = () => {
+        const id = navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options)
+        navigator.geolocation.clearWatch(id);
+    };
+
+    const handleCurrentLocationSubmit = async (addressData) => {
         const data = {
-            street_name: locationValues?.street_name?.long_name || "",
-            area: locationValues?.area?.long_name || "",
-            pincode: locationValues?.pincode || "",
-            latitude: locationValues?.latitude || "",
-            longitude: locationValues?.longitude || "",
-            address: locationValues?.address || "",
-            city: locationValues?.city?.long_name || "",
-            state: locationValues?.state?.long_name || "",
-            country: locationValues?.country?.long_name || "",
-            formatted_address: locationValues?.formatted_address || "",
-            place_id: locationPlaceId || ''
+            street_name: addressData?.street_name || addressData?.area || "",
+            area: addressData?.area || "",
+            pincode: addressData?.pincode || "",
+            latitude: addressData?.latitude || "",
+            longitude: addressData?.longitude || "",
+            address: addressData?.address || "",
+            city: addressData?.city || "",
+            state: addressData?.state || "",
+            country: addressData?.country || "",
+            formatted_address: addressData?.formatted_address || "",
+            place_id: addressData?.place_id || ''
         }
         setLoading(true)
         try {
@@ -195,7 +204,38 @@ const EnterLocationManually = () => {
         } finally {
             setLoading(false)
         }
+    }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const data = {
+            street_name: locationValues?.street_name?.long_name || "",
+            area: locationValues?.area?.long_name || "",
+            pincode: locationValues?.pincode || "",
+            latitude: locationValues?.latitude || "",
+            longitude: locationValues?.longitude || "",
+            address: locationValues?.address || "",
+            city: locationValues?.city?.long_name || "",
+            state: locationValues?.state?.long_name || "",
+            country: locationValues?.country?.long_name || "",
+            formatted_address: locationValues?.formatted_address || "",
+            place_id: locationValues?.place_id || ''
+        }
+        setLoading(true)
+        try {
+            const response = await api.post(`${BASE_URL}/update-vendor-location`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            toast.success(successToast(response))
+            navigate('/profile-steps')
+        } catch (error) {
+            console.log(error, "error");
+            toast.error(datavalidationerror(error))
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -242,22 +282,22 @@ const EnterLocationManually = () => {
                                         }}
                                     />
 
-                                    <Button variant="contained" className='ct-box-btn-current-loc' onClick={getCurrentLocation}>Use my current location</Button>
+                                    <Button variant="contained" className='ct-box-btn-current-loc' onClick={() => getCurrentLocation()}>Use my current location</Button>
 
                                     <div className='mb-3' style={{ marginTop: '20px', borderTop: '2px solid #c33332' }}>
                                         <Divider />
                                     </div>
 
-                                   {placePredictions.length > 0 && <p className='ct-box-search-loc mb-1'>Search Results</p>} 
+                                    {placePredictions.length > 0 && <p className='ct-box-search-loc mb-1'>Search Results</p>}
 
                                     {isPlacePredictionsLoading ? (
                                         <LoaderSpinner />
                                     ) : (
                                         selectedLocation ? (
-                                                <h2 className='ct-box-search-results' onClick={() => setSelectedLocation(null)}>{selectedLocation.description}</h2>
+                                            <h2 className='ct-box-search-results' onClick={() => setSelectedLocation(null)}>{selectedLocation.description}</h2>
                                         ) : (
                                             placePredictions?.map((item, index) => (
-                                                    <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
+                                                <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
                                             ))
                                         )
                                     )}
