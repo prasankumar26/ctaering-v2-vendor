@@ -37,7 +37,7 @@ const useLogin = () => {
         try {
             const response = await api.post('/login-vendor-verify-otp', data);
             dispatch(setAccessToken(response?.data?.data));
-            navigate('/profile-steps')
+            navigate('/')
             toast.success(response?.data?.message);
             setLoading(false);
             setOtp(['', '', '', '', '', '']);

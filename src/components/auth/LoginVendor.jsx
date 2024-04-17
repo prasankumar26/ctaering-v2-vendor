@@ -287,7 +287,7 @@ const LoginVendor = () => {
                 )}
 
 
-                <p className='ct-box-both' style={{ fontWeight: '600', color: '#14181b' }}>Forgot Password?</p>
+                {/* <p className='ct-box-both' style={{ fontWeight: '600', color: '#14181b' }}>Forgot Password?</p> */}
 
                 <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />
             </div>
