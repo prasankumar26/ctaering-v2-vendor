@@ -22,6 +22,7 @@ import useFetchOccasions from '../hooks/useFetchOccasions';
 import LoaderSpinner from '../components/LoaderSpinner';
 import { api, BASE_URL } from '../api/apiConfig';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -39,8 +40,8 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Occasions = () => {
     const [open, setOpen] = React.useState(false);
     const { occasionsList, loading, setOccasionsList } = useFetchOccasions();
-    const [checked, setChecked] = useState(false)
     const { accessToken } = useSelector((state) => state?.user?.accessToken);
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -64,6 +65,7 @@ const Occasions = () => {
     }
 
     const handleOccasionSubmit = async (event) => {
+        setIsLoading(true)
         event.preventDefault()
         const updatedOccasions = await handleSelectChange();
 
@@ -74,24 +76,20 @@ const Occasions = () => {
             }
         })
 
-        const occasions = occasionsData;
+        const data = {
+            occasions: JSON.stringify(occasionsData)
+        }
 
-        await api.post(`${BASE_URL}/update-vendor-occasion`, occasions, {
+        await api.post(`${BASE_URL}/update-vendor-occasion`, data, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
-
+        toast.success("Occatins Updated Successfully...")
+        setIsLoading(false)
+        setOpen(false);
     }
-
-
-
-
-
-
-
-
 
     return (
         <>
@@ -101,7 +99,9 @@ const Occasions = () => {
                 <div className='card-box-shadow px-5 py-4 mb-4'>
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
                         <p className='cuisines-title'>Occasions You cater</p>
-                        <Button variant="contained" className="inquiries-btn" onClick={handleClickOpen}> + Add Occasions </Button>
+                        <Button variant="contained" className="inquiries-btn" onClick={handleClickOpen}>
+                            {occasionsList?.filter((item) => item?.selected === "1").length >= 1 ? '+ Update Occasions' : '+ Add Occasions'}
+                        </Button>
                     </Stack>
                     <Divider
                         className='mt-4'
@@ -111,9 +111,9 @@ const Occasions = () => {
                             margin: '0px'
                         }}
                     />
-                    <Stack direction="row" justifyContent="end" className='mt-4 cursor-pointer' onClick={handleClickOpen}>
+                    {/* <Stack direction="row" justifyContent="end" className='mt-4 cursor-pointer' onClick={handleClickOpen}>
                         <EditIcon className='text-primary' style={{ fontSize: '18px' }} />
-                    </Stack>
+                    </Stack> */}
 
                     {
                         loading ? (
@@ -121,15 +121,13 @@ const Occasions = () => {
                         ) : (
                             <Box sx={{ flexGrow: 1 }} style={{ marginTop: '20px' }}>
                                 <Grid container spacing={2}>
-                                    {occasionsList?.length >= 0 && occasionsList?.filter((item) => item?.selected === "1")?.map((occasion) => {
-                                        return <ExploreCaterersByOccasion occasion={occasion} />
+                                    {occasionsList?.length >= 0 && occasionsList?.filter((item) => item?.selected === "1")?.map((occasion, index) => {
+                                        return <ExploreCaterersByOccasion occasion={occasion} key={index} />
                                     })}
                                 </Grid>
                             </Box>
                         )
                     }
-
-
                 </div>
             </Container>
 
@@ -161,10 +159,10 @@ const Occasions = () => {
                     <DialogContent dividers>
 
                         {occasionsList?.length >= 0 && occasionsList?.map((occasion) => (
-                            <div className='card-box-shadow px-1 py-1 mb-3'>
+                            <div className='card-box-shadow px-1 py-1 mb-3' key={occasion?.id}>
                                 <Stack direction="row" justifyContent="space-between" >
                                     <Stack direction="row" alignItems="center" spacing={1}>
-                                        <img className='occasions-modal-img' src="/img/occasions/01.jpg" alt="" />
+                                        <img className='occasions-modal-img' src={occasion?.file_name?.medium} alt="" />
                                         <p className='occasions-modal-desc'>{occasion?.name}</p>
                                     </Stack>
                                     <div>
@@ -176,7 +174,8 @@ const Occasions = () => {
 
                     </DialogContent>
                     <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Button variant="contained" className="inquiries-btn" type="submit" onClick={handleClickOpen}> Add Occasions </Button>
+                        <Button variant="contained" className="inquiries-btn" type="submit" onClick={handleClickOpen}>
+                            {isLoading ? 'Loading...' : occasionsList?.filter((item) => item?.selected === "1").length >= 1 ? '+ Update Occasions' : '+ Add Occasions'}  </Button>
                     </DialogActions>
                 </form>
             </BootstrapDialog>
