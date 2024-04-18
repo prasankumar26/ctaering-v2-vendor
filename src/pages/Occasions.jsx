@@ -39,16 +39,17 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const Occasions = () => {
     const [open, setOpen] = React.useState(false);
-    const { occasionsList, loading, setOccasionsList } = useFetchOccasions();
+    const { occasionsList, loading, setOccasionsList, fetchOccations } = useFetchOccasions();
     const { accessToken } = useSelector((state) => state?.user?.accessToken);
     const [isLoading, setIsLoading] = useState(false)
 
     const handleClickOpen = () => {
         setOpen(true);
+        fetchOccations()
     };
     const handleClose = () => {
         setOpen(false);
-        setOccasionsList([])
+        // fetchOccations()
     };
 
 
@@ -89,6 +90,7 @@ const Occasions = () => {
         toast.success("Occatins Updated Successfully...")
         setIsLoading(false)
         setOpen(false);
+        fetchOccations()
     }
 
     return (
@@ -111,23 +113,30 @@ const Occasions = () => {
                             margin: '0px'
                         }}
                     />
-                    {/* <Stack direction="row" justifyContent="end" className='mt-4 cursor-pointer' onClick={handleClickOpen}>
-                        <EditIcon className='text-primary' style={{ fontSize: '18px' }} />
-                    </Stack> */}
 
-                    {
-                        loading ? (
-                            <LoaderSpinner />
-                        ) : (
-                            <Box sx={{ flexGrow: 1 }} style={{ marginTop: '20px' }}>
-                                <Grid container spacing={2}>
-                                    {occasionsList?.length >= 0 && occasionsList?.filter((item) => item?.selected === "1")?.map((occasion, index) => {
-                                        return <ExploreCaterersByOccasion occasion={occasion} key={index} />
-                                    })}
-                                </Grid>
-                            </Box>
-                        )
-                    }
+
+                    {loading ? (
+                        <LoaderSpinner />
+                    ) : (
+                        <Box sx={{ flexGrow: 1 }} style={{ marginTop: '20px' }}>
+                            <Grid container spacing={2}>
+                                {occasionsList?.length >= 0 ? (
+                                    occasionsList?.filter((item) => item?.selected === "1").length > 0 ? (
+                                        occasionsList.filter((item) => item?.selected === "1").map((occasion, index) => (
+                                            <ExploreCaterersByOccasion occasion={occasion} key={index} />
+                                        ))
+                                    ) : (
+                                        <Grid item xs={12}>
+                                            <h2 className='text-center'>No Occasions Found</h2>
+                                        </Grid>
+                                    )
+                                ) : (
+                                    <h2>No Occasions Found</h2>
+                                )}
+                            </Grid>
+                        </Box>
+                    )}
+
                 </div>
             </Container>
 
@@ -140,7 +149,7 @@ const Occasions = () => {
                 maxWidth="sm"
                 fullWidth
             >
-                <form onSubmit={handleOccasionSubmit}>
+                <form onSubmit={handleOccasionSubmit} >
                     <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                         <h2 className='cusines-modal-title'>Select Occasions from below</h2>
                     </DialogTitle>
@@ -156,7 +165,7 @@ const Occasions = () => {
                     >
                         <CloseIcon />
                     </IconButton>
-                    <DialogContent dividers>
+                    <DialogContent dividers style={{ height: '70vh' }}>
 
                         {occasionsList?.length >= 0 && occasionsList?.map((occasion) => (
                             <div className='card-box-shadow px-1 py-1 mb-3' key={occasion?.id}>
@@ -173,7 +182,7 @@ const Occasions = () => {
                         ))}
 
                     </DialogContent>
-                    <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
+                    <DialogActions style={{ backgroundColor: '#c89f9f29', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'absolute', bottom: 0 }}>
                         <Button variant="contained" className="inquiries-btn" type="submit" onClick={handleClickOpen}>
                             {isLoading ? 'Loading...' : occasionsList?.filter((item) => item?.selected === "1").length >= 1 ? '+ Update Occasions' : '+ Add Occasions'}  </Button>
                     </DialogActions>

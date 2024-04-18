@@ -7,7 +7,7 @@ const useFetchCuisines = () => {
     const [cuisinesList, setCuisinesList] = useState([])
     const { accessToken } = useSelector((state) => state?.user?.accessToken);
 
-    const fetchOccations = async () => {
+    const fetchCuisines = async () => {
         setLoading(true)
         try {
             const response = await api(`${BASE_URL}/get-vendor-cuisines`, {
@@ -25,10 +25,10 @@ const useFetchCuisines = () => {
     }
 
     useEffect(() => {
-        fetchOccations()
+        fetchCuisines()
     }, [])
 
-    return { cuisinesList, loading, setCuisinesList }
+    return { cuisinesList, loading, setCuisinesList, fetchCuisines }
 }
 
 export default useFetchCuisines

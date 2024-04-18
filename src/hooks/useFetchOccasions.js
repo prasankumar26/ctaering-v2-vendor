@@ -28,7 +28,7 @@ const useFetchOccasions = () => {
         fetchOccations()
     }, [])
 
-    return { occasionsList, loading, setOccasionsList }
+    return { occasionsList, loading, setOccasionsList, fetchOccations }
 }
 
 export default useFetchOccasions

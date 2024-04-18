@@ -24,6 +24,9 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import useFetchCuisines from '../hooks/useFetchCuisines';
 import LoaderSpinner from '../components/LoaderSpinner';
 import { Box, Grid } from '@mui/material';
+import { api, BASE_URL } from '../api/apiConfig';
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -87,9 +90,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const Cuisines = () => {
 
-    const { cuisinesList, loading, setCuisinesList } = useFetchCuisines()
-    const [selectedOptions, setSelectedOptions] = useState({});
+    const { cuisinesList, loading, setCuisinesList, fetchCuisines } = useFetchCuisines()
+    // const [selectedOptions, setSelectedOptions] = useState({});
     const [open, setOpen] = React.useState(false);
+    const { accessToken } = useSelector((state) => state?.user?.accessToken);
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -98,42 +103,60 @@ const Cuisines = () => {
         setOpen(false);
     };
 
+    // console.log(cuisinesList, "cuisinesList");
 
-    const handleAutocompleteChange = (event, value, item) => {
-        // Update the selected options state
-        setSelectedOptions(prevState => ({
-            ...prevState,
-            [item.id]: value
-        }));
-
-        // Update the selected property of the children array
-        const updatedOccasions = cuisinesList?.map((occasion) => {
-            if (occasion.id === item.id) {
-                occasion.children = occasion.children.map(child => ({
+    const handleAutocompleteChange = (event, value, parentItem) => {
+        const updatedCuisinesList = cuisinesList.map(item => {
+            if (item?.id === parentItem?.id) {
+                const updatedChildren = item?.children?.map(child => ({
                     ...child,
-                    selected: value.includes(child.name) ? "1" : "0"
+                    selected: value.includes(child?.name) ? "1" : "0" // Make sure to use strings "1" and "0" instead of numbers
                 }));
+                return {
+                    ...item,
+                    children: updatedChildren
+                };
             }
-            return occasion;
+            return item;
         });
-        console.log(updatedOccasions, "updatedOccasions");
-        setCuisinesList(updatedOccasions);
+        setCuisinesList(updatedCuisinesList);
+        return updatedCuisinesList;
     };
 
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
+        setIsLoading(true)
         event.preventDefault();
-        const formattedData = Object.entries(selectedOptions).map(([key, value]) => ({
-            cuisine_id: key,
-            selected: value.map(option => ({ name: option, selected: 1 }))
-        }))
-        console.log('Selected options:', formattedData);
+        const updatedOccasions = await handleAutocompleteChange();
+
+        const cuisinesData = updatedOccasions?.map((item) => {
+            return item.children.map((childItem) => {
+                return {
+                    cuisine_id: parseInt(childItem?.id),
+                    selected: parseInt(childItem?.selected)
+                }
+            })
+        }).flat()
+
+        const data = {
+            cuisines: JSON.stringify(cuisinesData)
+        }
+
+        console.log(data, "data");
+
+        await api.post(`${BASE_URL}/update-vendor-cuisine`, data, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        toast.success("Cuisines Updated Successfully...")
+        setIsLoading(false)
+        setOpen(false);
+        fetchCuisines()
     };
 
     console.log(cuisinesList, "cuisinesList");
-
-
-    const backend = [{"cuisine_id":1,"selected":1},{"cuisine_id":2,"selected":1},{"cuisine_id":3,"selected":1},{"cuisine_id":4,"selected":0},{"cuisine_id":5,"selected":1},{"cuisine_id":6,"selected":1}]
-    console.log(backend, "backend");
 
     return (
         <>
@@ -158,18 +181,18 @@ const Cuisines = () => {
                         <EditIcon className='text-primary' style={{ fontSize: '18px' }} />
                     </Stack> */}
 
-                    {
-                        loading ? (
-                            <LoaderSpinner />
-                        ) : (
-                            <Stack className='mt-4'>
-                                {
-                                    cuisinesList.length >= 0 && cuisinesList.map((item) => (
-                                        <Box sx={{ flexGrow: 1 }} style={{ marginTop: '20px' }}>
+                    {loading ? (
+                        <LoaderSpinner />
+                    ) : (
+                        <Stack className='mt-4'>
+                            {cuisinesList.length >= 0 && cuisinesList.map((item) => (
+                                <Box sx={{ flexGrow: 1 }} key={item.id}>
+                                    {item.children.some(childItem => childItem.selected === "1") ? (
+                                        <>
                                             <Button variant="contained" className="cuisines-list-btn mb-2"> {item?.name} </Button>
                                             <Grid container spacing={2}>
-                                                {item?.children?.map((childItem) => (
-                                                    <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                                                {item.children.filter(childItem => childItem.selected === "1").map((childItem) => (
+                                                    <Grid item xs={12} sm={6} md={6} lg={3} xl={3} key={childItem.id} className='mb-4'>
                                                         <div className="explore-cator-box">
                                                             <img src={childItem?.file_name?.medium} alt="" className="img-fluid caterers-occasion-img image-shadow" />
                                                             <h4 className='text-center caterers-occasion-title'>{childItem?.name}</h4>
@@ -177,12 +200,19 @@ const Cuisines = () => {
                                                     </Grid>
                                                 ))}
                                             </Grid>
-                                        </Box>
-                                    ))
-                                }
-                            </Stack>
-                        )
-                    }
+                                        </>
+                                    ) : null}
+                                </Box>
+                            ))}
+                            {!cuisinesList.some(item => item.children.some(childItem => childItem.selected === "1")) && (
+                                <h2 className='text-center'>No Cuisines Found</h2>
+                            )}
+                        </Stack>
+                    )}
+
+
+
+
                 </div>
             </Container>
 
@@ -213,7 +243,7 @@ const Cuisines = () => {
                     <DialogContent dividers>
                         <Grid container spacing={2}>
                             {cuisinesList?.map((item) => (
-                                <Grid item xs={12} sm={6} md={6} lg={3} xl={3} key={item.id}>
+                                <Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={item.id}>
                                     <Autocomplete
                                         multiple
                                         id="checkboxes-tags-demo"
@@ -225,6 +255,7 @@ const Cuisines = () => {
                                                 <Checkbox
                                                     style={{ marginRight: 8, fontSize: '10px' }}
                                                     checked={selected}
+                                                    onChange={() => { }} // This will allow toggling
                                                 />
                                                 {option}
                                             </li>
@@ -244,17 +275,18 @@ const Cuisines = () => {
                                             />
                                         )}
                                         onChange={(event, value) => handleAutocompleteChange(event, value, item)}
+                                        value={item.children.filter(child => child.selected === "1").map(child => child.name)}
                                     />
                                 </Grid>
                             ))}
                         </Grid>
-
                     </DialogContent>
                     <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
-                        <button type="submit" variant="contained" className="inquiries-btn"> Submit </button>
+                        <Button type="submit" variant="contained" className="inquiries-btn" disabled={loading}> {loading ? 'Loading...' : 'Submit'} </Button>
                     </DialogActions>
                 </form>
             </BootstrapDialog>
+
         </>
     )
 }
