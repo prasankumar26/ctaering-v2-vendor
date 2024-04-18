@@ -131,6 +131,10 @@ const Cuisines = () => {
 
     console.log(cuisinesList, "cuisinesList");
 
+
+    const backend = [{"cuisine_id":1,"selected":1},{"cuisine_id":2,"selected":1},{"cuisine_id":3,"selected":1},{"cuisine_id":4,"selected":0},{"cuisine_id":5,"selected":1},{"cuisine_id":6,"selected":1}]
+    console.log(backend, "backend");
+
     return (
         <>
             <TopHeader title="Manage Your Cuisines" description="Add your Cuisines below" />
