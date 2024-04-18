@@ -156,7 +156,7 @@ const Cuisines = () => {
         fetchCuisines()
     };
 
-    console.log(cuisinesList, "cuisinesList");
+    // console.log(cuisinesList, "cuisinesList");
 
     return (
         <>
@@ -282,7 +282,7 @@ const Cuisines = () => {
                         </Grid>
                     </DialogContent>
                     <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Button type="submit" variant="contained" className="inquiries-btn" disabled={loading}> {loading ? 'Loading...' : 'Submit'} </Button>
+                        <Button type="submit" variant="contained" className="inquiries-btn" disabled={isLoading}> {isLoading ? 'Loading...' : 'Submit'} </Button>
                     </DialogActions>
                 </form>
             </BootstrapDialog>
@@ -292,7 +292,3 @@ const Cuisines = () => {
 }
 
 export default Cuisines
-
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-
