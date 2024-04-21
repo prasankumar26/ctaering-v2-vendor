@@ -163,7 +163,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                         />
                         {errors.gstin_number && <small className='text-danger mt-2 ms-1'>{errors.gstin_number}</small>}
 
-                        <h4 className='ct-box-profile-title mt-1'>Please Enter Your FSSAI Licence Number *</h4>
+                        <h4 className='ct-box-profile-title mt-1'>Please Enter Your FSSAI Licence Number</h4>
                         <CssTextFieldTwo
                             value={values.fssai_document_filename}
                             name="fssai_document_filename"

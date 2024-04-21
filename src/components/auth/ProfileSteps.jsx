@@ -72,7 +72,7 @@ const formatLandlineNumber = (landlineNumber) => {
 
 const ProfileSteps = () => {
     const { accessToken } = useSelector((state) => state.user.accessToken)
-console.log(accessToken, "accessToken");
+    console.log(accessToken, "accessToken");
     const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
 
@@ -82,13 +82,13 @@ console.log(accessToken, "accessToken");
         point_of_contact_name: Yup.string().required('Point of contact name is required'),
         business_phone_number: Yup.string()
             .required('Business phone number is required')
-            .matches(/^[0-9]+$/, 'Business phone number must contain only digits'),
+            .matches(/^[0-9]{10}$/, 'Business phone number must contain exactly 10 digits'),
         landline_number: Yup.string()
             .required('Landline number is required')
             .matches(/^[0-9]+$/, 'Landline number must contain only digits'),
-        whatsapp_business_phone_number: Yup.string()
-            .required('Whatsapp Business phone number is required')
-            .matches(/^[0-9]+$/, 'Whatsapp Business phone number must contain only digits'),
+        // whatsapp_business_phone_number: Yup.string()
+        //     .required('Whatsapp Business phone number is required')
+        //     .matches(/^[0-9]+$/, 'Whatsapp Business phone number must contain only digits'),
     });
 
 
@@ -98,7 +98,9 @@ console.log(accessToken, "accessToken");
 
             const formattedPhoneNumber = formatPhoneNumber(business_phone_number);
             const formattedlandline_number = formatLandlineNumber(landline_number);
-            const formattedwhatsapp_business_phone_number = formatPhoneNumber(whatsapp_business_phone_number);
+            const formattedwhatsapp_business_phone_number = whatsapp_business_phone_number ? formatPhoneNumber(whatsapp_business_phone_number) : '';
+
+            // const formattedwhatsapp_business_phone_number = formatPhoneNumber(whatsapp_business_phone_number);
 
             const data = {
                 vendor_service_name,

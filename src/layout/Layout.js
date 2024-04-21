@@ -10,6 +10,10 @@ import { api, BASE_URL } from "../api/apiConfig";
 
 const Layout = () => {
   const { accessToken, refreshToken } = useSelector((state) => state.user.accessToken);
+  console.log(`${refreshToken} ${accessToken}`, 'refreshToken');
+
+ 
+  
 
 
   // useEffect(() => {
@@ -19,7 +23,7 @@ const Layout = () => {
 
   //     if (accessTokenExp && accessTokenExp < currentTimestamp) {
   //       try {
-  //         const response = await api.post(`${BASE_URL}/refresh-token`, { refreshToken, accessToken }, {
+  //         const response = await api.post(`${BASE_URL}/refresh-token`, {
   //           headers: {
   //             Authorization: `${refreshToken} ${accessToken}`
   //           }
