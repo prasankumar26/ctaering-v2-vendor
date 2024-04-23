@@ -35,26 +35,55 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 }));
 
 
+// const initialState = {
+//   vendor_service_name: '',
+//   vendor_type: vendor_type,
+//   street_name: '',
+//   contact_person_name: '',
+//   area: '',
+//   working_days_hours: '',
+//   city_id: '',
+//   total_staffs_approx: '',
+//   pin_code: '',
+//   about_description: '',
+//   working_since: '2024-01-01T00:00:00.000Z',
+//   business_email: '',
+//   business_phone_number: '',
+//   landline_number: '',
+//   whatsapp_business_phone_number: '',
+//   website_link: '',
+//   twitter_id: '',
+//   instagram_link: '',
+//   facebook_link: ''
+// }
+
 const initialState = {
-  vendor_service_name: '',
+  vendor_service_name: "",
   vendor_type: vendor_type,
-  street_name: '',
-  contact_person_name: '',
-  area: '',
-  working_days_hours: '',
-  city_id: '',
-  total_staffs_approx: '',
-  pin_code: '',
-  about_description: '',
-  working_since: '2024-01-01T00:00:00.000Z',
-  business_email: '',
-  business_phone_number: '',
-  landline_number: '',
-  whatsapp_business_phone_number: '',
-  website_link: '',
-  twitter_id: '',
-  instagram_link: '',
-  facebook_link: ''
+  contact_person_name: "",
+  working_days_hours: "",
+  working_since: "",
+  about_description: "",
+  city_id: "",
+  total_staffs_approx: "",
+  pincode: "",
+  business_email: "",
+  business_phone_number: "",
+  landline_number: "",
+  whatsapp_business_phone_number: "",
+  website_link: "",
+  twitter_id: "",
+  instagram_link: "",
+  facebook_link: "",
+  latitude: "",
+  area: "",
+  street_name: "",
+  longitude: "",
+  country: "",
+  state: "",
+  formatted_address: "",
+  city: "",
+  place_id: "",
 }
 
 
@@ -66,21 +95,21 @@ const BusinesssProfile = () => {
   const [loading, setLoading] = useState(false)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
+  console.log(data, "data");
+  console.log(values, "values");
 
   useEffect(() => {
     setValues({
       ...values,
       vendor_service_name: data?.vendor_service_name,
-      vendor_type: data?.vendor_type,
-      street_name: data?.street_name,
+      vendor_type: vendor_type,
       contact_person_name: data?.contact_person_name,
-      area: data?.area,
       working_days_hours: data?.working_days_hours,
-      city_id: data?.city || "",
+      working_since: moment(data?.working_since).format('YYYY-MM-DD'),
+      about_description: data?.about_description,
+      city_id: data?.city_id,
       total_staffs_approx: data?.total_staffs_approx,
-      pin_code: data?.pincode || "",
-      about_description: data?.formatted_address || "",
-      working_since: data?.working_since ? moment(data?.working_since).format('YYYY-MM-DD') : '2024-01-01T00:00:00.000Z',
+      pincode: data?.pincode,
       business_email: data?.business_email,
       business_phone_number: data?.business_phone_number,
       landline_number: data?.landline_number,
@@ -88,7 +117,16 @@ const BusinesssProfile = () => {
       website_link: data?.website_link,
       twitter_id: data?.twitter_id,
       instagram_link: data?.instagram_link,
-      facebook_link: data?.facebook_link
+      facebook_link: data?.facebook_link,
+      latitude: data?.latitude,
+      area: data?.area,
+      street_name: data?.street_name,
+      longitude: data?.longitude,
+      country: data?.country,
+      state: data?.state,
+      formatted_address: data?.formatted_address,
+      city: data?.city,
+      place_id: data?.place_id,
     })
   }, [data])
 
@@ -101,13 +139,16 @@ const BusinesssProfile = () => {
     event.preventDefault();
     try {
       setLoading(true);
-      await  updateBusinessProfile(values, vendor_id);
+      await updateBusinessProfile(values, vendor_id);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error('Error while updating business profile:', error);
     }
   }
+
+
+
 
   return (
     <>
@@ -272,9 +313,9 @@ const BusinesssProfile = () => {
               <div className="mt-3">
                 <p className="business-profile-name">City</p>
                 <CssTextField
-                  value={values.city_id}
+                  value={values.city}
                   onChange={handleChange}
-                  name="city_id"
+                  name="city"
                   variant="outlined"
                   label="Eg. Bangalore"
                   className='mt-0'
@@ -294,11 +335,11 @@ const BusinesssProfile = () => {
               <div className="mt-3">
                 <p className="business-profile-name">Pin Code</p>
                 <CssTextField
-                  value={values.pin_code}
+                  value={values.pincode}
                   onChange={handleChange}
-                  name="pin_code"
+                  name="pincode"
                   variant="outlined"
-                  label="Eg. 624 301"
+                  placeholder="Eg. 624 301"
                   className='mt-0'
                   style={{ width: '100%' }}
                   InputLabelProps={{

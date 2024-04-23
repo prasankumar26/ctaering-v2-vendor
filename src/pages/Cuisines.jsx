@@ -185,8 +185,8 @@ const Cuisines = () => {
                         <LoaderSpinner />
                     ) : (
                         <Stack className='mt-4'>
-                            {cuisinesList.length >= 0 && cuisinesList.map((item) => (
-                                <Box sx={{ flexGrow: 1 }} key={item.id}>
+                            {cuisinesList?.length >= 0 && cuisinesList?.map((item) => (
+                                <Box sx={{ flexGrow: 1 }} key={item?.id}>
                                     {item.children.some(childItem => childItem.selected === "1") ? (
                                         <>
                                             <Button variant="contained" className="cuisines-list-btn mb-2"> {item?.name} </Button>

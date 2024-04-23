@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
 import { api, BASE_URL } from '../api/apiConfig';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { datavalidationerror, successToast } from '../utils';
 
 
 const CssTextField = styled(TextField)(({ theme }) => ({
@@ -55,68 +57,90 @@ const CssTextFieldSmall = styled(TextField)(({ theme }) => ({
 
 const Packages = () => {
     const { accessToken } = useSelector((state) => state.user.accessToken)
-    const [foodTypes, setFoodTypes] = useState([{ "id": 1, "name": "Veg", "selected": 0 }, { "id": 2, "name": "Non Veg", "selected": 0 }])
-    const [serviceTypes, setServiceTypes] = useState([
-        { "id": 1, "name": "Delivery", "selected": 0 },
-        { "id": 2, "name": "Takeaway", "selected": 0 }
-    ])
-    const [servingTypes, setServingTypes] = useState(
-        [{ "id": 1, "name": "Table-service", "selected": 0 },
-        { "id": 2, "name": "Buffet-Service", "selected": 0 }]
-    )
+    const [foodTypes, setFoodTypes] = useState([])
+    const [serviceTypes, setServiceTypes] = useState([])
+    const [servingTypes, setServingTypes] = useState([])
     const [maximumCapacity, setMaximumCapacity] = useState("")
     const [minimumCapacity, setMinimumCapacity] = useState("")
-    const [startPrice, setStartPrice] = useState("")
+    const [startPrice, setStartPrice] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const handleFoodSwitchToggle = (index) => {
         const updatedFoodTypes = foodTypes.map((food, i) =>
-            i === index ? { ...food, selected: food.selected ? 0 : 1 } : food
+            i === index ? { ...food, selected: food.selected === "1" ? "0" : "1" } : food
         );
         setFoodTypes(updatedFoodTypes);
+
     };
 
     const handleSwitchToggle = (index) => {
         const updatedServiceTypes = serviceTypes.map((service, i) =>
-            i === index ? { ...service, selected: service.selected ? 0 : 1 } : service
+            i === index ? { ...service, selected: service.selected === "1" ? "0" : "1" } : service
         );
         setServiceTypes(updatedServiceTypes);
     };
 
     const handleServingSwitchToggle = (index) => {
-        const updateServingTypes = servingTypes.map((serving, i) =>
-            i === index ? { ...serving, selected: serving.selected ? 0 : 1 } : serving
-        )
-        setServingTypes(updateServingTypes);
+        const updatedServingTypes = servingTypes.map((serving, i) =>
+            i === index ? { ...serving, selected: serving.selected === "1" ? "0" : "1" } : serving
+        );
+        setServingTypes(updatedServingTypes);
     };
 
-    const onHandleSubmit = (e) => {
+    const onHandleSubmit = async (e) => {
         e.preventDefault();
-        console.log(foodTypes, "foodTypes");
-        console.log(serviceTypes, "serviceTypes");
+
+        setLoading(true)
+
+        const updatedFoodTypes = foodTypes.map(food => ({ id: +food.id, selected: +food.selected }));
+        const updatedServiceTypes = serviceTypes.map(service => ({ id: +service.id, selected: +service.selected }));
+        const updatedServingTypes = servingTypes.map(serving => ({ id: +serving.id, selected: +serving.selected }));
+
+        const data = {
+            foodTypes: JSON.stringify(updatedFoodTypes),
+            serviceTypes: JSON.stringify(updatedServiceTypes),
+            servingTypes: JSON.stringify(updatedServingTypes),
+            maximumCapacity: maximumCapacity,
+            minimumCapacity: minimumCapacity,
+            startPrice: startPrice
+        };
+        try {
+            const response = await api.post(`${BASE_URL}/update-vendor-business-package-details`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
+            toast.success(successToast(response))
+            fetchPackages()
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            setLoading(false)
+        }
     }
 
 
-    useEffect(() => {
-        const fetchPackages = async () => {
-            try {
-                const response = await api.get(`${BASE_URL}/get-vendor-package-details`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    }
-                });
-
-                const { foodTypes, maximum_capacity, minimum_capacity, serviceTypes, servingTypes } = response?.data?.data;
-                console.log(response?.data?.data, "response?.data?.data");
-                // setServiceTypes(serviceTypes)
-                // setServingTypes(servingTypes)
-                // setFoodTypes(foodTypes)
-                // setMaximumCapacity(maximum_capacity)
-                // setMinimumCapacity(minimum_capacity)
-            } catch (error) {
-                console.log(error);
-            }
+    const fetchPackages = async () => {
+        try {
+            const response = await api.get(`${BASE_URL}/get-vendor-package-details`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+            const { foodTypes, maximum_capacity, minimum_capacity, serviceTypes, servingTypes, start_price } = response?.data?.data;
+            setServiceTypes(serviceTypes)
+            setServingTypes(servingTypes)
+            setFoodTypes(foodTypes)
+            setMaximumCapacity(maximum_capacity)
+            setMinimumCapacity(minimum_capacity)
+            setStartPrice(start_price)
+        } catch (error) {
+            console.log(error);
         }
+    }
 
+    useEffect(() => {
         fetchPackages();
     }, [])
 
@@ -133,19 +157,19 @@ const Packages = () => {
                                 <h3 className='package-capacity mt-0'>Choose your food type Below</h3>
                                 <p className='max-min-capacity-para text-center mb-3'>If you provide both Veg and Non-Veg, please check both checkboxes.</p>
 
-                                {foodTypes.map((food, index) => (
+                                {foodTypes.slice(0, 2).map((food, index) => (
                                     <Stack key={food.id} direction="row" alignItems="center" justifyContent="center" spacing={2} className={food.selected ? 'mb-5 green-switch' : 'mb-5'}>
-                                        <h4 className={food.name === 'Veg' ? 'package-vn-title-veg' : 'package-vn-title-nonveg'}>{food.name}</h4>
+                                        <h4 className={food.food_type_name === 'Veg' ? 'package-vn-title-veg' : 'package-vn-title-nonveg'}>{food.food_type_name}</h4>
                                         <Switch
                                             size='small'
-                                            checked={food.selected === 1}
+                                            checked={food.selected === "1"}
                                             onChange={() => handleFoodSwitchToggle(index)}
                                             sx={{
                                                 "&.MuiSwitch-root .MuiSwitch-switchBase": {
-                                                    color: food.name === 'Veg' ? "#459412" : "#7c1e1e"
+                                                    color: food.food_type_name === 'Veg' ? "#459412" : "#7c1e1e"
                                                 },
                                                 "&.MuiSwitch-root .Mui-checked": {
-                                                    color: food.name === 'Non Veg' ? "#7c1e1e" : "#459412",
+                                                    color: food.food_type_name === 'Non Veg' ? "#7c1e1e" : "#459412",
                                                 }
                                             }}
                                         />
@@ -178,7 +202,7 @@ const Packages = () => {
                                     />
                                 </Stack>
 
-                                <p className='max-min-capacity-para-red text-center mt-3'>Enter Non veg Starting price / plate</p>
+                                {/* <p className='max-min-capacity-para-red text-center mt-3'>Enter Non veg Starting price / plate</p>
                                 <Stack direction="row" justifyContent="end">
                                     <CssTextFieldSmall
                                         id="outlined-number"
@@ -196,7 +220,7 @@ const Packages = () => {
                                             }
                                         }}
                                     />
-                                </Stack>
+                                </Stack> */}
 
                             </Grid>
                         </Grid>
@@ -217,11 +241,11 @@ const Packages = () => {
                                 <p className='max-min-capacity-para text-center'>If you provide both table and buffet service, please check both</p>
                                 {serviceTypes.map((service, index) => (
                                     <Stack key={service.id} direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3'>
-                                        <img src={`/img/icons/${service.name.toLowerCase()}.png`} alt="" className='package-icons' />
-                                        <p className='px-3 package-icon-title'>{service.name}</p>
+                                        <img src={`/img/icons/${service.service_type_name.toLowerCase()}.png`} alt="" className='package-icons' />
+                                        <p className='px-3 package-icon-title'>{service.service_type_name}</p>
                                         <Switch
                                             size="small"
-                                            checked={service.selected === 1}
+                                            checked={service.selected === "1"}
                                             onChange={() => handleSwitchToggle(index)}
                                         />
                                     </Stack>
@@ -234,9 +258,9 @@ const Packages = () => {
                                 {
                                     servingTypes.map((servingType, index) => (
                                         <Stack direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3' key={index}>
-                                            <img src={`/img/icons/${servingType.name}.png`} alt="" className='package-icons' />
-                                            <p className='px-3 package-icon-title'>{servingType.name}</p>
-                                            <Switch size="small" checked={servingType.selected === 1} onChange={() => handleServingSwitchToggle(index)} />
+                                            <img src={`/img/icons/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`} alt="" className='package-icons' />
+                                            <p className='px-3 package-icon-title'>{servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}</p>
+                                            <Switch size="small" checked={servingType.selected === "1"} onChange={() => handleServingSwitchToggle(index)} />
                                         </Stack>
                                     ))
                                 }
@@ -303,7 +327,7 @@ const Packages = () => {
                         </Grid>
 
                         <Stack direction="row" justifyContent="center" className="mt-4">
-                            <Button variant="contained" className="inquiries-red-btn" type="submit"> Update </Button>
+                            <Button variant="contained" className="inquiries-red-btn" type="submit"> {loading ? 'Loading...' : 'Update'}  </Button>
                         </Stack>
                     </div>
                 </form>

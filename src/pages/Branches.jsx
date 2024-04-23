@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TopHeader from '../components/global/TopHeader'
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -14,8 +14,17 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 // import InputAdornment from '@mui/material/InputAdornment';
 // import SearchIcon from '@mui/icons-material/Search';
+import Grid from '@mui/material/Grid';
+import SearchIcon from '@mui/icons-material/Search';
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 
 import BranchesCard from '../components/global/BranchesCard';
+import { api, BASE_URL } from '../api/apiConfig';
+import { useSelector } from 'react-redux';
+import { InputAdornment } from '@mui/material';
+import LoaderSpinner from '../components/LoaderSpinner';
+import toast from 'react-hot-toast';
+import { datavalidationerror, successToast } from '../utils';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -47,9 +56,118 @@ const CssTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const Branches = () => {
+// "catering_service_name": "Test 1",
+// "contact_person_name": "Test 1",
+// "phone_number": "+91-8888899999",
+// "area": "",
+// "city_id": null,
+// "map_location_link": "Test",
+// "created_date": "2024-04-23T01:19:33.000Z",
+// "created_by": "225",
+// "status": "active",
+// "latitude": 1.22556,
+// "longitude": 1.55556,
+// "street_name": "Marg",
+// "pincode": "560085",
+// "city": "Bengaluru",
+// "state": "karnataka",
+// "country": "India",
+// "formatted_address": "Test",
+// "place_id": "454555454",
+// "branch_type": "BRANCH"
 
+const initialState = {
+  street_name: '',
+  area: '',
+  pincode: '',
+  latitude: '',
+  longitude: '',
+  address: '',
+  city: '',
+  state: '',
+  country: '',
+  formatted_address: '',
+  place_id: '',
+}
+
+const initialStateBranchState = {
+  catering_service_name: '',
+  contact_person_name: '',
+  phone_number: '',
+  map_location_link: ''
+}
+
+const Branches = () => {
+  const { accessToken } = useSelector((state) => state.user.accessToken);
+  const [branchesList, setBranchesList] = useState([])
+  const [locationPlaceId, setLocationPlaceId] = useState(null)
+  const [locationValues, setLocationValues] = useState(initialState)
   const [open, setOpen] = React.useState(false);
+  const [values, setValues] = useState(initialStateBranchState)
+  const [manualLocation, setManualLocation] = useState("")
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [loading, setLoading] = useState(false)
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+
+  const {
+    placesService,
+    placePredictions,
+    getPlacePredictions,
+    isPlacePredictionsLoading,
+  } = usePlacesService({
+    apiKey: process.env.REACT_APP_GOOGLE,
+  });
+
+  console.log(locationPlaceId, "locationPlaceId");
+  useEffect(() => {
+    if (locationPlaceId && placePredictions.length)
+      placesService?.getDetails(
+        {
+          placeId: locationPlaceId,
+        },
+        (placeDetails) => savePlaceDetailsToState(placeDetails)
+      );
+  }, [placePredictions, locationPlaceId]);
+
+
+  const savePlaceDetailsToState = (places) => {
+    const { formatted_address, name } = places;
+    const { address_components } = places;
+
+    const country = address_components?.find(c => c?.types?.includes('country')) || {};
+    const state = address_components?.find(c => c?.types?.includes('administrative_area_level_1')) || {};
+    const city = address_components?.find(c => c?.types?.includes('administrative_area_level_3')) || {};
+    const pincode = address_components?.find(c => c?.types?.includes('postal_code')) || {};
+    const area = address_components?.find(c => c?.types?.includes('locality')) || {};
+    const street_name = address_components?.find(c => c?.types?.includes('locality')) || {};
+
+    const { geometry: { location } } = places;
+    const { lat, lng } = location;
+
+    setLocationValues({
+      ...locationValues,
+      street_name: street_name,
+      area: area,
+      pincode: pincode?.long_name,
+      latitude: lat(),
+      longitude: lng(),
+      address: name,
+      city: city,
+      state: state,
+      country: country,
+      formatted_address: formatted_address,
+      place_id: places?.place_id
+    })
+  }
+
+  const selectLocation = (item) => {
+    setSelectedLocation(item);
+    setManualLocation(item.description);
+    setLocationPlaceId(item?.place_id)
+  }
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,6 +175,86 @@ const Branches = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handlechange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value })
+  }
+
+  const fetchBranches = async () => {
+    setLoading(true)
+    try {
+      const response = await api.get(`${BASE_URL}/get-vendor-branches`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      })
+      setBranchesList(response?.data?.data)
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchBranches()
+  }, [])
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    handleClickOpen()
+    setLoading(true)
+
+    const { catering_service_name, contact_person_name, phone_number, map_location_link } = values;
+
+    const data = {
+      catering_service_name: catering_service_name,
+      contact_person_name: contact_person_name,
+      phone_number: phone_number ? `+91-${phone_number}` : '',
+      map_location_link: map_location_link,
+      country: locationValues?.country?.long_name || "",
+      state: locationValues?.state?.long_name || "",
+      latitude: locationValues?.latitude || "",
+      longitude: locationValues?.longitude || "",
+      street_name: locationValues?.street_name?.long_name || "",
+      formatted_address: locationValues?.formatted_address || "",
+      city: locationValues?.city?.long_name || "",
+      pincode: locationValues?.pincode || "",
+      place_id: locationValues?.place_id || '',
+      branch_type: 'BRANCH'
+    }
+
+    try {
+      const response = await api.post(`${BASE_URL}/insert-vendor-branch`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      })
+      setLocationValues(initialState)
+      setValues(initialStateBranchState)
+      setManualLocation("")
+      setSelectedLocation(null)
+      setLocationPlaceId(null)
+      toast.success(successToast(response))
+      fetchBranches()
+      handleClose()
+      setFormSubmitted(true);
+    } catch (error) {
+      console.log(error);
+      toast.error(datavalidationerror(error))
+    } finally {
+      setLoading(false)
+    }
+
+
+    // console.log(data, "data");
+    // console.log(values, "values");
+
+  }
+
+  console.log(placePredictions, "placePredictions");
 
   return (
     <>
@@ -77,7 +275,20 @@ const Branches = () => {
             }}
           />
 
-          <BranchesCard />
+
+          {
+            loading ? (
+              <LoaderSpinner />
+            ) : (
+              <Grid container spacing={2} className='mt-4'>
+                {
+                  branchesList.length > 0 && branchesList.map((item) => {
+                    return <BranchesCard branches={item} key={item?.id} />
+                  })
+                }
+              </Grid>
+            )
+          }
 
         </div>
       </Container>
@@ -88,171 +299,161 @@ const Branches = () => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        // maxWidth="sm"
-        // fullWidth
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          <h2 className='branches-modal-title'>Enter Your New Branches details</h2>
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent dividers>
-
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="Catering Service Name"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
+        <form onSubmit={handleSubmit}>
+          <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+            <h2 className='branches-modal-title'>Enter Your New Branches details</h2>
+          </DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
             }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
-
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="Contact Person Name - Same as Main Branch"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
-            }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
-
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="Phone Number"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
-            }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
-
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="Street Name"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
-            }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
-
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="Area"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
-            }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
-
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="City"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
-            }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent dividers>
 
 
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="Pincode"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
-            }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
+            <CssTextField
+              value={values?.catering_service_name}
+              onChange={handlechange}
+              name='catering_service_name'
+              id="outlined-number"
+              variant="outlined"
+              label="Catering Service Name"
+              className='mb-3'
+              style={{ width: '100%' }}
+              InputLabelProps={{
+                style: { color: '#777777', fontSize: '10px' },
+              }}
+              InputProps={{
+                style: {
+                  borderRadius: '8px',
+                  backgroundColor: '#FFFFFF',
+                }
+              }}
+            />
+
+            <CssTextField
+              value={values?.contact_person_name}
+              onChange={handlechange}
+              name='contact_person_name'
+              id="outlined-number"
+              variant="outlined"
+              label="Contact Person Name - Same as Main Branch"
+              className='mb-3'
+              style={{ width: '100%' }}
+              InputLabelProps={{
+                style: { color: '#777777', fontSize: '10px' },
+              }}
+              InputProps={{
+                style: {
+                  borderRadius: '8px',
+                  backgroundColor: '#FFFFFF',
+                }
+              }}
+            />
+
+            <CssTextField
+              value={values?.phone_number}
+              onChange={handlechange}
+              name='phone_number'
+              id="outlined-number"
+              variant="outlined"
+              label="Phone Number"
+              className='mb-3'
+              style={{ width: '100%' }}
+              InputLabelProps={{
+                style: { color: '#777777', fontSize: '10px' },
+              }}
+              InputProps={{
+                style: {
+                  borderRadius: '8px',
+                  backgroundColor: '#FFFFFF',
+                }
+              }}
+            />
+
+            <CssTextField
+              value={values?.map_location_link}
+              onChange={handlechange}
+              name='map_location_link'
+              id="outlined-number"
+              variant="outlined"
+              label="Map Location Link"
+              className='mb-3'
+              style={{ width: '100%' }}
+              InputLabelProps={{
+                style: { color: '#777777', fontSize: '10px' },
+              }}
+              InputProps={{
+                style: {
+                  borderRadius: '8px',
+                  backgroundColor: '#FFFFFF',
+                }
+              }}
+            />
+
+            <CssTextField
+              required
+              onChange={(evt) => {
+                setSelectedLocation(null);
+                setManualLocation(evt.target.value);
+                getPlacePredictions({ input: evt.target.value });
+              }}
+              value={manualLocation}
+              loading={isPlacePredictionsLoading}
+              id="outlined-number"
+              variant="outlined"
+              label="Try A2B, Mg road, Bangalore, etc."
+              className='mt-3 mb-2'
+              style={{ width: '100%' }}
+              InputLabelProps={{
+                style: { color: '#777777', fontSize: '12px' },
+              }}
+              InputProps={{
+                style: {
+                  borderRadius: '8px',
+                  backgroundColor: '#FFFFFF',
+                },
+                endAdornment: (
+                  <InputAdornment position="end" style={{ color: '#00000' }}>
+                    <SearchIcon style={{ fontSize: '16px' }} />
+                  </InputAdornment>
+                )
+              }}
+            />
 
 
-          <CssTextField
-            id="outlined-number"
-            variant="outlined"
-            label="Map Location Link"
-            className='mb-3'
-            style={{ width: '100%' }}
-            InputLabelProps={{
-              style: { color: '#777777', fontSize: '10px' },
-            }}
-            InputProps={{
-              style: {
-                borderRadius: '8px',
-                backgroundColor: '#FFFFFF',
-              }
-            }}
-          />
+            {placePredictions.length > 0 && <p className='ct-box-search-loc mb-1'>Search Results</p>}
+
+            {!formSubmitted && (
+              <>
+                {isPlacePredictionsLoading ? (
+                  <LoaderSpinner />
+                ) : (
+                  selectedLocation ? (
+                    <h2 className='ct-box-search-results' onClick={() => setSelectedLocation(null)}>{selectedLocation.description}</h2>
+                  ) : (
+                    placePredictions?.map((item, index) => (
+                      <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
+                    ))
+                  )
+                )}
+              </>
+            )}
 
 
-
-
-        </DialogContent>
-        <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="contained" className="inquiries-btn" onClick={handleClickOpen}> Submit </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button variant="contained" className="inquiries-btn" type='submit'> {loading ? 'Loading...' : 'Submit'} </Button>
+          </DialogActions>
+        </form>
       </BootstrapDialog>
 
     </>

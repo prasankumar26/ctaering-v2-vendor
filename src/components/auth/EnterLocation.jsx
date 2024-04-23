@@ -131,7 +131,9 @@ const EnterLocation = () => {
 
                                 <Stack direction="column">
                                     <>
-                                        <Button variant="contained" className='ct-box-allow-location' onClick={() => getCurrentLocation()}>Allow Location Access</Button>
+                                        <Button variant="contained" className='ct-box-allow-location' onClick={() => getCurrentLocation()}>
+                                           {loading ? 'Loading...' : 'Allow Location Access' } 
+                                        </Button>
                                         <Link to="/enter-location-manually" className="text-decoration-none text-center">
                                             <Button variant="contained" className='ct-box-loc'>Enter Location Manually</Button>
                                         </Link>

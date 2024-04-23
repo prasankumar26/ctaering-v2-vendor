@@ -3,6 +3,7 @@ import { api, BASE_URL } from '../api/apiConfig'
 // import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { datavalidationerror, successToast } from '../utils';
 
 const useBusinessProfile = (url, accessToken) => {
     const [data, setData] = useState(null)
@@ -32,10 +33,10 @@ const useBusinessProfile = (url, accessToken) => {
                     Authorization: `Bearer ${accessToken}`,
                 }
             })
-            toast.success(response?.data?.message);
+            toast.success(successToast(response));
         } catch (error) {
             console.log(error);
-            toast.error(error?.response?.data?.message)
+            toast.error(datavalidationerror(error))
         }
     }
 
