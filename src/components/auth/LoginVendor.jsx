@@ -111,6 +111,10 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => { } }) => {
 
 
 const LoginVendor = () => {
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(30);
+
+
     const [value, setValue] = useState('1');
     const [showPassword, setShowPassword] = useState(false);
     const { loading, loginVendor, verifyOtp, resendOtp } = useLogin();
@@ -153,14 +157,38 @@ const LoginVendor = () => {
         resetForm()
     }
 
-     // resendOtp 
-     const handleResendOtp = async () => {
+    // resendOtp 
+    const handleResendOtp = async () => {
         try {
+            setMinutes(0);
+            setSeconds(30);
             await resendOtp(loginUserData);
         } catch (error) {
             console.error('Error while resending OTP:', error);
         }
     }
+    
+    // Timer 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (seconds > 0) {
+                setSeconds(seconds - 1);
+            }
+
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(interval);
+                } else {
+                    setSeconds(59);
+                    setMinutes(minutes - 1);
+                }
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [seconds]);
 
 
     // onOtpSubmit 
@@ -171,11 +199,11 @@ const LoginVendor = () => {
 
 
     // login creds 
-    const fetchLoginCreds = async () =>{
+    const fetchLoginCreds = async () => {
         const data = {
             phone_number: user?.phone_number
         }
-         try {
+        try {
             const response = await axios.get(`${BASE_URL}/get-vendor-creds`, {
                 params: data,
                 headers: {
@@ -183,13 +211,13 @@ const LoginVendor = () => {
                 }
             });
             console.log(response, "response");
-         } catch (error) {
+        } catch (error) {
             console.log(error);
-         }
+        }
     }
 
-    useEffect(() =>{
-      fetchLoginCreds();
+    useEffect(() => {
+        fetchLoginCreds();
     }, [])
 
 
@@ -282,7 +310,32 @@ const LoginVendor = () => {
                         <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
                             {loading ? 'Loading...' : 'Submit'}
                         </Button>
-                        <p className='ct-box-both' onClick={handleResendOtp}>resend otp in : 30</p>
+                        {/* <p className='ct-box-both' onClick={handleResendOtp}>resend otp in : 30</p> */}
+
+                        <div className="countdown-text">
+                            {seconds > 0 || minutes > 0 ? (
+                                <p className='ct-box-both'>
+                                    Time Remaining: {minutes < 10 ? `0${minutes}` : minutes}:
+                                    {seconds < 10 ? `0${seconds}` : seconds}
+                                </p>
+                            ) : (
+                                <p className='ct-box-both'>Didn't recieve code?</p>
+                            )}
+
+                            <button
+                                disabled={seconds > 0 || minutes > 0}
+                                style={{
+                                    color: seconds > 0 || minutes > 0 ? "#DFE3E8" : "#FF5630",
+                                    margin: '0px auto', textAlign: 'center', border: 'none', width: '100%',
+                                    background: '#fff', cursor: 'pointer'
+                                }}
+                                onClick={handleResendOtp}
+                            >
+                                Resend OTP
+                            </button>
+                        </div>
+
+
                     </form>
                 )}
 

@@ -117,6 +117,9 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => { } }) => {
 
 
 const RegisterLogin = () => {
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(30);
+
     const [value, setValue] = useState('1');
     const [showOtp, setShowOtp] = useState(true)
     const [otp, setOtp] = useState(['', '', '', '', '', ''])
@@ -150,20 +153,47 @@ const RegisterLogin = () => {
         resetForm(initialState);
     }
 
-    // resendOtp 
-    const handleResendOtp = async () => {
-        try {
-            await resendOtp(user);
-        } catch (error) {
-            console.error('Error while resending OTP:', error);
-        }
-    }
+  
 
     // onOtpSubmit 
     const onOtpSubmit = (otp) => {
         verifyOtp(otp, user, setOtp, setValue);
         console.log('Login Successfully', otp);
     }
+
+
+      // resendOtp 
+      const handleResendOtp = async () => {
+        try {
+            setMinutes(0);
+            setSeconds(30);
+            await resendOtp(user);
+        } catch (error) {
+            console.error('Error while resending OTP:', error);
+        }
+    }
+
+    // Timer 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (seconds > 0) {
+                setSeconds(seconds - 1);
+            }
+
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(interval);
+                } else {
+                    setSeconds(59);
+                    setMinutes(minutes - 1);
+                }
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [seconds]);
 
 
     return (
@@ -250,7 +280,31 @@ const RegisterLogin = () => {
                                                     <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
                                                         {loading ? 'Loading...' : 'Submit'}
                                                     </Button>
-                                                    <p className='ct-box-both' onClick={handleResendOtp}>resend otp in : 30</p>
+                                                    {/* <p className='ct-box-both' onClick={handleResendOtp}>resend otp in : 30</p> */}
+
+                                                    <div className="countdown-text">
+                                                        {seconds > 0 || minutes > 0 ? (
+                                                            <p className='ct-box-both'>
+                                                                Time Remaining: {minutes < 10 ? `0${minutes}` : minutes}:
+                                                                {seconds < 10 ? `0${seconds}` : seconds}
+                                                            </p>
+                                                        ) : (
+                                                            <p className='ct-box-both'>Didn't recieve code?</p>
+                                                        )}
+
+                                                        <button
+                                                            disabled={seconds > 0 || minutes > 0}
+                                                            style={{
+                                                                color: seconds > 0 || minutes > 0 ? "#DFE3E8" : "#FF5630",
+                                                                margin: '0px auto', textAlign: 'center', border: 'none', width: '100%',
+                                                                background: '#fff', cursor: 'pointer'
+                                                            }}
+                                                            onClick={handleResendOtp}
+                                                        >
+                                                            Resend OTP
+                                                        </button>
+                                                    </div>
+
                                                 </form>}
 
                                             <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />
