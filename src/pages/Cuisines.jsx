@@ -93,7 +93,7 @@ const Cuisines = () => {
     const { cuisinesList, loading, setCuisinesList, fetchCuisines } = useFetchCuisines()
     // const [selectedOptions, setSelectedOptions] = useState({});
     const [open, setOpen] = React.useState(false);
-    const { accessToken } = useSelector((state) => state?.user?.accessToken);
+    const { accessToken } = useSelector((state) => state?.user);
     const [isLoading, setIsLoading] = useState(false)
 
     const handleClickOpen = () => {

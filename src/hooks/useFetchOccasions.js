@@ -5,7 +5,7 @@ import { api, BASE_URL } from '../api/apiConfig';
 const useFetchOccasions = () => {
     const [loading, setLoading] = useState(false)
     const [occasionsList, setOccasionsList] = useState([])
-    const { accessToken } = useSelector((state) => state?.user?.accessToken);
+    const { accessToken } = useSelector((state) => state?.user);
 
     const fetchOccations = async () => {
         setLoading(true)

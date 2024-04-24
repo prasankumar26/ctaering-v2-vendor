@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setData, setVendorId, setAccessToken, setLoginUserData } from '../features/user/userSlice';
+import { setData, setVendorId, setAccessToken,setRefreshToken, setLoginUserData } from '../features/user/userSlice';
 import toast from 'react-hot-toast';
 import { api } from '../api/apiConfig';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +36,8 @@ const useLogin = () => {
         setLoading(true);
         try {
             const response = await api.post('/vendor-login-verify-otp', data);
-            dispatch(setAccessToken(response?.data?.data));
+            dispatch(setAccessToken(response?.data?.data?.accessToken));
+            dispatch(setRefreshToken(response?.data?.data?.refreshToken));
             navigate('/')
             toast.success(response?.data?.message);
             setLoading(false);

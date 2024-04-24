@@ -40,7 +40,7 @@ const initialKycState = {
 
 
 const KycUpdate = ({ activeStep, setActiveStep }) => {
-    const { accessToken } = useSelector((state) => state.user.accessToken)
+    const { accessToken } = useSelector((state) => state.user)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
 

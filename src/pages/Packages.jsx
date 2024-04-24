@@ -56,7 +56,7 @@ const CssTextFieldSmall = styled(TextField)(({ theme }) => ({
 }));
 
 const Packages = () => {
-    const { accessToken } = useSelector((state) => state.user.accessToken)
+    const { accessToken } = useSelector((state) => state.user)
     const [foodTypes, setFoodTypes] = useState([])
     const [serviceTypes, setServiceTypes] = useState([])
     const [servingTypes, setServingTypes] = useState([])

@@ -70,7 +70,7 @@ const EnterLocationManually = () => {
     const [manualLocation, setManualLocation] = useState("")
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [loading, setLoading] = useState(false)
-    const { accessToken } = useSelector((state) => state.user.accessToken)
+    const { accessToken } = useSelector((state) => state.user)
     const inputElement = useRef();
 
     useEffect(() => {

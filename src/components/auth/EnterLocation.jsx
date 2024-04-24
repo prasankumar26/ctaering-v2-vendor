@@ -34,7 +34,7 @@ const initialState = {
 const EnterLocation = () => {
 
     const [loading, setLoading] = useState(false)
-    const { accessToken } = useSelector((state) => state.user.accessToken)
+    const { accessToken } = useSelector((state) => state.user)
 
     const navigate = useNavigate();
 

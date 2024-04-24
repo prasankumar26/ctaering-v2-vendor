@@ -40,7 +40,7 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Occasions = () => {
     const [open, setOpen] = React.useState(false);
     const { occasionsList, loading, setOccasionsList, fetchOccations } = useFetchOccasions();
-    const { accessToken } = useSelector((state) => state?.user?.accessToken);
+    const { accessToken } = useSelector((state) => state?.user);
     const [isLoading, setIsLoading] = useState(false)
 
     const handleClickOpen = () => {

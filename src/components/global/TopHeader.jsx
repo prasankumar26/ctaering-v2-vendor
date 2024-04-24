@@ -1,9 +1,16 @@
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const TopHeader = ({ title, description, date }) => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/create-account");
+    }
+
     return (
         <>
             <Container maxWidth="lg">
@@ -13,9 +20,7 @@ const TopHeader = ({ title, description, date }) => {
                         <p className='top-header-desc'>{description ? description : ''}</p>
                         <p className='top-header-desc'>{date ? date : ''}</p>
                     </div>
-                    <Link to="/landing">
-                        <LogoutIcon style={{ color: '#c33332', fontSize: '18px', cursor: 'pointer' }} />
-                    </Link>
+                        <LogoutIcon onClick={handleLogout} style={{ color: '#c33332', fontSize: '18px', cursor: 'pointer' }} />
                 </Stack>
             </Container>
         </>

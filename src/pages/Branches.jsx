@@ -98,7 +98,7 @@ const initialStateBranchState = {
 }
 
 const Branches = () => {
-  const { accessToken } = useSelector((state) => state.user.accessToken);
+  const { accessToken } = useSelector((state) => state.user);
   const [branchesList, setBranchesList] = useState([])
   const [locationPlaceId, setLocationPlaceId] = useState(null)
   const [locationValues, setLocationValues] = useState(initialState)

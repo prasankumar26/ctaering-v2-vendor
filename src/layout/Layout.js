@@ -1,53 +1,65 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import LeftNav from "../components/nav/LeftNav";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { api, BASE_URL } from "../api/apiConfig";
+import { setAccessToken } from "../features/user/userSlice";
+import toast from "react-hot-toast";
+import { datavalidationerror, successToast } from "../utils";
 
 
 const Layout = () => {
-  const { accessToken, refreshToken } = useSelector((state) => state.user.accessToken);
-  console.log(`${refreshToken} ${accessToken}`, 'refreshToken');
+  const { accessToken, refreshToken } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
- 
-  
-
-
-  // useEffect(() => {
-  //   const checkTokenExpiration = async () => {
-  //     const accessTokenExp = getExpirationTime(accessToken);
-  //     const currentTimestamp = Math.floor(Date.now() / 1000);
-
-  //     if (accessTokenExp && accessTokenExp < currentTimestamp) {
-  //       try {
-  //         const response = await api.post(`${BASE_URL}/refresh-token`, {
-  //           headers: {
-  //             Authorization: `${refreshToken} ${accessToken}`
-  //           }
-  //         })
-  //         console.log(response, "response");
-  //         const { accessToken: newAccessToken } = response.data;
-  //         console.log(newAccessToken, "newAccessToken");
-
-  //       } catch (error) {
-  //         console.error("Error refreshing token:", error);
-  //       }
-  //     }
-  //   }
-
-  //   checkTokenExpiration()
-  // }, [accessToken, refreshToken])
-
-  // const getExpirationTime = (token) => {
-  //   if (!token) return null;
-  //   const decodedToken = jwtDecode(token);
-  //   return decodedToken.exp;
-  // }
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/create-account')
+    }
+  }, [accessToken])
 
 
+  const checkTokenExpiration = async () => {
+    const accessTokenExp = getExpirationTime(accessToken);
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+
+    if (accessTokenExp && accessTokenExp < currentTimestamp) {
+      try {
+        const response = await api.post(`${BASE_URL}/token-refresh`, {}, {
+          headers: {
+            Authorization: `Bearer ${refreshToken} ${accessToken}`,
+          }
+        });
+
+        dispatch(setAccessToken(response?.data?.accessToken));
+        if (response.status === 200) {
+          console.log("one", "one");
+          // If the token was successfully refreshed
+          dispatch(setAccessToken(response.data.accessToken));
+        } else {
+          // If the refresh token has expired, navigate to create account page
+          console.log("second", "second");
+          navigate('/create-account');
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(datavalidationerror(error))
+      }
+    }
+  }
+
+  useEffect(() => {
+    checkTokenExpiration()
+  }, [accessToken, refreshToken])
+
+  const getExpirationTime = (token) => {
+    if (!token) return null;
+    const decodedToken = jwtDecode(token);
+    return decodedToken.exp;
+  }
 
   return (
     <>

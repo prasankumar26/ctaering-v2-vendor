@@ -36,8 +36,8 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const initialState = {
-    company_id: '595119',
-    password: 'rgsVhWcI'
+    company_id: '818782',
+    password: 'So4lpxmj'
 }
 
 
@@ -122,10 +122,7 @@ const LoginVendor = () => {
     const [otp, setOtp] = useState(['', '', '', '', '', ''])
     const user = useSelector((state) => state.user.userData)
     const loginUserData = useSelector((state) => state.user.loginUserData)
-    const { accessToken } = useSelector((state) => state.user.accessToken)
-
-    console.log(user, "user");
-    console.log(loginUserData, "loginUserData");
+    const { accessToken } = useSelector((state) => state.user)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -167,7 +164,7 @@ const LoginVendor = () => {
             console.error('Error while resending OTP:', error);
         }
     }
-    
+
     // Timer 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -199,26 +196,26 @@ const LoginVendor = () => {
 
 
     // login creds 
-    const fetchLoginCreds = async () => {
-        const data = {
-            phone_number: user?.phone_number
-        }
-        try {
-            const response = await axios.get(`${BASE_URL}/get-vendor-creds`, {
-                params: data,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            console.log(response, "response");
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // const fetchLoginCreds = async () => {
+    //     const data = {
+    //         phone_number: parseInt(user?.phone_number)
+    //     };
+    //     try {
+    //         const response = await api.get(`${BASE_URL}/get-vendor-creds`, {
+    //             phone_number: parseInt(user?.phone_number),
+    //             headers: {
+    //                 Authorization: `Bearer ${accessToken}`
+    //             }
+    //         });
+    //         console.log(response.data, "response 123");
+    //     } catch (error) {
+    //         console.error('Error fetching login credentials:', error);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchLoginCreds();
-    }, [])
+    // useEffect(() => {
+    //     fetchLoginCreds();
+    // }, []);
 
 
     return (

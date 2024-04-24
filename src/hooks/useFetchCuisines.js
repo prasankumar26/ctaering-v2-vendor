@@ -5,7 +5,7 @@ import { api, BASE_URL } from '../api/apiConfig';
 const useFetchCuisines = () => {
     const [loading, setLoading] = useState(false)
     const [cuisinesList, setCuisinesList] = useState([])
-    const { accessToken } = useSelector((state) => state?.user?.accessToken);
+    const { accessToken } = useSelector((state) => state?.user);
 
     const fetchCuisines = async () => {
         setLoading(true)
