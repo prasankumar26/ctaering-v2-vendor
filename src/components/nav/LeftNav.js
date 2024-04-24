@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Drawer from '@mui/material/Drawer';
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded';
@@ -19,6 +19,10 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import PersonIcon from '@mui/icons-material/Person';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { api, BASE_URL } from "../../api/apiConfig";
+import { useSelector } from "react-redux";
+import Avatar from '@mui/material/Avatar';
+
 
 const leftnav = [
   { "title": "Manage Your Account" },
@@ -45,30 +49,53 @@ const leftnav = [
 const LeftNav = () => {
   // const classes = useStyles();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { accessToken } = useSelector((state) => state.user);
+  const [vendorBusinessProfile, businessProfile] = useState(null)
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
   };
+
+
+  const fetchVendorData = async () => {
+    try {
+      const response = await api.get(`${BASE_URL}/get-vendor-business-profile`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      })
+      console.log(response, "response");
+      businessProfile(response?.data?.data[0])
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchVendorData()
+  }, [])
+
+
   return (
     <div className="nav-bg">
       <div className="red-nav-bg">
-        <Stack direction='row' alignItems="center"  spacing={0} sx={{ marginBottom: '20px' }}>
+        <Stack direction='row' alignItems="center" spacing={0} sx={{ marginBottom: '20px' }}>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer} className="mobile-menu">
             <MenuIcon />
           </IconButton>
-          <RestaurantMenuIcon style={{color: '#fff'}} />  <h2 className="ln-title ms-2">Catering Service</h2>
+          <RestaurantMenuIcon style={{ color: '#fff' }} />  <h2 className="ln-title ms-2">Catering Service</h2>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" className="mobile-none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" alt="" className="nav-avatar" />
+            <Avatar sx={{ bgcolor: '#C33332' }}>{vendorBusinessProfile?.contact_person_name.slice(0, 1)}</Avatar>
             <div>
-              <h2 className="m-0 text-white nav-username">Venky D</h2>
-              <p className="m-0 text-white nav-gmail">admin@gmail.com</p>
+              <h2 className="m-0 text-white nav-username">{vendorBusinessProfile?.contact_person_name}</h2>
+              <p className="m-0 text-white nav-gmail">{vendorBusinessProfile?.business_email}</p>
             </div>
           </Stack>
           <Stack>
-           <Link to="/dashboard/notification"> <NotificationsNoneIcon style={{color: '#fff'}} /> </Link>
+            <Link to="/dashboard/notification"> <NotificationsNoneIcon style={{ color: '#fff' }} /> </Link>
           </Stack>
         </Stack>
       </div>

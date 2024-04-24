@@ -65,6 +65,7 @@ const Packages = () => {
     const [startPrice, setStartPrice] = useState(null)
     const [loading, setLoading] = useState(false)
 
+
     const handleFoodSwitchToggle = (index) => {
         const updatedFoodTypes = foodTypes.map((food, i) =>
             i === index ? { ...food, selected: food.selected === "1" ? "0" : "1" } : food

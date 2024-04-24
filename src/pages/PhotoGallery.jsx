@@ -6,14 +6,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api, BASE_URL } from "../api/apiConfig";
+import { useSelector } from "react-redux";
+import { datavalidationerror, successToast } from "../utils";
+import toast from "react-hot-toast";
 
 let nextId = 5;
 let servicePhotosId = 7;
 let otherPhotosId = 7;
 
 const PhotoGallery = () => {
-
+  const { accessToken } = useSelector((state) => state.user);
   const [photos, setPhotos] = useState([
     {
       id: 1,
@@ -60,7 +64,6 @@ const PhotoGallery = () => {
     },
   ])
 
-
   const [otherPhotos, setOtherPhotos] = useState([
     {
       id: 1,
@@ -88,6 +91,75 @@ const PhotoGallery = () => {
     },
   ])
 
+  const [brandLogo, setBrandlogo] = useState(null);
+  const [brandLogoData, setBrandlogoData] = useState(null);
+  const [gallery, setGallery] = useState([])
+
+
+  // get vendor images 
+  const getVendorImages = async () => {
+    try {
+      const response = await api.get(`${BASE_URL}/get-vendor-gallery-images`, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      setBrandlogoData(response?.data?.data['vendor-banner'][0])
+      setGallery(response?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getVendorImages()
+  }, [])
+
+
+  const handleBrandLogo = async (event) => {
+    const formData = new FormData();
+    formData.append('id', '');
+    // formData.append('image', event.target.files[0]);
+    formData.append('action_type', 'insert')
+
+    try {
+      const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setBrandlogo(response.data.data.image);
+      toast.success(successToast(response))
+    } catch (error) {
+      console.log(error);
+      toast.error(datavalidationerror(error))
+    }
+  }
+
+  const handleRemoveBrandLogo = async () => {
+    const formData = new FormData();
+    formData.append('id', brandLogoData.id);
+    formData.append('image', brandLogoData?.image_name[0]?.medium);
+    formData.append('action_type', 'remove')
+    try {
+      const response = await api.post(`${BASE_URL}/delete-vendor-brand-logo`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setBrandlogo(null);
+      toast.success(successToast(response));
+    } catch (error) {
+      console.log(error);
+      toast.error(datavalidationerror(error));
+    }
+  }
+
+  // console.log(brandLogoData?.image_name[0]?.medium, "111111");
+  // console.log(brandLogoData, "gallery?.vendor-banner[0]?.image_name[0]?.original");
+
   return (
     <>
       <TopHeader title="Manage All Photos" description="Edit and Upload your Business photos below" />
@@ -109,13 +181,25 @@ const PhotoGallery = () => {
             />
 
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-              <img src="https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg" alt=""
-                className="img-fluid pg-gallery-img-big" />
-
-              <Button variant="contained" className="cuisines-list-white-btn"> Upload / Re Upload </Button>
-              <Button variant="contained" className="cuisines-list-white-btn"> Remove </Button>
-
-
+              {brandLogoData?.image_name.map((banner, index) => {
+                return (
+                  <img key={index} src={banner?.medium} alt={`Banner ${index}`} />
+                )
+              })}
+              <input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                style={{ display: 'none' }}
+                onChange={handleBrandLogo}
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" component="span">
+                  Upload / Re Upload
+                </Button>
+              </label>
+              <Button variant="contained" className="cuisines-list-white-btn" onClick={handleRemoveBrandLogo}> Remove </Button>
             </Stack>
           </div>
 
@@ -135,8 +219,9 @@ const PhotoGallery = () => {
             />
 
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-              <img src="https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg" alt=""
-                className="img-fluid pg-gallery-img-big" />
+              {gallery['vendor-brand-logo']?.map((logo, index) => (
+                <img key={index} src={logo?.image_name[0]?.medium} alt={`Brand Logo ${index}`} />
+              ))}
 
               <Button variant="contained" className="cuisines-list-white-btn"> Upload / Re Upload </Button>
               <Button variant="contained" className="cuisines-list-white-btn"> Remove </Button>

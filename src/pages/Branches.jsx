@@ -101,13 +101,15 @@ const Branches = () => {
   const { accessToken } = useSelector((state) => state.user);
   const [branchesList, setBranchesList] = useState([])
   const [locationPlaceId, setLocationPlaceId] = useState(null)
-  const [locationValues, setLocationValues] = useState(initialState)
   const [open, setOpen] = React.useState(false);
+  const [locationValues, setLocationValues] = useState(initialState)
   const [values, setValues] = useState(initialStateBranchState)
   const [manualLocation, setManualLocation] = useState("")
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [loading, setLoading] = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [editId, setEditId] = useState(null)
+
 
 
   const {
@@ -119,7 +121,6 @@ const Branches = () => {
     apiKey: process.env.REACT_APP_GOOGLE,
   });
 
-  console.log(locationPlaceId, "locationPlaceId");
   useEffect(() => {
     if (locationPlaceId && placePredictions.length)
       placesService?.getDetails(
@@ -226,35 +227,98 @@ const Branches = () => {
       branch_type: 'BRANCH'
     }
 
+    const updateData = {
+      ...data,
+      branch_id: editId
+    }
+
     try {
-      const response = await api.post(`${BASE_URL}/insert-vendor-branch`, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      })
-      setLocationValues(initialState)
-      setValues(initialStateBranchState)
-      setManualLocation("")
-      setSelectedLocation(null)
-      setLocationPlaceId(null)
-      toast.success(successToast(response))
-      fetchBranches()
-      handleClose()
-      setFormSubmitted(true);
+      if (editId !== null) {
+        const response = await api.post(`${BASE_URL}/update-vendor-branch`, updateData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        })
+        toast.success(successToast(response))
+      } else {
+        const response = await api.post(`${BASE_URL}/insert-vendor-branch`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        })
+        setLocationValues(initialState)
+        setValues(initialStateBranchState)
+        setManualLocation("")
+        setSelectedLocation(null)
+        setLocationPlaceId(null)
+        toast.success(successToast(response))
+        fetchBranches()
+        handleClose()
+        setFormSubmitted(true);
+      }
     } catch (error) {
       console.log(error);
       toast.error(datavalidationerror(error))
     } finally {
       setLoading(false)
     }
+  }
 
+  useEffect(() => {
+    console.log(values, "values");
+    console.log(locationValues, "locationValues");
+  }, [values, locationValues, manualLocation]);
 
-    // console.log(data, "data");
-    // console.log(values, "values");
+  const onHandleEdit = (item) => {
+    console.log(item, "ITEMMM");
+    setEditId(item.id)
 
+    console.log(values, "values");
+    console.log(locationValues, "locationValues");
+
+    setValues({
+      catering_service_name: item?.catering_service_name || '',
+      contact_person_name: item?.contact_person_name || '',
+      phone_number: item?.phone_number.slice(4) || '',
+      map_location_link: item?.map_location_link || ''
+    });
+    setLocationValues({
+      street_name: item?.street_name || "",
+      area: item?.area || "",
+      pincode: item?.pincode || "",
+      latitude: item?.latitude || "",
+      longitude: item?.longitude || "",
+      address: item?.address || "",
+      city: item?.city || "",
+      state: item?.state || "",
+      country: item?.country || "India",
+      formatted_address: item?.formatted_address || "",
+      place_id: item?.place_id || "",
+    })
+    setManualLocation(item?.formatted_address)
+    handleClickOpen()
   }
 
   console.log(placePredictions, "placePredictions");
+
+  const handleToggleStatus = async (branch) => {
+    const newStatus = branch.status ? 0 : 1;
+    const data = {
+      branch_id: branch.id,
+      status: newStatus
+    }
+    try {
+      const response = await api.post(`${BASE_URL}/update-vendor-branch-status`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      })
+      toast.success(successToast(response))
+    } catch (error) {
+      console.log(error);
+      toast.error(datavalidationerror(error))
+    }
+  }
 
   return (
     <>
@@ -282,9 +346,13 @@ const Branches = () => {
             ) : (
               <Grid container spacing={2} className='mt-4'>
                 {
-                  branchesList.length > 0 && branchesList.map((item) => {
-                    return <BranchesCard branches={item} key={item?.id} />
-                  })
+                  branchesList.length > 0 ? (
+                    branchesList.map((item) => {
+                      return <BranchesCard branches={item} key={item?.id} onHandleEdit={onHandleEdit} handleToggleStatus={handleToggleStatus} />
+                    })
+                  ) : (
+                    <p className='text-center'> No Branches Found </p>
+                  )
                 }
               </Grid>
             )
