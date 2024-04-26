@@ -3,11 +3,7 @@ import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 import EditIcon from '@mui/icons-material/Edit';
 
-
 const BranchesCard = ({ branches, onHandleEdit, handleToggleStatus }) => {
-
-
-
     return (
         <>
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4} >
@@ -15,7 +11,7 @@ const BranchesCard = ({ branches, onHandleEdit, handleToggleStatus }) => {
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
                         <Stack direction="row" alignItems="center" spacing={1} className='green-switch'>
                             <p className='branches-active'>Active</p>
-                            <Switch onChange={() => handleToggleStatus(branches)} checked={branches?.status} size="small" style={{ color: '#459412' }} />
+                            <Switch onChange={() => handleToggleStatus(branches)} checked={branches?.status === "1"} size="small" style={{ color: '#459412' }} />
                         </Stack>
                         <div>
                             <EditIcon style={{ color: '#c33332', fontSize: '18px' }} onClick={() => onHandleEdit(branches)} />

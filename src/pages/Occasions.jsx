@@ -51,8 +51,7 @@ const Occasions = () => {
         setOpen(false);
         // fetchOccations()
     };
-
-
+ 
     const handleSelectChange = async (item) => {
         const updatedOccasions = occasionsList?.map((occasion) => {
             if (occasion?.id === item?.id) {

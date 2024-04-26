@@ -156,7 +156,7 @@ const Cuisines = () => {
         fetchCuisines()
     };
 
-    // console.log(cuisinesList, "cuisinesList");
+    console.log(cuisinesList, "cuisinesList");
 
     return (
         <>

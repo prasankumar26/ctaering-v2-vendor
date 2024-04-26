@@ -87,6 +87,7 @@ const initialState = {
   state: '',
   country: '',
   formatted_address: '',
+  map_location_link: '',
   place_id: '',
 }
 
@@ -94,8 +95,8 @@ const initialStateBranchState = {
   catering_service_name: '',
   contact_person_name: '',
   phone_number: '',
-  map_location_link: ''
 }
+
 
 const Branches = () => {
   const { accessToken } = useSelector((state) => state.user);
@@ -110,7 +111,7 @@ const Branches = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [editId, setEditId] = useState(null)
 
-
+  console.log(editId, "editId");
 
   const {
     placesService,
@@ -158,6 +159,7 @@ const Branches = () => {
       state: state,
       country: country,
       formatted_address: formatted_address,
+      map_location_link: formatted_address,
       place_id: places?.place_id
     })
   }
@@ -175,12 +177,40 @@ const Branches = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setValues(initialStateBranchState);
+    setLocationValues(initialState);
+    setManualLocation("")
+    setEditId(null)
+    setSelectedLocation(null)
+    setLocationPlaceId(null)
   };
 
   const handlechange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value })
   }
+
+  const handleToggleStatus = async (branch) => {
+    // const newStatus = branch.status ? 1 : 0;
+    const newStatus = branch.status === "1" ? 0 : 1;
+    const data = {
+      branch_id: branch.id,
+      status: newStatus
+    }
+    try {
+      const response = await api.post(`${BASE_URL}/update-vendor-branch-status`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      })
+      fetchBranches()
+      toast.success(successToast(response))
+    } catch (error) {
+      console.log(error);
+      toast.error(datavalidationerror(error))
+    }
+  }
+
 
   const fetchBranches = async () => {
     setLoading(true)
@@ -202,86 +232,17 @@ const Branches = () => {
     fetchBranches()
   }, [])
 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    handleClickOpen()
-    setLoading(true)
-
-    const { catering_service_name, contact_person_name, phone_number, map_location_link } = values;
-
-    const data = {
-      catering_service_name: catering_service_name,
-      contact_person_name: contact_person_name,
-      phone_number: phone_number ? `+91-${phone_number}` : '',
-      map_location_link: map_location_link,
-      country: locationValues?.country?.long_name || "",
-      state: locationValues?.state?.long_name || "",
-      latitude: locationValues?.latitude || "",
-      longitude: locationValues?.longitude || "",
-      street_name: locationValues?.street_name?.long_name || "",
-      formatted_address: locationValues?.formatted_address || "",
-      city: locationValues?.city?.long_name || "",
-      pincode: locationValues?.pincode || "",
-      place_id: locationValues?.place_id || '',
-      branch_type: 'BRANCH'
-    }
-
-    const updateData = {
-      ...data,
-      branch_id: editId
-    }
-
-    try {
-      if (editId !== null) {
-        const response = await api.post(`${BASE_URL}/update-vendor-branch`, updateData, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          }
-        })
-        toast.success(successToast(response))
-      } else {
-        const response = await api.post(`${BASE_URL}/insert-vendor-branch`, data, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          }
-        })
-        setLocationValues(initialState)
-        setValues(initialStateBranchState)
-        setManualLocation("")
-        setSelectedLocation(null)
-        setLocationPlaceId(null)
-        toast.success(successToast(response))
-        fetchBranches()
-        handleClose()
-        setFormSubmitted(true);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(datavalidationerror(error))
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    console.log(values, "values");
-    console.log(locationValues, "locationValues");
-  }, [values, locationValues, manualLocation]);
+  // console.log(locationValues, "locationValues");
 
   const onHandleEdit = (item) => {
-    console.log(item, "ITEMMM");
     setEditId(item.id)
-
-    console.log(values, "values");
-    console.log(locationValues, "locationValues");
 
     setValues({
       catering_service_name: item?.catering_service_name || '',
       contact_person_name: item?.contact_person_name || '',
-      phone_number: item?.phone_number.slice(4) || '',
-      map_location_link: item?.map_location_link || ''
-    });
+      phone_number: item?.phone_number || '',
+    })
+
     setLocationValues({
       street_name: item?.street_name || "",
       area: item?.area || "",
@@ -293,32 +254,81 @@ const Branches = () => {
       state: item?.state || "",
       country: item?.country || "India",
       formatted_address: item?.formatted_address || "",
+      map_location_link: item?.formatted_address || "",
       place_id: item?.place_id || "",
     })
+
     setManualLocation(item?.formatted_address)
     handleClickOpen()
   }
 
-  console.log(placePredictions, "placePredictions");
+  // useEffect(() => {
+  //   console.log(updateBranch, "updateBranch updateBranch");
+  // }, [updateBranch]);
 
-  const handleToggleStatus = async (branch) => {
-    const newStatus = branch.status ? 0 : 1;
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    handleClickOpen()
+    setLoading(true)
+
+    const { catering_service_name, contact_person_name, phone_number } = values;
+
     const data = {
-      branch_id: branch.id,
-      status: newStatus
+      catering_service_name: catering_service_name,
+      contact_person_name: contact_person_name,
+      phone_number: phone_number ? `+91-${phone_number}` : '',
+      country: locationValues?.country || "",
+      state: locationValues?.state || "",
+      latitude: locationValues?.latitude || "",
+      longitude: locationValues?.longitude || "",
+      street_name: locationValues?.street_name || "",
+      formatted_address: locationValues?.formatted_address || "",
+      map_location_link: locationValues?.formatted_address || "",
+      city: locationValues?.city || "",
+      pincode: locationValues?.pincode || "",
+      place_id: locationValues?.place_id || '',
+      branch_type: 'BRANCH'
     }
+
+    const updateData = {
+      ...values,
+      ...locationValues,
+      branch_id: parseInt(editId)
+    }
+    console.log(updateData, "updateData");
+
     try {
-      const response = await api.post(`${BASE_URL}/update-vendor-branch-status`, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      })
-      toast.success(successToast(response))
+      if (editId !== null) {
+        const response = await api.post(`${BASE_URL}/update-vendor-branch`, updateData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        })
+        fetchBranches()
+        handleClose()
+        toast.success(successToast(response))
+      } else {
+        const response = await api.post(`${BASE_URL}/insert-vendor-branch`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        })
+        handleClose()
+        toast.success(successToast(response))
+        fetchBranches()
+        setFormSubmitted(true);
+      }
     } catch (error) {
       console.log(error);
       toast.error(datavalidationerror(error))
+    } finally {
+      setLoading(false)
     }
   }
+
+
 
   return (
     <>
@@ -351,7 +361,7 @@ const Branches = () => {
                       return <BranchesCard branches={item} key={item?.id} onHandleEdit={onHandleEdit} handleToggleStatus={handleToggleStatus} />
                     })
                   ) : (
-                    <p className='text-center'> No Branches Found </p>
+                    <p className='text-center' style={{ width: '100%' }}> No Branches Found </p>
                   )
                 }
               </Grid>
@@ -434,26 +444,6 @@ const Branches = () => {
               id="outlined-number"
               variant="outlined"
               label="Phone Number"
-              className='mb-3'
-              style={{ width: '100%' }}
-              InputLabelProps={{
-                style: { color: '#777777', fontSize: '10px' },
-              }}
-              InputProps={{
-                style: {
-                  borderRadius: '8px',
-                  backgroundColor: '#FFFFFF',
-                }
-              }}
-            />
-
-            <CssTextField
-              value={values?.map_location_link}
-              onChange={handlechange}
-              name='map_location_link'
-              id="outlined-number"
-              variant="outlined"
-              label="Map Location Link"
               className='mb-3'
               style={{ width: '100%' }}
               InputLabelProps={{
