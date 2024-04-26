@@ -54,6 +54,7 @@ const initialState = {
     place_id: '',
 }
 
+// CL 
 const options = {
     enableHighAccuracy: true,
     timeout: 10000,
@@ -127,6 +128,7 @@ const EnterLocationManually = () => {
             place_id: places?.place_id
         })
     }
+    
 
     const selectLocation = (item) => {
         setSelectedLocation(item);
@@ -134,11 +136,13 @@ const EnterLocationManually = () => {
         setLocationPlaceId(item?.place_id)
     }
 
+    // CL 
     const getAddressComponent = (addressComponents, type) => {
         const component = addressComponents.find(component => component.types.includes(type));
         return component ? component.long_name : '';
     };
 
+    // CL 
     const successCallback = async (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -165,16 +169,19 @@ const EnterLocationManually = () => {
         }
     };
 
+    // CL 
     const errorCallback = (error) => {
         console.log(error);
     };
 
 
+    // CL 
     const getCurrentLocation = () => {
         const id = navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options)
         navigator.geolocation.clearWatch(id);
     };
 
+    // CL 
     const handleCurrentLocationSubmit = async (addressData) => {
         const data = {
             street_name: addressData?.street_name || addressData?.area || "",

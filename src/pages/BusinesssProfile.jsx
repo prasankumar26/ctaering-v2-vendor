@@ -13,10 +13,13 @@ import { useSelector } from 'react-redux'
 import moment from 'moment';
 import useBusinessProfile from "../hooks/useBusinessProfile";
 import { vendor_type } from "../constant";
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { api, BASE_URL } from "../api/apiConfig";
+import LoaderSpinner from "../components/LoaderSpinner";
+import { useLocation } from "react-router-dom";
 
 
 const CssTextField = styled(TextField)(({ theme }) => ({
@@ -40,48 +43,29 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 
 
 const initialState = {
-  vendor_service_name: "",
-  vendor_type: vendor_type,
-  contact_person_name: "",
-  working_days_hours: "",
-  working_since: "",
-  about_description: "",
-  city_id: "",
-  total_staffs_approx: "",
-  pincode: "",
-  business_email: "",
-  business_phone_number: "",
-  landline_number: "",
-  whatsapp_business_phone_number: "",
-  website_link: "",
-  twitter_id: "",
-  instagram_link: "",
-  facebook_link: "",
-  latitude: "",
-  area: "",
-  street_name: "",
-  longitude: "",
-  country: "",
-  state: "",
-  formatted_address: "",
-  city: "",
-  place_id: "",
+  street_name: '',
+  area: '',
+  pincode: '',
+  latitude: '',
+  longitude: '',
+  address: '',
+  city: '',
+  state: '',
+  country: '',
+  formatted_address: '',
+  map_location_link: '',
+  place_id: '',
+  city_id: ''
 }
 
-
 const BusinesssProfile = () => {
-
-
   const [values, setValues] = useState({})
   const { accessToken } = useSelector((state) => state.user)
   const { vendor_id } = useSelector((state) => state?.user?.vendorId)
   const [loading, setLoading] = useState(false)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
-  console.log(data, "data");
-  // console.log(values, "valuesvaluesvaluesvaluesvaluesvalues");
-  // console.log(data, "data");
-  // console.log(values, "values");
+  console.log(values, "values");
 
   useEffect(() => {
     setValues((prevValues) => ({
@@ -92,9 +76,7 @@ const BusinesssProfile = () => {
       working_days_hours: data?.working_days_hours,
       working_since: moment(data?.working_since).format('YYYY-MM-DD'),
       about_description: data?.about_description,
-      city_id: data?.city_id,
       total_staffs_approx: data?.total_staffs_approx,
-      pincode: data?.pincode,
       business_email: data?.business_email,
       business_phone_number: data?.business_phone_number,
       landline_number: data?.landline_number,
@@ -103,10 +85,13 @@ const BusinesssProfile = () => {
       twitter_id: data?.twitter_id,
       instagram_link: data?.instagram_link,
       facebook_link: data?.facebook_link,
+
+      city_id: data?.city_id,
+      pincode: data?.pincode,
       latitude: data?.latitude,
+      longitude: data?.longitude,
       area: data?.area,
       street_name: data?.street_name,
-      longitude: data?.longitude,
       country: data?.country,
       state: data?.state,
       formatted_address: data?.formatted_address,
@@ -114,12 +99,6 @@ const BusinesssProfile = () => {
       place_id: data?.place_id,
     }));
   }, [data]);
-  
-
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setValues({ ...values, [name]: value })
-  // }
 
   // validation schema 
   const schema = Yup.object().shape({
@@ -147,7 +126,72 @@ const BusinesssProfile = () => {
     }
   }
 
+  // location start
+  // const [locationValues, setLocationValues] = useState(initialState)
+  const [locationPlaceId, setLocationPlaceId] = useState(null)
+  const [manualLocation, setManualLocation] = useState("")
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  // location end 
 
+
+  // loc start
+  const {
+    placesService,
+    placePredictions,
+    getPlacePredictions,
+    isPlacePredictionsLoading,
+  } = usePlacesService({
+    apiKey: process.env.REACT_APP_GOOGLE,
+  });
+
+  useEffect(() => {
+    if (placePredictions.length)
+      placesService?.getDetails(
+        {
+          placeId: locationPlaceId,
+        },
+        (placeDetails) => savePlaceDetailsToState(placeDetails)
+      );
+  }, [placePredictions, locationPlaceId]);
+
+
+  const savePlaceDetailsToState = (places) => {
+    const { formatted_address, name } = places;
+    const { address_components } = places;
+
+    const country = address_components?.find(c => c?.types?.includes('country')) || {};
+    const state = address_components?.find(c => c?.types?.includes('administrative_area_level_1')) || {};
+    const city = address_components?.find(c => c?.types?.includes('administrative_area_level_3')) || {};
+    const pincode = address_components?.find(c => c?.types?.includes('postal_code')) || {};
+    const area = address_components?.find(c => c?.types?.includes('locality')) || {};
+    const street_name = address_components?.find(c => c?.types?.includes('locality')) || {};
+
+    const { geometry: { location } } = places;
+    const { lat, lng } = location;
+
+    setValues({
+      ...values,
+      street_name: street_name?.long_name,
+      area: area?.long_name,
+      pincode: pincode?.long_name,
+      latitude: lat(),
+      longitude: lng(),
+      address: name,
+      city: city?.long_name,
+      state: state?.long_name,
+      country: country?.long_name,
+      formatted_address: formatted_address,
+      place_id: places?.place_id
+    })
+  }
+
+  const selectLocation = (item) => {
+    console.log(item, "item");
+    setSelectedLocation(item);
+    setManualLocation(item.description);
+    setLocationPlaceId(item?.place_id)
+  }
+  // loc end 
 
 
   return (
@@ -170,10 +214,6 @@ const BusinesssProfile = () => {
                   margin: '0px auto'
                 }}
               />
-
-              {/* <Stack direction="row" justifyContent="end" className='mt-4 cursor-pointer'>
-                <EditIcon className='text-primary' style={{ fontSize: '18px' }} />
-              </Stack> */}
 
 
               <Grid container spacing={2} className="mt-4">
@@ -223,8 +263,11 @@ const BusinesssProfile = () => {
                     />
                     {errors.contact_person_name && <small className='text-danger mt-2 ms-1'>{errors.contact_person_name}</small>}
                   </div>
+                </Grid>
 
-                  <div className="mt-3">
+
+                <Grid item xs={6}>
+                  <div className="">
                     <p className="business-profile-name">Working days/hours</p>
                     <CssTextField
                       value={values.working_days_hours}
@@ -270,9 +313,7 @@ const BusinesssProfile = () => {
                     {errors.total_staffs_approx && <small className='text-danger mt-2 ms-1'>{errors.total_staffs_approx}</small>}
                   </div>
 
-                </Grid>
-                <Grid item xs={6}>
-                  <div>
+                  {/* <div>
                     <p className="business-profile-name">Street Name</p>
                     <CssTextField
                       value={values.street_name}
@@ -293,9 +334,9 @@ const BusinesssProfile = () => {
                       }}
                     />
                     {errors.street_name && <small className='text-danger mt-2 ms-1'>{errors.street_name}</small>}
-                  </div>
+                  </div> */}
 
-                  <div className="mt-3">
+                  {/* <div className="mt-3">
                     <p className="business-profile-name">Area</p>
                     <CssTextField
                       value={values.area}
@@ -316,9 +357,9 @@ const BusinesssProfile = () => {
                       }}
                     />
                     {errors.area && <small className='text-danger mt-2 ms-1'>{errors.area}</small>}
-                  </div>
+                  </div> */}
 
-                  <div className="mt-3">
+                  {/* <div className="mt-3">
                     <p className="business-profile-name">City</p>
                     <CssTextField
                       value={values.city}
@@ -339,9 +380,9 @@ const BusinesssProfile = () => {
                       }}
                     />
                     {errors.city && <small className='text-danger mt-2 ms-1'>{errors.city}</small>}
-                  </div>
+                  </div> */}
 
-                  <div className="mt-3">
+                  {/* <div className="mt-3">
                     <p className="business-profile-name">Pin Code</p>
                     <CssTextField
                       value={values.pincode}
@@ -362,11 +403,55 @@ const BusinesssProfile = () => {
                       }}
                     />
                     {errors.pincode && <small className='text-danger mt-2 ms-1'>{errors.pincode}</small>}
-                  </div>
+                  </div> */}
 
 
                 </Grid>
               </Grid>
+
+
+              <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
+                <Grid item xs={8} >
+                  <div className="mt-5">
+                    <p className="business-profile-name">Address</p>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <textarea
+                        required
+                        style={{ height: '65px' }}
+                        onChange={(evt) => {
+                          setSelectedLocation(null);
+                          setManualLocation(evt.target.value);
+                          getPlacePredictions({ input: evt.target.value });
+                          handleChange(evt); // This line ensures Formik's handleChange is called
+                        }}
+                        value={values.formatted_address}
+                        name="formatted_address" // Make sure the name matches the field name in initialValues
+                        rows="20" id="comment_text" cols="40"
+                        className="job-textarea" autoComplete="off" role="textbox"
+                        aria-autocomplete="list" aria-haspopup="true"
+                      ></textarea>
+                    </Box>
+                    {errors.about_description && <small className='text-danger mt-2 ms-1'>{errors.about_description}</small>}
+                  </div>
+
+                  {placePredictions?.length > 0 && <p className='ct-box-search-loc mb-1'>Search Results</p>}
+
+                  {isPlacePredictionsLoading ? (
+                    <LoaderSpinner />
+                  ) : (
+                    selectedLocation ? (
+                      <h2 className='ct-box-search-results' onClick={() => setSelectedLocation(null)}>{selectedLocation.description}</h2>
+                    ) : (
+                      placePredictions?.map((item, index) => (
+                        <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
+                      ))
+                    )
+                  )}
+
+
+                </Grid>
+              </Grid>
+
 
 
               <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
@@ -412,10 +497,6 @@ const BusinesssProfile = () => {
                   </div>
                 </Grid>
               </Grid>
-
-
-
-
 
               <p className='cuisines-title text-center mt-5'>CONTACT DETAILS</p>
 
@@ -520,10 +601,6 @@ const BusinesssProfile = () => {
                 </Grid>
               </Grid>
 
-
-
-
-
               <p className='cuisines-title text-center mt-5'>OTHERS</p>
 
               <Divider
@@ -538,7 +615,31 @@ const BusinesssProfile = () => {
               />
 
               <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
-                <Grid item xs={8} >
+                <Grid item xs={8}>
+
+                  <div>
+                    <p className="business-profile-name">Location</p>
+                    <CssTextField
+                      value={values.website_link}
+                      onChange={handleChange}
+                      name="website_link"
+                      variant="outlined"
+                      className='mt-0'
+                      style={{ width: '100%' }}
+                      InputLabelProps={{
+                        style: { color: '#777777', fontSize: '10px' },
+                      }}
+                      InputProps={{
+                        style: {
+                          borderRadius: '8px',
+                          backgroundColor: '#FFFFFF',
+                        }
+                      }}
+                    />
+                  </div>
+
+
+
                   <div>
                     <p className="business-profile-name">Website link(optional)</p>
                     <CssTextField
@@ -630,9 +731,6 @@ const BusinesssProfile = () => {
                 <Button type="submit" variant="contained" className="inquiries-red-btn" disabled={loading}>
                   {loading ? 'Loading...' : 'Update'}  </Button>
               </Stack>
-
-
-
 
             </form>
           )}

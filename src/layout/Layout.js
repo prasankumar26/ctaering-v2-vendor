@@ -15,6 +15,8 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  console.log("check");
+
   useEffect(() => {
     if (!accessToken) {
       navigate('/create-account')
@@ -26,22 +28,22 @@ const Layout = () => {
     const accessTokenExp = getExpirationTime(accessToken);
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    if (accessTokenExp && accessTokenExp < currentTimestamp) {
+    
+    if (accessTokenExp !== null && accessTokenExp < currentTimestamp) {
       try {
         const response = await api.post(`${BASE_URL}/token-refresh`, {}, {
           headers: {
             Authorization: `Bearer ${refreshToken} ${accessToken}`,
           }
         });
-
-        dispatch(setAccessToken(response?.data?.accessToken));
+        console.log(accessTokenExp < currentTimestamp, "TTTT");
         if (response.status === 200) {
           console.log("one", "one");
           // If the token was successfully refreshed
           dispatch(setAccessToken(response.data.accessToken));
         } else {
           // If the refresh token has expired, navigate to create account page
-          console.log("second", "second");
+          console.log("three", "three");
           navigate('/create-account');
         }
       } catch (error) {
@@ -53,7 +55,7 @@ const Layout = () => {
 
   useEffect(() => {
     checkTokenExpiration()
-  }, [accessToken, refreshToken])
+  }, [accessToken, refreshToken, navigate])
 
   const getExpirationTime = (token) => {
     if (!token) return null;
