@@ -11,11 +11,9 @@ const useBusinessProfile = (url, accessToken) => {
     
     const fetchBusinessProfile = async () => {
         try {
-            const response = await axios.get(url, {
-
+            const response = await api.get(url, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'application/x-www-form-urlencoded'
                 }
             })
             console.log(response, "response");
