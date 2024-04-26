@@ -457,6 +457,7 @@ const BusinesssProfile = () => {
                     <CssTextField
                       value={values.business_phone_number}
                       onChange={handleChange}
+                      placeholder="Eg:- +91-9000000000"
                       name="business_phone_number"
                       variant="outlined"
                       className='mt-0'
@@ -499,6 +500,7 @@ const BusinesssProfile = () => {
                     <CssTextField
                       value={values.whatsapp_business_phone_number}
                       onChange={handleChange}
+                      placeholder="Eg:- +91-9000000000"
                       name="whatsapp_business_phone_number"
                       variant="outlined"
                       className='mt-0'

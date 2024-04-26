@@ -55,11 +55,58 @@ const CssTextFieldSmall = styled(TextField)(({ theme }) => ({
     },
 }));
 
+const packages = [
+    {
+        "id": "1",
+        "food_type_name": "Veg",
+        "selected": "0",
+        "start_price": null
+    },
+    {
+        "id": "2",
+        "food_type_name": "Non Veg",
+        "selected": "0",
+        "start_price": null
+    },
+    {
+        "id": "3",
+        "food_type_name": "Vegan",
+        "selected": "0",
+        "start_price": null
+    }
+]
+
+const serviceTypesList = [
+    {
+        "id": "1",
+        "service_type_name": "Delivery",
+        "selected": "0"
+    },
+    {
+        "id": "2",
+        "service_type_name": "Takeaway",
+        "selected": "0"
+    }
+]
+
+const servingTypesList = [
+    {
+        "id": "1",
+        "serving_type_name": "Table Service",
+        "selected": "0"
+    },
+    {
+        "id": "2",
+        "serving_type_name": "Buffet Service",
+        "selected": "0"
+    }
+]
+
 const Packages = () => {
     const { accessToken } = useSelector((state) => state.user)
-    const [foodTypes, setFoodTypes] = useState([])
-    const [serviceTypes, setServiceTypes] = useState([])
-    const [servingTypes, setServingTypes] = useState([])
+    const [foodTypes, setFoodTypes] = useState(packages)
+    const [serviceTypes, setServiceTypes] = useState(serviceTypesList)
+    const [servingTypes, setServingTypes] = useState(servingTypesList)
     const [maximumCapacity, setMaximumCapacity] = useState("")
     const [minimumCapacity, setMinimumCapacity] = useState("")
     const [startPrice, setStartPrice] = useState(null)

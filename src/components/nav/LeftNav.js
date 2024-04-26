@@ -59,13 +59,13 @@ const LeftNav = () => {
 
   const fetchVendorData = async () => {
     try {
-      const response = await api.get(`${BASE_URL}/get-vendor-business-profile`, {
+      const response = await api.get(`${BASE_URL}/get-vendor-details`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         }
       })
       console.log(response, "response");
-      businessProfile(response?.data?.data[0])
+      businessProfile(response?.data?.data)
     } catch (error) {
       console.log(error);
     }
@@ -88,10 +88,10 @@ const LeftNav = () => {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" className="mobile-none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar sx={{ bgcolor: '#C33332' }}>{vendorBusinessProfile?.contact_person_name?.slice(0, 1)}</Avatar>
+            <Avatar sx={{ bgcolor: '#C33332' }}>{vendorBusinessProfile?.point_of_contact_name?.slice(0, 1)}</Avatar>
             <div>
-              <h2 className="m-0 text-white nav-username">{vendorBusinessProfile?.contact_person_name}</h2>
-              <p className="m-0 text-white nav-gmail">{vendorBusinessProfile?.business_email}</p>
+              <h2 className="m-0 text-white nav-username">{vendorBusinessProfile?.point_of_contact_name}</h2>
+              <p className="m-0 text-white nav-gmail">{vendorBusinessProfile?.phone_number}</p>
             </div>
           </Stack>
           <Stack>
