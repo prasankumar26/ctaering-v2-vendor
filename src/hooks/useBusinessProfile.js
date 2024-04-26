@@ -18,7 +18,8 @@ const useBusinessProfile = (url, accessToken) => {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             })
-            setData(response.data.data[0])
+            console.log(response, "response");
+            setData(response?.data?.data[0])
             // toast.success(response?.data?.message);
         } catch (error) {
             console.log(error);

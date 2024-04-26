@@ -78,7 +78,8 @@ const BusinesssProfile = () => {
   const [loading, setLoading] = useState(false)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
-  console.log(values, "valuesvaluesvaluesvaluesvaluesvalues");
+  console.log(data, "data");
+  // console.log(values, "valuesvaluesvaluesvaluesvaluesvalues");
   // console.log(data, "data");
   // console.log(values, "values");
 

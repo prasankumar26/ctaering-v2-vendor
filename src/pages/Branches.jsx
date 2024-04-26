@@ -56,25 +56,6 @@ const CssTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-// "catering_service_name": "Test 1",
-// "contact_person_name": "Test 1",
-// "phone_number": "+91-8888899999",
-// "area": "",
-// "city_id": null,
-// "map_location_link": "Test",
-// "created_date": "2024-04-23T01:19:33.000Z",
-// "created_by": "225",
-// "status": "active",
-// "latitude": 1.22556,
-// "longitude": 1.55556,
-// "street_name": "Marg",
-// "pincode": "560085",
-// "city": "Bengaluru",
-// "state": "karnataka",
-// "country": "India",
-// "formatted_address": "Test",
-// "place_id": "454555454",
-// "branch_type": "BRANCH"
 
 const initialState = {
   street_name: '',
@@ -232,8 +213,6 @@ const Branches = () => {
     fetchBranches()
   }, [])
 
-  // console.log(locationValues, "locationValues");
-
   const onHandleEdit = (item) => {
     setEditId(item.id)
 
@@ -261,11 +240,6 @@ const Branches = () => {
     setManualLocation(item?.formatted_address)
     handleClickOpen()
   }
-
-  // useEffect(() => {
-  //   console.log(updateBranch, "updateBranch updateBranch");
-  // }, [updateBranch]);
-
 
 
   const handleSubmit = async (e) => {
