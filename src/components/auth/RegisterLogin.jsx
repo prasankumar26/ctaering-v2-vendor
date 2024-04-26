@@ -99,6 +99,7 @@ const OtpInput = ({ length = 6, onOtpSubmit = () => { } }) => {
             {
                 otp.map((value, index) => {
                     return <input
+                        required
                         ref={(input) => (inputRefs.current[index] = input)}
                         key={index}
                         type="text"
@@ -144,7 +145,7 @@ const RegisterLogin = () => {
             .required('Phone number is required.')
             .matches(/^[0-9]+$/, 'Phone number must contain only digits')
             .min(10, 'Phone number must be at least 10 digits')
-            .max(15, 'Phone number must not exceed 15 digits'),
+            .max(10, 'Phone number must not exceed 15 digits'),
     });
 
     // onHandleRegisterSubmit 
@@ -153,7 +154,7 @@ const RegisterLogin = () => {
         resetForm(initialState);
     }
 
-  
+
 
     // onOtpSubmit 
     const onOtpSubmit = (otp) => {
@@ -162,8 +163,8 @@ const RegisterLogin = () => {
     }
 
 
-      // resendOtp 
-      const handleResendOtp = async () => {
+    // resendOtp 
+    const handleResendOtp = async () => {
         try {
             setMinutes(0);
             setSeconds(30);
