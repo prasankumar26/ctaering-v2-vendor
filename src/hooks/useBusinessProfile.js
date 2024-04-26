@@ -19,7 +19,7 @@ const useBusinessProfile = (url, accessToken) => {
                 }
             })
             console.log(response, "response");
-            setData(response?.data?.data[0])
+            setData(response?.data?.data[0] ? response?.data?.data[0] : response?.data?.data)
             toast.success(successToast(response));
         } catch (error) {
             console.log(error);
