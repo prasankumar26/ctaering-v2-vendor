@@ -189,15 +189,16 @@ const Cuisines = () => {
                                 <Box sx={{ flexGrow: 1 }} key={item?.id}>
                                     {item.children.some(childItem => childItem.selected === "1") ? (
                                         <>
-                                            <Button variant="contained" className="cuisines-list-btn mb-2"> {item?.name} </Button>
-                                            <Grid container spacing={2}>
+                                            <h6 className='top-header-desc'> {item?.name}</h6>
+                                            <Grid container spacing={2} className='mt-1 mb-3'>
                                                 {item.children.filter(childItem => childItem.selected === "1").map((childItem) => (
-                                                    <Grid item xs={12} sm={6} md={6} lg={3} xl={3} key={childItem.id} className='mb-4'>
-                                                        <div className="explore-cator-box">
+                                                    <Stack direction="row" flexWrap="wrap" spacing={2} key={childItem.id}>
+                                                        <Button variant="contained" className="cuisines-list-btn mb-2 me-2"> {childItem?.name} </Button>
+                                                        {/* <div className="explore-cator-box">
                                                             <img src={childItem?.file_name?.medium} alt="" className="img-fluid caterers-occasion-img image-shadow" />
                                                             <h4 className='text-center caterers-occasion-title'>{childItem?.name}</h4>
-                                                        </div>
-                                                    </Grid>
+                                                        </div> */}
+                                                    </Stack>
                                                 ))}
                                             </Grid>
                                         </>
