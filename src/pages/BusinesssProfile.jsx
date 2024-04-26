@@ -42,21 +42,21 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 }));
 
 
-const initialState = {
-  street_name: '',
-  area: '',
-  pincode: '',
-  latitude: '',
-  longitude: '',
-  address: '',
-  city: '',
-  state: '',
-  country: '',
-  formatted_address: '',
-  map_location_link: '',
-  place_id: '',
-  city_id: ''
-}
+// const initialState = {
+//   street_name: '',
+//   area: '',
+//   pincode: '',
+//   latitude: '',
+//   longitude: '',
+//   address: '',
+//   city: '',
+//   state: '',
+//   country: '',
+//   formatted_address: '',
+//   map_location_link: '',
+//   place_id: '',
+//   city_id: ''
+// }
 
 const BusinesssProfile = () => {
   const [values, setValues] = useState({})
@@ -65,7 +65,6 @@ const BusinesssProfile = () => {
   const [loading, setLoading] = useState(false)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
-  console.log(values, "values");
 
   useEffect(() => {
     setValues((prevValues) => ({
@@ -103,19 +102,18 @@ const BusinesssProfile = () => {
   // validation schema 
   const schema = Yup.object().shape({
     vendor_service_name: Yup.string().required('Name is required.'),
-    street_name: Yup.string().required('street name is required.'),
     contact_person_name: Yup.string().required('contact person name is required.'),
-    area: Yup.string().required('area is required.'),
     working_days_hours: Yup.string().required('working days hours is required.'),
-    city: Yup.string().required('city is required.'),
     total_staffs_approx: Yup.string().required('total staffs approx is required.'),
-    pincode: Yup.string().required('pincode is required.'),
     about_description: Yup.string().required('about description is required.'),
     working_since: Yup.string().required('working since is required.'),
+    // street_name: Yup.string().required('street name is required.'),
+    // area: Yup.string().required('area is required.'),
+    // city: Yup.string().required('city is required.'),
+    // pincode: Yup.string().required('pincode is required.'),
   });
 
   const handleSubmit = async (values, resetForm) => {
-    console.log(values, "values");
     try {
       setLoading(true);
       await updateBusinessProfile(values, vendor_id);
@@ -133,6 +131,9 @@ const BusinesssProfile = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   // location end 
 
+  console.log(locationPlaceId, "locationPlaceId");
+  console.log(selectedLocation, "selectedLocation");
+  console.log(values, "values");
 
   // loc start
   const {
@@ -166,6 +167,8 @@ const BusinesssProfile = () => {
     const area = address_components?.find(c => c?.types?.includes('locality')) || {};
     const street_name = address_components?.find(c => c?.types?.includes('locality')) || {};
 
+    console.log(pincode, "pincode pincode 123");
+
     const { geometry: { location } } = places;
     const { lat, lng } = location;
 
@@ -181,12 +184,11 @@ const BusinesssProfile = () => {
       state: state?.long_name,
       country: country?.long_name,
       formatted_address: formatted_address,
-      place_id: places?.place_id
+      place_id: locationPlaceId
     })
   }
 
   const selectLocation = (item) => {
-    console.log(item, "item");
     setSelectedLocation(item);
     setManualLocation(item.description);
     setLocationPlaceId(item?.place_id)
