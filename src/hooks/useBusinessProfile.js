@@ -20,10 +20,10 @@ const useBusinessProfile = (url, accessToken) => {
             })
             console.log(response, "response");
             setData(response?.data?.data[0])
-            // toast.success(response?.data?.message);
+            toast.success(successToast(response));
         } catch (error) {
             console.log(error);
-            toast.error(error?.response?.data?.message)
+            toast.error(datavalidationerror(error))
         }
     }
 
