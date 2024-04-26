@@ -431,7 +431,6 @@ const BusinesssProfile = () => {
                         aria-autocomplete="list" aria-haspopup="true"
                       ></textarea>
                     </Box>
-                    {errors.about_description && <small className='text-danger mt-2 ms-1'>{errors.about_description}</small>}
                   </div>
 
                   {placePredictions?.length > 0 && <p className='ct-box-search-loc mb-1'>Search Results</p>}
