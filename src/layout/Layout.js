@@ -42,11 +42,11 @@ const Layout = () => {
     const refreshTokenExp = getExpirationTime(refreshToken);
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    console.log(accessTokenExp < currentTimestamp, "accessTokenExp < currentTimestamp");
-    console.log(getTimeUntil(accessTokenExp), "accessTokenExp");
-    console.log(getTimeUntil(refreshTokenExp), "refreshTokenExp");
-    console.log(getTimeUntil(currentTimestamp), "currentTimestamp");
-    console.log(accessTokenExp - currentTimestamp <= 30, "accessTokenExp - currentTimestamp");
+    // console.log(accessTokenExp < currentTimestamp, "accessTokenExp < currentTimestamp");
+    // console.log(getTimeUntil(accessTokenExp), "accessTokenExp");
+    // console.log(getTimeUntil(refreshTokenExp), "refreshTokenExp");
+    // console.log(getTimeUntil(currentTimestamp), "currentTimestamp");
+    // console.log(accessTokenExp - currentTimestamp <= 30, "accessTokenExp - currentTimestamp");
 
     if (accessTokenExp !== null && accessTokenExp < currentTimestamp) {
       const timeUntilExpiration = accessTokenExp - currentTimestamp;
