@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import LeftNav from "../components/nav/LeftNav";
 import { useEffect } from "react";
-// import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { api, BASE_URL } from "../api/apiConfig";
 import { setAccessToken } from "../features/user/userSlice";
@@ -22,28 +22,34 @@ const Layout = () => {
     }
   }, [accessToken])
 
-  // const getTimeUntil = (timestamp) => {
-  //   const currentTimestamp = Math.floor(Date.now() / 1000);
-  //   if (timestamp > currentTimestamp) {
-  //     const differenceInSeconds = timestamp - currentTimestamp;
-  //     const hours = Math.floor(differenceInSeconds / 3600);
-  //     const minutes = Math.floor((differenceInSeconds % 3600) / 60);
-  //     const seconds = differenceInSeconds % 60;
-  //     return `${hours} hours, ${minutes} minutes, ${seconds} seconds left until given timestamp`;
-  //   } else {
-  //     return "Given timestamp is in the past";
-  //   }
-  // };
+  const getTimeUntil = (timestamp) => {
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (timestamp > currentTimestamp) {
+      const differenceInSeconds = timestamp - currentTimestamp;
+      const hours = Math.floor(differenceInSeconds / 3600);
+      const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+      const seconds = differenceInSeconds % 60;
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds left until given timestamp`;
+    } else {
+      return "Given timestamp is in the past";
+    }
+  };
 
 
   const checkTokenExpiration = async () => {
     // const accessTokenExp = getExpirationTime(accessToken);
-    // const refreshTokenExp = getExpirationTime(refreshToken);
+    const refreshTokenExp = getExpirationTime(refreshToken);
+    // const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    // console.log(getTimeUntil(accessTokenExp), "accessTokenExp");
-    // console.log(getTimeUntil(refreshTokenExp), "refreshTokenExp");
-
-    console.log("check");
+    const checkRefreshTokenTime = getTimeUntil(refreshTokenExp);
+    console.log(checkRefreshTokenTime.hours < 2 && checkRefreshTokenTime.minutes < 0, "checkRefreshTokenTime.hours < 2 && checkRefreshTokenTime.minutes < 0");
+  
+  
+    if (checkRefreshTokenTime.hours < 2 && checkRefreshTokenTime.minutes < 0) { 
+      console.log("Refresh token is about to expire. Navigating to /create-account");
+      navigate('/create-account');
+      return;
+    }
 
     try {
       const response = await api.post(`${BASE_URL}/token-refresh`, {}, {
@@ -72,11 +78,11 @@ const Layout = () => {
   }, []);
 
 
-  // const getExpirationTime = (token) => {
-  //   if (!token) return null;
-  //   const decodedToken = jwtDecode(token);
-  //   return decodedToken.exp;
-  // }
+  const getExpirationTime = (token) => {
+    if (!token) return null;
+    const decodedToken = jwtDecode(token);
+    return decodedToken.exp;
+  }
 
   return (
     <>
