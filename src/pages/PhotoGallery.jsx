@@ -16,8 +16,21 @@ let nextId = 5;
 let servicePhotosId = 7;
 let otherPhotosId = 7;
 
+
+// Create a date object representing the last modified date
+const createDummyFile = () => {
+  const date = new Date("2024-04-26");
+  const fileWithDetails = new File(["Dummy content"], "06.png", {
+    type: "image/png",
+    lastModified: date.getTime(),
+  });
+  return fileWithDetails;
+}
+
+
 const PhotoGallery = () => {
   const { accessToken } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false)
   const [photos, setPhotos] = useState([
     {
       id: 1,
@@ -92,23 +105,24 @@ const PhotoGallery = () => {
   ])
 
   const [brandLogo, setBrandlogo] = useState(null);
-  const [brandLogoData, setBrandlogoData] = useState(null);
+  // const [brandLogoData, setBrandlogoData] = useState(null);
   const [gallery, setGallery] = useState([])
 
 
   // get vendor images 
   const getVendorImages = async () => {
+    setLoading(true)
     try {
       const response = await api.get(`${BASE_URL}/get-vendor-gallery-images`, {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      setBrandlogoData(response?.data?.data['vendor-banner'][0])
       setGallery(response?.data?.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -117,12 +131,13 @@ const PhotoGallery = () => {
   }, [])
 
 
-  const handleBrandLogo = async (event) => {
+  const onUploadBrandLogo = async (event) => {
     const formData = new FormData();
     formData.append('id', '');
-    // formData.append('image', event.target.files[0]);
+    formData.append('image', event.target.files[0]);
     formData.append('action_type', 'insert')
 
+    setLoading(true)
     try {
       const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
         headers: {
@@ -131,34 +146,68 @@ const PhotoGallery = () => {
         },
       });
       setBrandlogo(response.data.data.image);
+      getVendorImages();
       toast.success(successToast(response))
     } catch (error) {
       console.log(error);
       toast.error(datavalidationerror(error))
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleRemoveBrandLogo = async () => {
+  const onReUploadBrandLogo = async (event) => {
     const formData = new FormData();
-    formData.append('id', brandLogoData.id);
-    formData.append('image', brandLogoData?.image_name[0]?.medium);
-    formData.append('action_type', 'remove')
+    formData.append('id', parseInt(gallery['vendor-brand-logo'][0]?.id && gallery['vendor-brand-logo'][0]?.id));
+    formData.append('image', event.target.files[0]);
+    formData.append('action_type', 'replace')
+
+    setLoading(true)
     try {
-      const response = await api.post(`${BASE_URL}/delete-vendor-brand-logo`, formData, {
+      const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      getVendorImages();
+      toast.success(successToast(response))
+    } catch (error) {
+      console.log(error);
+      toast.error(datavalidationerror(error))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onHandleRemoveBrandLogo = async (event) => {
+    const formData = new FormData();
+    formData.append('id', parseInt(gallery['vendor-brand-logo'][0]?.id && gallery['vendor-brand-logo'][0]?.id));
+    formData.append('image', event.target.files[0]);
+    formData.append('action_type', 'remove')
+
+    setLoading(true)
+    try {
+      const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      getVendorImages();
       setBrandlogo(null);
       toast.success(successToast(response));
     } catch (error) {
       console.log(error);
       toast.error(datavalidationerror(error));
+    } finally {
+      setLoading(false)
     }
   }
 
   // console.log(brandLogoData?.image_name[0]?.medium, "111111");
   // console.log(brandLogoData, "gallery?.vendor-banner[0]?.image_name[0]?.original");
+
+  console.log(gallery['vendor-brand-logo'], "gallery gallery");
 
   return (
     <>
@@ -180,26 +229,88 @@ const PhotoGallery = () => {
               }}
             />
 
+
+
+
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-              {brandLogoData?.image_name.map((banner, index) => {
-                return (
-                  <img key={index} src={banner?.medium} alt={`Banner ${index}`} />
+              {
+                gallery['vendor-brand-logo'] !== undefined ? (
+                  <>
+                    {gallery['vendor-brand-logo']?.map((logo, index) => (
+                      console.log('Logo:', logo),
+                      <img
+                        key={index}
+                        src={logo?.image_name[0]?.medium || 'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                        alt={`Brand Logo ${index}`}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <Stack direction="row" justifyContent="center">
+                      <img
+                        style={{ width: '200px' }}
+                        src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                        alt={`Brand Logo`}
+                      />
+                    </Stack>
+                  </>
                 )
-              })}
+              }
+
+
+
+              {gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0 ? (
+                <>
+                  <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={onReUploadBrandLogo}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
+                      {loading ? 'Loading' : 'Re Upload'}
+                    </Button>
+                  </label>
+                </>
+              ) : (
+                <>
+                  <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={onUploadBrandLogo}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
+                      {loading ? 'Loading...' : 'Upload'}
+                    </Button>
+                  </label>
+                </>
+              )}
+
+
               <input
                 accept="image/*"
-                id="contained-button-file"
+                id="remove-brand-logo"
                 multiple
                 type="file"
                 style={{ display: 'none' }}
-                onChange={handleBrandLogo}
+                onChange={onHandleRemoveBrandLogo}
+                className="cuisines-list-white-btn"
               />
-              <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span">
-                  Upload / Re Upload
+              <label htmlFor="remove-brand-logo">
+                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
+                  {loading ? 'Loading...' : 'Delete'}
                 </Button>
               </label>
-              <Button variant="contained" className="cuisines-list-white-btn" onClick={handleRemoveBrandLogo}> Remove </Button>
+
+              {/* <Button variant="contained" className="cuisines-list-white-btn" onClick={handleRemoveBrandLogo}> Remove </Button> */}
             </Stack>
           </div>
 
@@ -219,7 +330,7 @@ const PhotoGallery = () => {
             />
 
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-              {gallery['vendor-brand-logo']?.map((logo, index) => (
+              {gallery['vendor-banner']?.map((logo, index) => (
                 <img key={index} src={logo?.image_name[0]?.medium} alt={`Brand Logo ${index}`} />
               ))}
 

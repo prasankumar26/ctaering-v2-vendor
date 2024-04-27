@@ -23,35 +23,58 @@ const Layout = () => {
     }
   }, [accessToken])
 
+  const getTimeUntil = (timestamp) => {
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (timestamp > currentTimestamp) {
+      const differenceInSeconds = timestamp - currentTimestamp;
+      const hours = Math.floor(differenceInSeconds / 3600);
+      const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+      const seconds = differenceInSeconds % 60;
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds left until given timestamp`;
+    } else {
+      return "Given timestamp is in the past";
+    }
+  };
+
 
   const checkTokenExpiration = async () => {
     const accessTokenExp = getExpirationTime(accessToken);
+    const refreshTokenExp = getExpirationTime(refreshToken);
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    
+    console.log(accessTokenExp < currentTimestamp, "accessTokenExp < currentTimestamp");
+    console.log(getTimeUntil(accessTokenExp), "accessTokenExp");
+    console.log(getTimeUntil(refreshTokenExp), "refreshTokenExp");
+    console.log(getTimeUntil(currentTimestamp), "currentTimestamp");
+    console.log(accessTokenExp - currentTimestamp <= 30, "accessTokenExp - currentTimestamp");
+
     if (accessTokenExp !== null && accessTokenExp < currentTimestamp) {
-      try {
-        const response = await api.post(`${BASE_URL}/token-refresh`, {}, {
-          headers: {
-            Authorization: `Bearer ${refreshToken} ${accessToken}`,
+      const timeUntilExpiration = accessTokenExp - currentTimestamp;
+      if (timeUntilExpiration <= 30) {
+        try {
+          const response = await api.post(`${BASE_URL}/token-refresh`, {}, {
+            headers: {
+              Authorization: `Bearer ${refreshToken} ${accessToken}`,
+            }
+          });
+          console.log(accessTokenExp < currentTimestamp, "TTTT");
+          if (response.status === 200) {
+            console.log("one", "one");
+            // If the token was successfully refreshed
+            dispatch(setAccessToken(response.data.accessToken));
+          } else {
+            // If the refresh token has expired, navigate to create account page
+            console.log("three", "three");
+            navigate('/create-account');
           }
-        });
-        console.log(accessTokenExp < currentTimestamp, "TTTT");
-        if (response.status === 200) {
-          console.log("one", "one");
-          // If the token was successfully refreshed
-          dispatch(setAccessToken(response.data.accessToken));
-        } else {
-          // If the refresh token has expired, navigate to create account page
-          console.log("three", "three");
-          navigate('/create-account');
+        } catch (error) {
+          console.log(error);
+          toast.error(datavalidationerror(error))
         }
-      } catch (error) {
-        console.log(error);
-        toast.error(datavalidationerror(error))
       }
     }
   }
+
 
   useEffect(() => {
     checkTokenExpiration()

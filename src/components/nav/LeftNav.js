@@ -64,7 +64,6 @@ const LeftNav = () => {
           Authorization: `Bearer ${accessToken}`,
         }
       })
-      console.log(response, "response");
       businessProfile(response?.data?.data)
     } catch (error) {
       console.log(error);

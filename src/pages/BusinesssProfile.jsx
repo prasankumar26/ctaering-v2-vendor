@@ -131,9 +131,9 @@ const BusinesssProfile = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   // location end 
 
-  console.log(locationPlaceId, "locationPlaceId");
-  console.log(selectedLocation, "selectedLocation");
-  console.log(values, "values");
+  // console.log(locationPlaceId, "locationPlaceId");
+  // console.log(selectedLocation, "selectedLocation");
+  // console.log(values, "values");
 
   // loc start
   const {
@@ -167,7 +167,7 @@ const BusinesssProfile = () => {
     const area = address_components?.find(c => c?.types?.includes('locality')) || {};
     const street_name = address_components?.find(c => c?.types?.includes('locality')) || {};
 
-    console.log(pincode, "pincode pincode 123");
+    // console.log(pincode, "pincode pincode 123");
 
     const { geometry: { location } } = places;
     const { lat, lng } = location;
@@ -618,29 +618,7 @@ const BusinesssProfile = () => {
               <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid item xs={8}>
 
-                  <div>
-                    <p className="business-profile-name">Location</p>
-                    <CssTextField
-                      value={values.website_link}
-                      onChange={handleChange}
-                      name="website_link"
-                      variant="outlined"
-                      className='mt-0'
-                      style={{ width: '100%' }}
-                      InputLabelProps={{
-                        style: { color: '#777777', fontSize: '10px' },
-                      }}
-                      InputProps={{
-                        style: {
-                          borderRadius: '8px',
-                          backgroundColor: '#FFFFFF',
-                        }
-                      }}
-                    />
-                  </div>
-
-
-
+            
                   <div>
                     <p className="business-profile-name">Website link(optional)</p>
                     <CssTextField
