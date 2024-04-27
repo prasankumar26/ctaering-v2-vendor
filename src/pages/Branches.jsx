@@ -74,7 +74,7 @@ const initialState = {
 
 const initialStateBranchState = {
   catering_service_name: '',
-  contact_person_name: '',
+  point_of_contact_name: '',
   phone_number: '',
 }
 
@@ -130,15 +130,15 @@ const Branches = () => {
 
     setLocationValues({
       ...locationValues,
-      street_name: street_name,
-      area: area,
+      street_name: street_name?.long_name,
+      area: area?.long_name,
       pincode: pincode?.long_name,
       latitude: lat(),
       longitude: lng(),
       address: name,
-      city: city,
-      state: state,
-      country: country,
+      city: city?.long_name,
+      state: state?.long_name,
+      country: country?.long_name,
       formatted_address: formatted_address,
       map_location_link: formatted_address,
       place_id: places?.place_id
@@ -218,7 +218,7 @@ const Branches = () => {
 
     setValues({
       catering_service_name: item?.catering_service_name || '',
-      contact_person_name: item?.contact_person_name || '',
+      point_of_contact_name: item?.point_of_contact_name || '',
       phone_number: item?.phone_number || '',
     })
 
@@ -247,11 +247,11 @@ const Branches = () => {
     handleClickOpen()
     setLoading(true)
 
-    const { catering_service_name, contact_person_name, phone_number } = values;
+    const { catering_service_name, point_of_contact_name, phone_number } = values;
 
     const data = {
       catering_service_name: catering_service_name,
-      contact_person_name: contact_person_name,
+      point_of_contact_name: point_of_contact_name,
       phone_number: phone_number ? `+91-${phone_number}` : '',
       country: locationValues?.country || "",
       state: locationValues?.state || "",
@@ -392,9 +392,9 @@ const Branches = () => {
             />
 
             <CssTextField
-              value={values?.contact_person_name}
+              value={values?.point_of_contact_name}
               onChange={handlechange}
-              name='contact_person_name'
+              name='point_of_contact_name'
               id="outlined-number"
               variant="outlined"
               label="Contact Person Name - Same as Main Branch"
