@@ -30,8 +30,6 @@ let otherPhotosId = 7;
 
 
 const PhotoGallery = () => {
-  const { accessToken } = useSelector((state) => state.user);
-  // const [loading, setLoading] = useState(false)
   const [photos, setPhotos] = useState([
     {
       id: 1,
@@ -110,15 +108,21 @@ const PhotoGallery = () => {
     gallery,
     loading,
 
-    // brand 
+    // brand Logo
     onUploadBrandLogo,
     onReUploadBrandLogo,
     onHandleRemoveBrandLogo,
 
-    // banner 
+    // banner Logo
     onUploadBannerLogo,
     onReUploadBannerLogo,
-    onHandleRemoveBannerLogo
+    onHandleRemoveBannerLogo,
+
+    // package / Menu 
+    onUploadBannerPackageMenu,
+    onReUploadPackageMenu,
+    onHandleRemovePackageMenu
+
   } = useFetchPhotoGallery()
 
   console.log(gallery, "gallery 123");
@@ -133,6 +137,8 @@ const PhotoGallery = () => {
 
       <Container maxWidth="lg">
         <div className='card-box-shadow px-5 py-4 mb-4'>
+
+          {/* Brand Logo  */}
           <div className="mb-4 mt-2">
             <p className='cuisines-title text-center'>Brand Logo</p>
             <Divider
@@ -145,13 +151,11 @@ const PhotoGallery = () => {
                 margin: '0px auto'
               }}
             />
-
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
               {
                 gallery['vendor-brand-logo'] !== undefined ? (
                   <>
                     {gallery['vendor-brand-logo']?.map((logo, index) => (
-                      console.log('Logo:', logo),
                       <img
                         key={index}
                         src={logo?.image_name[0]?.medium}
@@ -244,7 +248,6 @@ const PhotoGallery = () => {
                 gallery['vendor-banner'] !== undefined ? (
                   <>
                     {gallery['vendor-banner']?.map((logo, index) => (
-                      console.log('Logo:', logo),
                       <img
                         key={index}
                         src={logo?.image_name[0]?.medium}
@@ -317,7 +320,7 @@ const PhotoGallery = () => {
             </Stack>
           </div>
 
-
+          {/* Package / Menu Card Photos  */}
           <div className="mt-2">
             <p className='cuisines-title text-center'>Package / Menu Card Photos</p>
             <Divider
@@ -331,18 +334,83 @@ const PhotoGallery = () => {
               }}
             />
             <Stack direction="row" justifyContent="start" flexWrap="wrap" alignItems="center" spacing={0}>
-              {photos.map((item) => (
-                <div className="pg-shadow me-2">
-                  <img src={item.url} alt="" className="img-fluid pg-gallery-img" />
-                  <div className="pg-img-icons">
-                    <Stack direction="row" justifyContent="space-between" className="py-2 px-2">
-                      <EditIcon className="pg-img-icon" />
-                      <DeleteIcon className="pg-img-icon" />
+              {
+                gallery['vendor-menu'] !== undefined ? (
+                  <>
+                    {gallery['vendor-menu'].map((item, index) => (
+                      <div className="pg-shadow me-2">
+                        <img key={index} src={item?.image_name[0]?.medium} alt={`Package Menu ${index}`} className="img-fluid pg-gallery-img" />
+                        <div className="pg-img-icons">
+                          <Stack direction="row" justifyContent="space-between" className="py-2 px-2">
+                            <>
+                              <input
+                                accept="image/*"
+                                id="onReUploadPackageMenu"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={(e) => onReUploadPackageMenu(e, item)}
+                              />
+                              <label htmlFor="onReUploadPackageMenu">
+                                <span variant="contained" component="span" disabled={loading}>
+                                  {loading ? '...' : <EditIcon className="pg-img-icon" />}
+                                </span>
+                              </label>
+                            </>
+
+
+                            <input
+                              accept="image/*"
+                              id="onHandleRemovePackageMenu"
+                              multiple
+                              type="file"
+                              style={{ display: 'none' }}
+                              onChange={(e) => onHandleRemovePackageMenu(e, item)}
+                            />
+                            <label htmlFor="onHandleRemovePackageMenu">
+                              <span variant="contained" component="span" disabled={loading}>
+                                {loading ? 'Loading...' : <DeleteIcon className="pg-img-icon" />}
+                              </span>
+                            </label>
+
+                            {/* <EditIcon className="pg-img-icon" /> */}
+                            {/* <DeleteIcon className="pg-img-icon" /> */}
+                          </Stack>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <Stack direction="row" justifyContent="center">
+                      <img
+                        style={{ width: '200px' }}
+                        src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                        alt={`Brand Logo`}
+                      />
                     </Stack>
-                  </div>
-                </div>
-              ))}
-              <Button variant="contained" className="pg-bg-white" onClick={() => {
+                  </>
+                )
+              }
+
+
+              <>
+                <input
+                  accept="image/*"
+                  id="onUploadBannerPackageMenu"
+                  multiple
+                  type="file"
+                  style={{ display: 'none' }}
+                  onChange={onUploadBannerPackageMenu}
+                />
+                <label htmlFor="onUploadBannerPackageMenu">
+                  <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
+                    {loading ? 'Loading...' : <AddIcon />}
+                  </Button>
+                </label>
+              </>
+
+              {/* <Button variant="contained" className="pg-bg-white" onClick={() => {
                 setPhotos([
                   ...photos,
                   {
@@ -352,7 +420,7 @@ const PhotoGallery = () => {
                 ])
               }}>
                 <AddIcon />
-              </Button>
+              </Button> */}
 
             </Stack>
           </div>

@@ -25,13 +25,13 @@ const useFetchPhotoGallery = () => {
             setLoading(false)
         }
     }
-    console.log(gallery, "response000");
 
     useEffect(() => {
         getVendorImages()
     }, [])
 
 
+    // Brand Logo 
     const onUploadBrandLogo = async (event) => {
         const formData = new FormData();
         formData.append('id', '');
@@ -175,21 +175,100 @@ const useFetchPhotoGallery = () => {
         }
     }
 
+    // Package / Menu 
+    const onUploadBannerPackageMenu = async (event) => {
+        const formData = new FormData();
+        formData.append('id', '');
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'insert')
+
+        setLoading(true)
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const onReUploadPackageMenu = async (event, item) => {
+        console.log(event, item, "event, item");
+        const formData = new FormData();
+        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'replace')
+
+        setLoading(true)
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const onHandleRemovePackageMenu = async (event, item) => {
+        console.log(event, item, "event, itemGGG");
+        const formData = new FormData();
+        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'remove')
+
+        setLoading(true)
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            toast.success(successToast(response));
+            getVendorImages();
+            window.reload()
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error));
+        } finally {
+            setLoading(false)
+        }
+    }
+
 
     return {
         gallery,
-        setGallery,
         loading,
 
-        // brand 
+        // Brand Logo 
         onUploadBrandLogo,
         onReUploadBrandLogo,
         onHandleRemoveBrandLogo,
 
-        // banner 
+        // banner Logo
         onUploadBannerLogo,
         onReUploadBannerLogo,
-        onHandleRemoveBannerLogo
+        onHandleRemoveBannerLogo,
+
+        // Package / Menu 
+        onUploadBannerPackageMenu,
+        onReUploadPackageMenu,
+        onHandleRemovePackageMenu
     }
 }
 
