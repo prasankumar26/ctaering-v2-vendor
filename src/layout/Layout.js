@@ -14,13 +14,19 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   useEffect(() => {
+    if (!accessToken) {
+      navigate("/create-account");
+      return;
+    }
+
     const checkTokenExpiration = async () => {
       try {
         // Decode the access token to get its expiration time
         const accessTokenExp = jwtDecode(accessToken).exp;
         const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-        
+
         console.log(accessTokenExp < currentTime, "accessTokenExp < currentTime");
 
         // If access token has expired

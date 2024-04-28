@@ -19,7 +19,7 @@ div {
   font-family: var(--fontPrimary);
 }
 
-body button{
+body button {
   font-family: var(--fontPrimary) !important;
 }
 
@@ -475,9 +475,10 @@ code {
   font-size: calc(1.325rem + .9vw) !important
 }
 
-.text-danger{
+.text-danger {
   color: var(--secondary);
 }
+
 /* globals end */
 
 /* project global start */
@@ -1579,7 +1580,7 @@ code {
 /* faq end */
 
 /* package start  */
-.green-switch .MuiSwitch-track{
+.green-switch .MuiSwitch-track {
   background-color: var(--accent3) !important;
 }
 
@@ -1606,18 +1607,21 @@ code {
   font-weight: 400;
   color: var(--secondarytext);
 }
-.max-min-capacity-para-green{
+
+.max-min-capacity-para-green {
   font-size: 12px;
   font-family: var(--fontSecondary);
   font-weight: 400;
   color: var(--accent3);
 }
-.max-min-capacity-para-red{
+
+.max-min-capacity-para-red {
   font-size: 12px;
   font-family: var(--fontSecondary);
   font-weight: 400;
   color: var(--accent4);
 }
+
 .package-icons {
   width: 35px;
   height: 35px;
@@ -1640,6 +1644,7 @@ code {
   text-transform: capitalize;
   color: var(--accent3);
 }
+
 .package-vn-title-nonveg {
   font-size: 16px;
   font-family: var(--fontPrimary);
@@ -1648,35 +1653,42 @@ code {
   text-transform: capitalize;
   color: var(--accent4);
 }
+
 .green-switch {
   color: green;
 }
+
 /* package end  */
 
 
 /* photo gallery page start  */
-.pg-gallery-img{
+.pg-gallery-img {
   width: 150px;
   border-radius: var(--radiusOne);
 }
-.pg-gallery-img-big{
+
+.pg-gallery-img-big {
   width: 250px;
   border-radius: var(--radiusOne);
 }
-.pg-shadow{
+
+.pg-shadow {
   box-shadow: var(--card-box-shadow);
   border-radius: var(--radiusOne);
   margin-bottom: 10px !important;
 }
-.pg-img-icon{
+
+.pg-img-icon {
   font-size: 18px !important;
   color: var(--primarytext);
   cursor: pointer;
 }
-.pg-bg-white{
+
+.pg-bg-white {
   background-color: #fff !important;
   color: var(--secondary) !important;
 }
+
 .cuisines-list-white-btn {
   background-color: #ffffff !important;
   border-radius: var(--radiusOne) !important;
@@ -1685,6 +1697,7 @@ code {
   color: var(--secondary) !important;
   font-weight: 500 !important;
 }
+
 /* photo gallery page end */
 
 
@@ -1729,7 +1742,7 @@ code {
   font-size: 18px;
 }
 
-.mark-read{
+.mark-read {
   color: #C33332;
   font-size: 12px;
   cursor: pointer;
@@ -1739,12 +1752,13 @@ code {
 
 
 /* dashboard start page */
-.dashboard-top{
+.dashboard-top {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   padding: 5px 10px;
-  border-radius: var(--radiusOne); 
+  border-radius: var(--radiusOne);
 }
-.sub-status{
+
+.sub-status {
   font-size: 12px;
   font-family: var(--fontPrimary);
   font-weight: 500;
@@ -1752,6 +1766,7 @@ code {
   text-transform: capitalize;
   color: var(--primarytext);
 }
+
 .branded-btn {
   background-color: var(--branded) !important;
   border-radius: var(--radiusTwo) !important;
@@ -1760,34 +1775,36 @@ code {
   padding: 0px 16px !important;
   height: 20px !important;
 }
-.dashboard-days{
+
+.dashboard-days {
   font-size: 14px;
   color: var(--accent1);
 }
 
-.dashboard-red{
+.dashboard-red {
   background-color: var(--secondary);
   padding: 10px;
   border-radius: var(--radiusOne);
   width: 100% !important;
 }
 
-.dashboard-sub-title{
+.dashboard-sub-title {
   font-size: 12px;
   font-family: var(--fontSecondary);
   font-weight: 400;
   color: #ffffff;
 }
 
-.dashboard-numbers{
+.dashboard-numbers {
   font-size: 18px !important;
   font-weight: 600 !important;
   color: #fff;
 }
+
 /* dashboard end page */
 
 /* raise ticket page start */
-.rt-heading{
+.rt-heading {
   font-size: 16px;
   font-family: var(--fontPrimary);
   font-weight: 500;
@@ -1798,13 +1815,40 @@ code {
 }
 
 .job-textarea {
-  border: 1px solid #ccc !important; 
-  transition: border-color 0.3s !important; 
+  border: 1px solid #ccc !important;
+  transition: border-color 0.3s !important;
 }
 
 .job-textarea:focus,
 .job-textarea:active {
-  border: 2px solid var(--secondary) !important; 
+  border: 2px solid var(--secondary) !important;
 }
 
 /* raise ticket page end */
+
+/* loading */
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  width: 6rem;
+  height: 6rem;
+  border: 5px solid var(--accent2);
+  border-radius: 50%;
+  border-top-color: var(--accent4);
+  animation: spinner 2s linear infinite;
+}
+
+.loading-center {
+  margin: 0 auto;
+}
+
+.review-height{
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

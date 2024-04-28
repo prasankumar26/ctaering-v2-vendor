@@ -21,14 +21,21 @@ export const userSlice = createSlice({
         setVendorId: (state, action) => {
             state.vendorId = action.payload;
         },
-        setAccessToken: (state, action) =>{
+        setAccessToken: (state, action) => {
             state.accessToken = action.payload;
         },
-        setRefreshToken: (state, action) =>{
+        setRefreshToken: (state, action) => {
             state.refreshToken = action.payload;
+        },
+        logoutUser: (state) => {
+            state.userData = initialState.userData;
+            state.loginUserData = initialState.loginUserData;
+            state.vendorId = initialState.vendorId;
+            state.accessToken = initialState.accessToken;
+            state.refreshToken = initialState.refreshToken;
         }
     }
 })
 
-export const { setData, setLoginUserData, setVendorId, setAccessToken, setRefreshToken } = userSlice.actions;
+export const { setData, setLoginUserData, setVendorId, setAccessToken, setRefreshToken, logoutUser } = userSlice.actions;
 export default userSlice.reducer

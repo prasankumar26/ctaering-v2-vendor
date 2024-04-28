@@ -33,6 +33,7 @@ const useFetchPhotoGallery = () => {
 
     // Brand Logo 
     const onUploadBrandLogo = async (event) => {
+        console.log(event.target.files[0], "event");
         const formData = new FormData();
         formData.append('id', '');
         formData.append('image', event.target.files[0]);

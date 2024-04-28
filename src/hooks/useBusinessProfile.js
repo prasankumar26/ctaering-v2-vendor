@@ -16,9 +16,7 @@ const useBusinessProfile = (url, accessToken) => {
                     Authorization: `Bearer ${accessToken}`,
                 }
             })
-            console.log(response, "response");
             setData(response?.data?.data[0] ? response?.data?.data[0] : response?.data?.data)
-            toast.success(successToast(response));
         } catch (error) {
             console.log(error);
             toast.error(datavalidationerror(error))

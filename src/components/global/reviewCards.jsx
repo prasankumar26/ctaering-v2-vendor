@@ -1,7 +1,7 @@
 import Stack from '@mui/material/Stack';
 import { Divider } from '@mui/material';
 
-const InquiriesCards = () => {
+const ReviewCards = ({ review }) => {
     return (
         <>
             <Stack direction="row" justifyContent="space-between" spacing={1}>
@@ -9,10 +9,10 @@ const InquiriesCards = () => {
                     <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" alt="" className="img-fluid ic-img" />
                     <div className="">
                         <h5 className='ic-title'>Andrew Hernandez</h5>
-                        <p className='ic-desc'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id deleniti neque consequatur est quibusdam! Recusandae nemo perferendis et itaque molestiae.</p>
+                        <p className='ic-desc'>{review?.review_text}</p>
                     </div>
                 </Stack>
-                <p className='ic-small-text'>Jan 28th, 4:30</p>
+                <p className='ic-small-text'>{review?.review_date?.slice(0,10)}</p>
             </Stack>
             <div className='mb-3' style={{ marginTop: '10px', borderTop: '1px solid #e0e3e7' }}>
                 <Divider />
@@ -21,4 +21,4 @@ const InquiriesCards = () => {
     )
 }
 
-export default InquiriesCards
+export default ReviewCards

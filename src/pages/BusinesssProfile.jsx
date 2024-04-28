@@ -63,6 +63,7 @@ const BusinesssProfile = () => {
   const { accessToken } = useSelector((state) => state.user)
   const { vendor_id } = useSelector((state) => state?.user?.vendorId)
   const [loading, setLoading] = useState(false)
+  // const [date, setDate] = useState(null)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
 
@@ -71,9 +72,9 @@ const BusinesssProfile = () => {
       ...prevValues,
       vendor_service_name: data?.vendor_service_name,
       vendor_type: vendor_type,
-      contact_person_name: data?.contact_person_name,
+      point_of_contact_name: data?.point_of_contact_name,
       working_days_hours: data?.working_days_hours,
-      working_since: moment(data?.working_since).format('YYYY-MM-DD'),
+      working_since: data?.working_since,
       about_description: data?.about_description,
       total_staffs_approx: data?.total_staffs_approx,
       business_email: data?.business_email,
@@ -102,7 +103,7 @@ const BusinesssProfile = () => {
   // validation schema 
   const schema = Yup.object().shape({
     vendor_service_name: Yup.string().required('Name is required.'),
-    contact_person_name: Yup.string().required('contact person name is required.'),
+    point_of_contact_name: Yup.string().required('contact person name is required.'),
     working_days_hours: Yup.string().required('working days hours is required.'),
     total_staffs_approx: Yup.string().required('total staffs approx is required.'),
     about_description: Yup.string().required('about description is required.'),
@@ -195,7 +196,6 @@ const BusinesssProfile = () => {
   }
   // loc end 
 
-
   return (
     <>
       <TopHeader title="Business Profile" description="below is a business overview" />
@@ -246,9 +246,9 @@ const BusinesssProfile = () => {
                   <div className="mt-3">
                     <p className="business-profile-name">Conatct person Name</p>
                     <CssTextField
-                      value={values.contact_person_name}
+                      value={values.point_of_contact_name}
                       onChange={handleChange}
-                      name="contact_person_name"
+                      name="point_of_contact_name "
                       variant="outlined"
                       placeholder="Enter Conatct person name"
                       className='mt-0'
@@ -263,7 +263,7 @@ const BusinesssProfile = () => {
                         }
                       }}
                     />
-                    {errors.contact_person_name && <small className='text-danger mt-2 ms-1'>{errors.contact_person_name}</small>}
+                    {errors.point_of_contact_name && <small className='text-danger mt-2 ms-1'>{errors.point_of_contact_name}</small>}
                   </div>
                 </Grid>
 
@@ -435,19 +435,20 @@ const BusinesssProfile = () => {
                     </Box>
                   </div>
 
-                  {placePredictions?.length > 0 && <p className='ct-box-search-loc mb-1'>Search Results</p>}
+                  {placePredictions?.length > 0 && !selectedLocation && (
+                    <p className='ct-box-search-loc mb-1'>Search Results</p>
+                  )}
 
                   {isPlacePredictionsLoading ? (
                     <LoaderSpinner />
                   ) : (
-                    selectedLocation ? (
-                      <h2 className='ct-box-search-results' onClick={() => setSelectedLocation(null)}>{selectedLocation.description}</h2>
-                    ) : (
+                    !selectedLocation && (
                       placePredictions?.map((item, index) => (
                         <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
                       ))
                     )
                   )}
+
 
 
                 </Grid>
@@ -477,10 +478,17 @@ const BusinesssProfile = () => {
                   <div className="mt-3">
                     <p className="business-profile-name">Working Since</p>
                     <CssTextField
-                      value={values.working_since}
+                      value={values.working_since ? (`${values.working_since}-01-01`) : ''}
                       type="date"
-                      onChange={handleChange}
                       name="working_since"
+                      onChange={(e) => {
+                        const selectedDate = e.target.value;
+                        const year = selectedDate.split("-")[0];
+                        setValues((prevValues) => ({
+                          ...prevValues,
+                          working_since: year,
+                        }));
+                      }}
                       variant="outlined"
                       placeholder="Enter Your Catering Service Name"
                       className='mt-0'
@@ -494,7 +502,8 @@ const BusinesssProfile = () => {
                           backgroundColor: '#FFFFFF',
                         }
                       }}
-                    /> {errors.working_since && <small className='text-danger mt-2 ms-1'>{errors.working_since}</small>}
+                    /> 
+                    {errors.working_since && <small className='text-danger mt-2 ms-1'>{errors.working_since}</small>}
                   </div>
                 </Grid>
               </Grid>
@@ -618,7 +627,7 @@ const BusinesssProfile = () => {
               <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid item xs={8}>
 
-            
+
                   <div>
                     <p className="business-profile-name">Website link(optional)</p>
                     <CssTextField
