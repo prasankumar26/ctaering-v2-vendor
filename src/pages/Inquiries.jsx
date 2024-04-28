@@ -15,6 +15,7 @@ import InquiryCard from "../components/global/InquiryCard";
 import LoadingAnimation from "../components/LoadingAnimation";
 import Pagination from '@mui/material/Pagination';
 import { Page_Limit } from "../constant";
+import Grid from '@mui/material/Grid';
 
 const CssTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
@@ -46,6 +47,7 @@ const Inquiries = () => {
   const [totalPages, setTotalPages] = useState(null)
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
+  const [error, setError] = useState(null)
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -63,6 +65,7 @@ const Inquiries = () => {
       setTotalPages(response?.data?.total_pages)
       setInquiries(response?.data?.enquiries)
     } catch (error) {
+      setError(error?.response?.data?.message)
       console.log(error);
     } finally {
       setLoading(false)
@@ -88,9 +91,9 @@ const Inquiries = () => {
       <Container maxWidth="lg">
         <div className='card-box-shadow px-5 py-4 mb-4'>
 
-          <Stack direction="row" justifyContent="space-between" alignItems="center" className="mb-4">
-            <Stack direction="row" spacing={2} alignItems="center">
-              <form onSubmit={handleSubmit}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" className="mb-4">
+          <form onSubmit={handleSubmit}>
+              <Stack direction="row" spacing={2} alignItems="center">
                 <CssTextField
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -114,32 +117,42 @@ const Inquiries = () => {
                   }}
                 />
                 <Button variant="contained" className="inquiries-red-btn" type="submit">Search</Button>
-              </form>
-            </Stack>
+              </Stack>
+          </form>
 
-            <DatePickerSearch />
-          </Stack>
+          <DatePickerSearch />
+        </Stack>
 
-          <>
-            {loading ? (
-              <LoadingAnimation reviewHeight="review-height" />
+        <>
+          {
+            error !== null ? (
+              <h2 className='text-center'>{error}</h2>
             ) : (
-              inquiries?.length > 0 ? (
-                inquiries.map((item) => (
-                  <InquiryCard item={item} key={item.id} />
-                ))
-              ) : (
-                <h2>No Inquiries Found</h2>
-              )
-            )}
-          </>
+              <>
+                {
+                  loading ? (
+                    <LoadingAnimation reviewHeight="review-height" />
+                  ) : (
+                    inquiries?.length > 0 ? (
+                      inquiries.map((item) => (
+                        <InquiryCard item={item} key={item.id} />
+                      ))
+                    ) : (
+                        <h2 className='text-center'>No Inquiries Found</h2>
+                    )
+                  )}
+              </>
+            )
+          }
 
-          <Stack spacing={2} direction="row" justifyContent="center">
-            <Pagination count={totalPages} page={page} onChange={handleChange} />
-          </Stack>
-        </div>
+        </>
 
-      </Container>
+        {error === null && <Stack spacing={2} direction="row" justifyContent="center">
+          <Pagination count={totalPages} page={page} onChange={handleChange} />
+        </Stack>}
+      </div>
+
+    </Container >
 
     </>
   )
