@@ -68,7 +68,7 @@ const initialState = {
   state: '',
   country: '',
   formatted_address: '',
-  map_location_link: '',
+  // map_location_link: '',
   place_id: '',
 }
 
@@ -140,7 +140,7 @@ const Branches = () => {
       state: state?.long_name,
       country: country?.long_name,
       formatted_address: formatted_address,
-      map_location_link: formatted_address,
+      // map_location_link: formatted_address,
       place_id: places?.place_id
     })
   }
@@ -233,7 +233,7 @@ const Branches = () => {
       state: item?.state || "",
       country: item?.country || "India",
       formatted_address: item?.formatted_address || "",
-      map_location_link: item?.formatted_address || "",
+      // map_location_link: item?.formatted_address || "",
       place_id: item?.place_id || "",
     })
 
@@ -259,11 +259,11 @@ const Branches = () => {
       longitude: locationValues?.longitude || "",
       street_name: locationValues?.street_name || "",
       formatted_address: locationValues?.formatted_address || "",
-      map_location_link: locationValues?.formatted_address || "",
+      // map_location_link: locationValues?.formatted_address || "",
       city: locationValues?.city || "",
       pincode: locationValues?.pincode || "",
       place_id: locationValues?.place_id || '',
-      branch_type: 'BRANCH'
+      // branch_type: 'BRANCH'
     }
 
     const updateData = {

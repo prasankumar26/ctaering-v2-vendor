@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { api, BASE_URL } from '../api/apiConfig';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { datavalidationerror, successToast } from '../utils';
+import { setIsLoading } from '../features/user/userSlice';
 
 const useFetchPhotoGallery = () => {
     const [gallery, setGallery] = useState([]);
     const [loading, setLoading] = useState(false)
     const { accessToken } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     // get vendor images 
     const getVendorImages = async () => {
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.get(`${BASE_URL}/get-vendor-gallery-images`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
-            setGallery(response?.data?.data);
+            setGallery(response?.data?.data || []);
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
@@ -39,7 +41,7 @@ const useFetchPhotoGallery = () => {
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'insert')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
                 headers: {
@@ -53,7 +55,7 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
@@ -63,7 +65,7 @@ const useFetchPhotoGallery = () => {
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'replace')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
                 headers: {
@@ -77,17 +79,16 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
-    const onHandleRemoveBrandLogo = async (event) => {
+    const onHandleRemoveBrandLogo = async () => {
         const formData = new FormData();
         formData.append('id', parseInt(gallery['vendor-brand-logo'][0]?.id && gallery['vendor-brand-logo'][0]?.id));
-        formData.append('image', event.target.files[0]);
         formData.append('action_type', 'remove')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
                 headers: {
@@ -100,7 +101,7 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error));
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
@@ -111,7 +112,7 @@ const useFetchPhotoGallery = () => {
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'insert')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
                 headers: {
@@ -125,7 +126,7 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
@@ -135,7 +136,7 @@ const useFetchPhotoGallery = () => {
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'replace')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
                 headers: {
@@ -149,17 +150,16 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
-    const onHandleRemoveBannerLogo = async (event) => {
+    const onHandleRemoveBannerLogo = async () => {
         const formData = new FormData();
         formData.append('id', parseInt(gallery['vendor-banner'][0]?.id && gallery['vendor-banner'][0]?.id));
-        formData.append('image', event.target.files[0]);
         formData.append('action_type', 'remove')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
                 headers: {
@@ -172,7 +172,7 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error));
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
@@ -183,7 +183,7 @@ const useFetchPhotoGallery = () => {
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'insert')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
                 headers: {
@@ -197,7 +197,7 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
@@ -208,7 +208,7 @@ const useFetchPhotoGallery = () => {
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'replace')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
                 headers: {
@@ -222,18 +222,16 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
         }
     }
 
-    const onHandleRemovePackageMenu = async (event, item) => {
-        console.log(event, item, "event, itemGGG");
+    const onHandleRemovePackageMenu = async (item) => {
         const formData = new FormData();
         formData.append('id', parseInt(item?.id && item?.id));
-        formData.append('image', event.target.files[0]);
         formData.append('action_type', 'remove')
 
-        setLoading(true)
+        dispatch(setIsLoading(true))
         try {
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
                 headers: {
@@ -242,12 +240,153 @@ const useFetchPhotoGallery = () => {
             });
             toast.success(successToast(response));
             getVendorImages();
-            window.reload()
         } catch (error) {
             console.log(error);
             toast.error(datavalidationerror(error));
         } finally {
-            setLoading(false)
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    // other service 
+    const onUploadService = async (event) => {
+        const formData = new FormData();
+        formData.append('id', '');
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'insert')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    const onReUploadEditService = async (event, item) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'replace')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    const onHandleRemoveService = async (item) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('action_type', 'remove')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            toast.success(successToast(response));
+            getVendorImages();
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error));
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    // other photos 
+    const onUploadOtherPhotos = async (event) => {
+        const formData = new FormData();
+        formData.append('id', '');
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'insert')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    const onReUploadEditOtherPhotos = async (event, item) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'replace')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    const onHandleRemoveOtherPhotos = async (item) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('action_type', 'remove')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            toast.success(successToast(response));
+            getVendorImages();
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error));
+        } finally {
+            dispatch(setIsLoading(false))
         }
     }
 
@@ -269,7 +408,18 @@ const useFetchPhotoGallery = () => {
         // Package / Menu 
         onUploadBannerPackageMenu,
         onReUploadPackageMenu,
-        onHandleRemovePackageMenu
+        onHandleRemovePackageMenu,
+
+        // other service 
+        onUploadService,
+        onReUploadEditService,
+        onHandleRemoveService,
+
+        // other photos 
+        onUploadOtherPhotos,
+        onReUploadEditOtherPhotos,
+        onHandleRemoveOtherPhotos,
+
     }
 }
 

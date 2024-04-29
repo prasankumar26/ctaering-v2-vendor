@@ -103,10 +103,11 @@ const PhotoGallery = () => {
     },
   ])
 
+  const { isLoading } = useSelector((state) => state.user);
+
   // const [gallery, setGallery] = useState([])
   const {
     gallery,
-    loading,
 
     // brand Logo
     onUploadBrandLogo,
@@ -121,15 +122,21 @@ const PhotoGallery = () => {
     // package / Menu 
     onUploadBannerPackageMenu,
     onReUploadPackageMenu,
-    onHandleRemovePackageMenu
+    onHandleRemovePackageMenu,
+
+    // service 
+    onUploadService,
+    onReUploadEditService,
+    onHandleRemoveService,
+
+    // other photos  
+    onUploadOtherPhotos,
+    onReUploadEditOtherPhotos,
+    onHandleRemoveOtherPhotos,
 
   } = useFetchPhotoGallery()
 
-  console.log(gallery, "gallery 123");
-
-
-
-
+  console.log(gallery, "Gallery");
 
   return (
     <>
@@ -157,7 +164,7 @@ const PhotoGallery = () => {
                   <>
                     {gallery['vendor-brand-logo']?.map((logo, index) => (
                       <img
-                        key={index}
+                        key={logo?.id}
                         src={logo?.image_name[0]?.medium}
                         alt={`Brand Logo ${index}`}
                       />
@@ -187,8 +194,8 @@ const PhotoGallery = () => {
                     onChange={onReUploadBrandLogo}
                   />
                   <label htmlFor="contained-button-file">
-                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
-                      {loading ? 'Loading' : 'Re Upload'}
+                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                      Re Upload
                     </Button>
                   </label>
                 </>
@@ -203,31 +210,19 @@ const PhotoGallery = () => {
                     onChange={onUploadBrandLogo}
                   />
                   <label htmlFor="contained-button-file">
-                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
-                      {loading ? 'Loading...' : 'Upload'}
+                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                      Upload
                     </Button>
                   </label>
                 </>
               )}
 
-              <input
-                accept="image/*"
-                id="remove-brand-logos"
-                multiple
-                type="file"
-                style={{ display: 'none' }}
-                onChange={onHandleRemoveBrandLogo}
-                className="cuisines-list-white-btn"
-              />
-              <label htmlFor="remove-brand-logos">
-                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
-                  {loading ? 'Loading...' : 'Delete'}
-                </Button>
-              </label>
+              <Button onClick={onHandleRemoveBrandLogo} variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                Delete
+              </Button>
 
             </Stack>
           </div>
-
 
           {/* Main Banner Photo  */}
           <div className="mb-4 mt-5">
@@ -279,8 +274,8 @@ const PhotoGallery = () => {
                     onChange={onReUploadBannerLogo}
                   />
                   <label htmlFor="onReUploadBannerLogo">
-                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
-                      {loading ? 'Loading' : 'Re Upload'}
+                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                      {'Re Upload'}
                     </Button>
                   </label>
                 </>
@@ -295,27 +290,17 @@ const PhotoGallery = () => {
                     onChange={onUploadBannerLogo}
                   />
                   <label htmlFor="onUploadBannerLogo">
-                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
-                      {loading ? 'Loading...' : 'Upload'}
+                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                      {'Upload'}
                     </Button>
                   </label>
                 </>
               )}
 
-              <input
-                accept="image/*"
-                id="remove-banner-logo"
-                multiple
-                type="file"
-                style={{ display: 'none' }}
-                onChange={onHandleRemoveBannerLogo}
-                className="cuisines-list-white-btn"
-              />
-              <label htmlFor="remove-banner-logo">
-                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
-                  {loading ? 'Loading...' : 'Delete'}
-                </Button>
-              </label>
+
+              <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading} onClick={onHandleRemoveBannerLogo}>
+                {'Delete'}
+              </Button>
 
             </Stack>
           </div>
@@ -352,29 +337,15 @@ const PhotoGallery = () => {
                                 onChange={(e) => onReUploadPackageMenu(e, item)}
                               />
                               <label htmlFor="onReUploadPackageMenu">
-                                <span variant="contained" component="span" disabled={loading}>
-                                  {loading ? '...' : <EditIcon className="pg-img-icon" />}
+                                <span variant="contained" component="span" disabled={isLoading}>
+                                  {<EditIcon className="pg-img-icon" />}
                                 </span>
                               </label>
                             </>
 
-
-                            <input
-                              accept="image/*"
-                              id="onHandleRemovePackageMenu"
-                              multiple
-                              type="file"
-                              style={{ display: 'none' }}
-                              onChange={(e) => onHandleRemovePackageMenu(e, item)}
-                            />
-                            <label htmlFor="onHandleRemovePackageMenu">
-                              <span variant="contained" component="span" disabled={loading}>
-                                {loading ? 'Loading...' : <DeleteIcon className="pg-img-icon" />}
-                              </span>
-                            </label>
-
-                            {/* <EditIcon className="pg-img-icon" /> */}
-                            {/* <DeleteIcon className="pg-img-icon" /> */}
+                            <span variant="contained" component="span" disabled={isLoading} onClick={() => onHandleRemovePackageMenu(item)}>
+                              {<DeleteIcon className="pg-img-icon" />}
+                            </span>
                           </Stack>
                         </div>
                       </div>
@@ -404,30 +375,18 @@ const PhotoGallery = () => {
                   onChange={onUploadBannerPackageMenu}
                 />
                 <label htmlFor="onUploadBannerPackageMenu">
-                  <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={loading}>
-                    {loading ? 'Loading...' : <AddIcon />}
+                  <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                    {<AddIcon />}
                   </Button>
                 </label>
               </>
 
-              {/* <Button variant="contained" className="pg-bg-white" onClick={() => {
-                setPhotos([
-                  ...photos,
-                  {
-                    id: nextId++,
-                    url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-                  }
-                ])
-              }}>
-                <AddIcon />
-              </Button> */}
-
             </Stack>
           </div>
 
-
-          <div>
-            <p className='cuisines-title text-center mt-5'>Service Photos</p>
+          {/* Service Photos start */}
+          <div className="mt-2">
+            <p className='cuisines-title text-center'>Service Photos</p>
             <Divider
               className='mt-2 mb-4'
               variant="middle"
@@ -439,36 +398,74 @@ const PhotoGallery = () => {
               }}
             />
             <Stack direction="row" justifyContent="start" flexWrap="wrap" alignItems="center" spacing={0}>
-              {servicePhotos.map((item) => (
-                <div className="pg-shadow me-2">
-                  <img src={item.url} alt="" className="img-fluid pg-gallery-img" />
-                  <div className="pg-img-icons">
-                    <Stack direction="row" justifyContent="space-between" className="py-2 px-2">
-                      <EditIcon className="pg-img-icon" />
-                      <DeleteIcon className="pg-img-icon" />
+              {
+                gallery['vendor-service'] !== undefined ? (
+                  <>
+                    {gallery['vendor-service'].map((item, index) => (
+                      <div className="pg-shadow me-2">
+                        <img key={index} src={item?.image_name[0]?.medium} alt={`Package Menu ${index}`} className="img-fluid pg-gallery-img" />
+                        <div className="pg-img-icons">
+                          <Stack direction="row" justifyContent="space-between" className="py-2 px-2">
+                            <>
+                              <input
+                                accept="image/*"
+                                id="onReUploadEditService"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={(e) => onReUploadEditService(e, item)}
+                              />
+                              <label htmlFor="onReUploadEditService">
+                                <span variant="contained" component="span" disabled={isLoading}>
+                                  {<EditIcon className="pg-img-icon" />}
+                                </span>
+                              </label>
+                            </>
+
+                            <span variant="contained" component="span" disabled={isLoading} onClick={() => onHandleRemoveService(item)}>
+                              {<DeleteIcon className="pg-img-icon" />}
+                            </span>
+                          </Stack>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <Stack direction="row" justifyContent="center">
+                      <img
+                        style={{ width: '200px' }}
+                        src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                        alt={`Brand Logo`}
+                      />
                     </Stack>
-                  </div>
-                </div>
-              ))}
-              <Button variant="contained" className="pg-bg-white" onClick={() => {
-                setServicePhotos([
-                  ...servicePhotos,
-                  {
-                    id: servicePhotosId++,
-                    url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-                  }
-                ])
-              }}>
-                <AddIcon />
-              </Button>
+                  </>
+                )
+              }
+              <>
+                <input
+                  accept="image/*"
+                  id="onUploadService"
+                  multiple
+                  type="file"
+                  style={{ display: 'none' }}
+                  onChange={onUploadService}
+                />
+                <label htmlFor="onUploadService">
+                  <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                    {<AddIcon />}
+                  </Button>
+                </label>
+              </>
 
             </Stack>
           </div>
 
 
 
-          <div>
-            <p className='cuisines-title text-center mt-5'>Other Photos</p>
+          {/* Other Photos */}
+          <div className="mt-2">
+            <p className='cuisines-title text-center'>Other Photos</p>
             <Divider
               className='mt-2 mb-4'
               variant="middle"
@@ -480,38 +477,68 @@ const PhotoGallery = () => {
               }}
             />
             <Stack direction="row" justifyContent="start" flexWrap="wrap" alignItems="center" spacing={0}>
-              {otherPhotos.map((item) => (
-                <div className="pg-shadow me-2">
-                  <img src={item.url} alt="" className="img-fluid pg-gallery-img" />
-                  <div className="pg-img-icons">
-                    <Stack direction="row" justifyContent="space-between" className="py-2 px-2">
-                      <EditIcon className="pg-img-icon" />
-                      <DeleteIcon className="pg-img-icon" />
+              {
+                gallery['vendor-other'] !== undefined ? (
+                  <>
+                    {gallery['vendor-other'].map((item, index) => (
+                      <div className="pg-shadow me-2">
+                        <img key={index} src={item?.image_name[0]?.medium} alt={`Package Menu ${index}`} className="img-fluid pg-gallery-img" />
+                        <div className="pg-img-icons">
+                          <Stack direction="row" justifyContent="space-between" className="py-2 px-2">
+                            <>
+                              <input
+                                accept="image/*"
+                                id="onReUploadEditOtherPhotos"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={(e) => onReUploadEditOtherPhotos(e, item)}
+                              />
+                              <label htmlFor="onReUploadEditOtherPhotos">
+                                <span variant="contained" component="span" disabled={isLoading}>
+                                  {<EditIcon className="pg-img-icon" />}
+                                </span>
+                              </label>
+                            </>
+
+                            <span variant="contained" component="span" disabled={isLoading} onClick={() => onHandleRemoveOtherPhotos(item)}>
+                              {<DeleteIcon className="pg-img-icon" />}
+                            </span>
+                          </Stack>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <Stack direction="row" justifyContent="center">
+                      <img
+                        style={{ width: '200px' }}
+                        src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                        alt={`Brand Logo`}
+                      />
                     </Stack>
-                  </div>
-                </div>
-              ))}
-              <Button variant="contained" className="pg-bg-white" onClick={() => {
-                setOtherPhotos([
-                  ...otherPhotos,
-                  {
-                    id: otherPhotosId++,
-                    url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-                  }
-                ])
-              }}>
-                <AddIcon />
-              </Button>
+                  </>
+                )
+              }
+              <>
+                <input
+                  accept="image/*"
+                  id="onUploadOtherPhotos"
+                  multiple
+                  type="file"
+                  style={{ display: 'none' }}
+                  onChange={onUploadOtherPhotos}
+                />
+                <label htmlFor="onUploadOtherPhotos">
+                  <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                    {<AddIcon />}
+                  </Button>
+                </label>
+              </>
 
             </Stack>
           </div>
-
-
-          {/* <Stack direction="row" justifyContent="center" className="mt-4">
-            <Button variant="contained" className="inquiries-red-btn"> Update </Button>
-          </Stack> */}
-
-
 
 
         </div>

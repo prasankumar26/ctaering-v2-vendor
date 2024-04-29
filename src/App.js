@@ -57,9 +57,7 @@ function App() {
             <Route path='/dashboard/about-us' element={<AboutUs />} />
             <Route path='/dashboard/faq' element={<Faq />} />
             <Route path='/dashboard/notification' element={<Notification />} />
-
             <Route path='/dashboard/raise-ticket' element={<RaiseTicket />} />
-
 
           </Route>
         </Routes>
