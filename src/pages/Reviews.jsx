@@ -85,7 +85,7 @@ const Reviews = () => {
                                     <ReviewCards review={review} key={review.id} />
                                 ))
                             ) : (
-                                <h2>No Reviews Found</h2>
+                                <h2 className='text-center'>No Inquiries Found</h2>
                             )
                         )}
                     </>

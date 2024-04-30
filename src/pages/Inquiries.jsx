@@ -82,7 +82,7 @@ const Inquiries = () => {
     fetchInquiries()
   }
 
-  console.log(inquiries, "inquiries");
+  // console.log(inquiries, "inquiries");
 
   return (
     <>
