@@ -92,7 +92,6 @@ const Branches = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [editId, setEditId] = useState(null)
 
-  console.log(editId, "editId");
 
   const {
     placesService,
@@ -372,6 +371,7 @@ const Branches = () => {
 
 
             <CssTextField
+              required
               value={values?.catering_service_name}
               onChange={handlechange}
               name='catering_service_name'
@@ -392,6 +392,7 @@ const Branches = () => {
             />
 
             <CssTextField
+              required
               value={values?.point_of_contact_name}
               onChange={handlechange}
               name='point_of_contact_name'
@@ -412,6 +413,7 @@ const Branches = () => {
             />
 
             <CssTextField
+              required
               value={values?.phone_number}
               onChange={handlechange}
               name='phone_number'

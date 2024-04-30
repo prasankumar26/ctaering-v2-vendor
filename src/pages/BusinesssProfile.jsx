@@ -3,23 +3,22 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
-import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux'
-import moment from 'moment';
 import useBusinessProfile from "../hooks/useBusinessProfile";
 import { vendor_type } from "../constant";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 
-import { Formik } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { api, BASE_URL } from "../api/apiConfig";
 import LoaderSpinner from "../components/LoaderSpinner";
 import { useLocation } from "react-router-dom";
+import { MenuItem, Select } from '@mui/material';
 
 
 const CssTextField = styled(TextField)(({ theme }) => ({
@@ -66,6 +65,7 @@ const BusinesssProfile = () => {
   // const [date, setDate] = useState(null)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
+  console.log(values?.working_since, "Values");
 
   useEffect(() => {
     setValues((prevValues) => ({
@@ -74,7 +74,7 @@ const BusinesssProfile = () => {
       vendor_type: vendor_type,
       point_of_contact_name: data?.point_of_contact_name,
       working_days_hours: data?.working_days_hours,
-      working_since: data?.working_since,
+      working_since: data?.working_since || "",
       about_description: data?.about_description,
       total_staffs_approx: data?.total_staffs_approx,
       business_email: data?.business_email,
@@ -195,6 +195,11 @@ const BusinesssProfile = () => {
     setLocationPlaceId(item?.place_id)
   }
   // loc end 
+
+  const years = [
+    values.working_since || new Date().getFullYear(), // Add working_since as the first element if it exists, otherwise use the current year
+    ...Array.from({ length: 49 }, (_, i) => new Date().getFullYear() - i - 1).filter(year => year !== values.working_since)
+  ];
 
   return (
     <>
@@ -477,32 +482,12 @@ const BusinesssProfile = () => {
                 <Grid item xs={8} >
                   <div className="mt-3">
                     <p className="business-profile-name">Working Since</p>
-                    <CssTextField
-                      value={values.working_since ? (`${values.working_since}-01-01`) : ''}
-                      type="date"
-                      name="working_since"
-                      onChange={(e) => {
-                        const selectedDate = e.target.value;
-                        const year = selectedDate.split("-")[0];
-                        setValues((prevValues) => ({
-                          ...prevValues,
-                          working_since: year,
-                        }));
-                      }}
-                      variant="outlined"
-                      placeholder="Enter Your Catering Service Name"
-                      className='mt-0'
-                      style={{ width: '100%' }}
-                      InputLabelProps={{
-                        style: { color: '#777777', fontSize: '10px' },
-                      }}
-                      InputProps={{
-                        style: {
-                          borderRadius: '8px',
-                          backgroundColor: '#FFFFFF',
-                        }
-                      }}
-                    /> 
+                    <select name="working_since" id="working_since" onChange={handleChange} value={values.working_since} className="select-box">
+                    <option value="">Select Year</option> 
+                      {years.map((year) => (
+                         <option key={year} value={year}>{year+1}</option>
+                      ))}
+                    </select>
                     {errors.working_since && <small className='text-danger mt-2 ms-1'>{errors.working_since}</small>}
                   </div>
                 </Grid>

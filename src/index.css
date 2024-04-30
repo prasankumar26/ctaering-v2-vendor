@@ -1293,7 +1293,23 @@ code {
   background: none repeat scroll 0 0 #FFFFFF !important;
   outline-width: 0 !important;
 }
+/* select-box */
+.select-box {
+  width: 100%;
+  padding: 20px 10px;
+  border-radius: 8px;
+  border: 2px solid 2px solid rgb(226 221 221);
+  background-color: rgb(255, 255, 255);
+}
 
+.select-box:focus {
+  outline: none; /* Remove default focus outline */
+  border: 2px solid #c33332; /* Apply your custom focus border */
+}
+
+.select-box:focus-visible {
+  border: 2px solid #c33332 !important; /* Override the border for accessibility */
+}
 /* Business profile page end */
 
 
@@ -1846,7 +1862,7 @@ code {
   margin: 0 auto;
 }
 
-.review-height{
+.review-height {
   height: 350px;
   display: flex;
   justify-content: center;
