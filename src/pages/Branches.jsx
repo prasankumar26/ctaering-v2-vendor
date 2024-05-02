@@ -92,6 +92,8 @@ const Branches = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [editId, setEditId] = useState(null)
 
+  // console.log(manualLocation, "manualLocation");
+  // console.log(selectedLocation, "selectedLocation");
 
   const {
     placesService,
@@ -101,6 +103,8 @@ const Branches = () => {
   } = usePlacesService({
     apiKey: process.env.REACT_APP_GOOGLE,
   });
+
+  // console.log(placePredictions, "placePredictions placePredictions");
 
   useEffect(() => {
     if (locationPlaceId && placePredictions.length)
