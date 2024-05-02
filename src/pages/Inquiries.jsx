@@ -2,7 +2,6 @@ import TopHeader from "../components/global/TopHeader"
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import PhoneIcon from '@mui/icons-material/Phone';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -15,7 +14,7 @@ import InquiryCard from "../components/global/InquiryCard";
 import LoadingAnimation from "../components/LoadingAnimation";
 import Pagination from '@mui/material/Pagination';
 import { Page_Limit } from "../constant";
-import Grid from '@mui/material/Grid';
+
 
 const CssTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
@@ -37,8 +36,6 @@ const CssTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-
-// https://api.cateringsandtiffins.in/get-vendor-enquiries?search_term=Veg&enquiry_date=2024-04-02&limit=5&current_page=1&order_by=newest_first
 
 const Inquiries = () => {
   const { accessToken } = useSelector((state) => state?.user);
@@ -74,15 +71,17 @@ const Inquiries = () => {
 
   useEffect(() => {
     fetchInquiries()
+    setError(null)
   }, [page])
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
     fetchInquiries()
+    setError(null)
   }
 
-  // console.log(inquiries, "inquiries");
+  console.log(inquiries, "inquiries");
 
   return (
     <>
@@ -91,15 +90,15 @@ const Inquiries = () => {
       <Container maxWidth="lg">
         <div className='card-box-shadow px-5 py-4 mb-4'>
 
-            <Stack direction="row" justifyContent="space-between" alignItems="center" className="mb-4">
-          <form onSubmit={handleSubmit}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" className="mb-4">
+            <form onSubmit={handleSubmit}>
               <Stack direction="row" spacing={2} alignItems="center">
                 <CssTextField
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   id="outlined-number"
                   variant="outlined"
-                  placeholder="Enter your Name Here"
+                  placeholder="Search With Username"
                   style={{ width: '100%' }}
                   InputLabelProps={{
                     style: { color: '#777777', fontSize: '12px' },
@@ -118,41 +117,41 @@ const Inquiries = () => {
                 />
                 <Button variant="contained" className="inquiries-red-btn" type="submit">Search</Button>
               </Stack>
-          </form>
+            </form>
 
-          <DatePickerSearch />
-        </Stack>
+            <DatePickerSearch />
+          </Stack>
 
-        <>
-          {
-            error !== null ? (
-              <h2 className='text-center'>{error}</h2>
-            ) : (
-              <>
-                {
-                  loading ? (
-                    <LoadingAnimation reviewHeight="review-height" />
-                  ) : (
-                    inquiries?.length > 0 ? (
-                      inquiries.map((item) => (
-                        <InquiryCard item={item} key={item.id} />
-                      ))
+          <>
+            {
+              error !== null ? (
+                <h2 className='text-center'>{error}</h2>
+              ) : (
+                <>
+                  {
+                    loading ? (
+                      <LoadingAnimation reviewHeight="review-height" />
                     ) : (
+                      inquiries?.length > 0 ? (
+                        inquiries.map((item, index) => (
+                          <InquiryCard item={item} key={index} />
+                        ))
+                      ) : (
                         <h2 className='text-center'>No Inquiries Found</h2>
-                    )
-                  )}
-              </>
-            )
-          }
+                      )
+                    )}
+                </>
+              )
+            }
 
-        </>
+          </>
 
-        {error === null && <Stack spacing={2} direction="row" justifyContent="center">
-          <Pagination count={totalPages} page={page} onChange={handleChange} />
-        </Stack>}
-      </div>
+          {error === null && <Stack spacing={2} direction="row" justifyContent="center">
+            <Pagination count={totalPages} page={page} onChange={handleChange} />
+          </Stack>}
+        </div>
 
-    </Container >
+      </Container >
 
     </>
   )
