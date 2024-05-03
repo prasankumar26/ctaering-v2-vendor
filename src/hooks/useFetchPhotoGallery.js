@@ -390,6 +390,55 @@ const useFetchPhotoGallery = () => {
         }
     }
 
+    // Aadhar card 
+    const onUploadAdharCard = async (event) => {
+        const formData = new FormData();
+        formData.append('id', '');
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'insert')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-enca`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    const onReUploadAdharCard = async (event) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(gallery['vendor-enca'][0]?.id && gallery['vendor-enca'][0]?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'replace')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-enca`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
 
     return {
         gallery,
@@ -419,6 +468,10 @@ const useFetchPhotoGallery = () => {
         onUploadOtherPhotos,
         onReUploadEditOtherPhotos,
         onHandleRemoveOtherPhotos,
+
+        // Aadhar Card 
+        onUploadAdharCard,
+        onReUploadAdharCard
 
     }
 }

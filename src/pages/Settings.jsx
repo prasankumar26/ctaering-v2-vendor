@@ -19,19 +19,16 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useGetVendor from "../hooks/useGetVendor";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsLoading } from "../features/user/userSlice";
-import { api, BASE_URL } from "../api/apiConfig";
-import toast from "react-hot-toast";
-import { datavalidationerror, successToast } from "../utils";
+import { useSelector } from "react-redux";
+import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
 
 const Settings = () => {
-  const dispatch = useDispatch();
-  const { accessToken } = useSelector((state) => state.user);
   const vendorBusinessProfile = useGetVendor();
   const { isLoading } = useSelector((state) => state.user);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const { gallery, onUploadAdharCard, onReUploadAdharCard } = useFetchPhotoGallery()
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -56,32 +53,7 @@ const Settings = () => {
     },
   }));
 
-  // onUploadBrandLogo 
-  const onUploadAdharCard = async (event) => {
-    const formData = new FormData();
-    formData.append('id', '');
-    formData.append('image', event.target.files[0]);
-    formData.append('action_type', 'insert')
 
-    dispatch(setIsLoading(true))
-    try {
-      const response = await api.post(`${BASE_URL}/upload-vendor-enca`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      // getVendorImages();
-      toast.success(successToast(response))
-    } catch (error) {
-      console.log(error);
-      toast.error(datavalidationerror(error))
-    } finally {
-      dispatch(setIsLoading(false))
-    }
-  }
-
-  console.log(vendorBusinessProfile, "vendorBusinessProfile");
 
   return (
     <>
@@ -168,24 +140,70 @@ const Settings = () => {
                       </AccordionSummary>
                       <AccordionDetails>
                         <p className="settings-small mb-1">Front</p>
-                        <img src="https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg"
-                          alt="" className="img-fluid mx-auto" style={{ width: '250px' }} />
+                        {/* <img src="https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg"
+                          alt="" className="img-fluid mx-auto" style={{ width: '250px' }} /> */}
+                        {
+                          gallery['vendor-enca'] !== undefined ? (
+                            <>
+                              {gallery['vendor-enca']?.map((logo, index) => (
+                                <img
+                                  className="img-fluid mx-auto"
+                                  style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+                                  key={logo?.id}
+                                  src={logo?.image_name[0]?.medium}
+                                  alt={`Brand Logo ${index}`}
+                                />
+                              ))}
+                            </>
+                          ) : (
+                            <>
+                              <Stack direction="row" justifyContent="center">
+                                <img
+                                  style={{ width: '200px' }}
+                                  src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                                  alt={`Brand Logo`}
+                                />
+                              </Stack>
+                            </>
+                          )
+                        }
                         <p className="settings-small mt-1">Back</p>
 
                         <div className="mt-3 text-center">
-                          <input
-                            accept="image/*"
-                            id="onUploadAdharCard"
-                            multiple
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={onUploadAdharCard}
-                          />
-                          <label htmlFor="onUploadAdharCard">
-                            <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
-                              Upload
-                            </Button>
-                          </label>
+                          {gallery['vendor-enca']?.length && gallery['vendor-enca']?.length > 0 ? (
+                            <>
+                              <input
+                                accept="image/*"
+                                id="contained-button-file"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={onReUploadAdharCard}
+                              />
+                              <label htmlFor="contained-button-file">
+                                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                                  Re Upload
+                                </Button>
+                              </label>
+                            </>
+                          ) : (
+                            <>
+                              <input
+                                accept="image/*"
+                                id="contained-button-file"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={onUploadAdharCard}
+                              />
+                              <label htmlFor="contained-button-file">
+                                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                                  Upload
+                                </Button>
+                              </label>
+                            </>
+                          )}
+
                           {/* <Button variant="contained" className="upload-btn"> */}
                           {/* <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" /> Upload </Button> */}
                         </div>

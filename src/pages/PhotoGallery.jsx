@@ -136,7 +136,7 @@ const PhotoGallery = () => {
 
   } = useFetchPhotoGallery()
 
-  console.log(gallery, "Gallery");
+  // console.log(gallery, "Gallery");
 
   return (
     <>
