@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import LoginVendor from './LoginVendor';
 import useRegistration from '../../hooks/useRegistration';
-import { vendor_type } from '../../constant';
+import { inputNumberLimit, vendor_type } from '../../constant';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -255,6 +255,7 @@ const RegisterLogin = () => {
                                                                     InputLabelProps={{
                                                                         style: { color: '#777777', fontSize: '12px' },
                                                                     }}
+                                                                    inputProps={{ maxLength: inputNumberLimit }}
                                                                     InputProps={{
                                                                         style: {
                                                                             borderRadius: '8px',

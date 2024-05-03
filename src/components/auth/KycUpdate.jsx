@@ -114,6 +114,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                             InputLabelProps={{
                                 style: { color: '#777777', fontSize: '12px' },
                             }}
+                            inputProps={{ maxLength: 12 }}
                             InputProps={{
                                 style: {
                                     borderRadius: '8px',
@@ -134,6 +135,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                             InputLabelProps={{
                                 style: { color: '#777777', fontSize: '12px' },
                             }}
+                            inputProps={{ maxLength: 10 }}
                             InputProps={{
                                 style: {
                                     borderRadius: '8px',
@@ -154,6 +156,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                             InputLabelProps={{
                                 style: { color: '#777777', fontSize: '12px' },
                             }}
+                            inputProps={{ maxLength: 15 }}
                             InputProps={{
                                 style: {
                                     borderRadius: '8px',

@@ -128,7 +128,7 @@ const EnterLocationManually = () => {
             place_id: places?.place_id
         })
     }
-    
+
 
     const selectLocation = (item) => {
         setSelectedLocation(item);
@@ -289,7 +289,9 @@ const EnterLocationManually = () => {
                                         }}
                                     />
 
-                                    <Button variant="contained" className='ct-box-btn-current-loc' onClick={() => getCurrentLocation()}>Use my current location</Button>
+                                    <Button variant="contained" className='ct-box-btn-current-loc' disabled={loading} onClick={() => getCurrentLocation()}>
+                                     {loading ? 'Loading...' : 'Use my current location'}   
+                                    </Button>
 
                                     <div className='mb-3' style={{ marginTop: '20px', borderTop: '2px solid #c33332' }}>
                                         <Divider />

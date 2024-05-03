@@ -429,6 +429,7 @@ const Branches = () => {
               InputLabelProps={{
                 style: { color: '#777777', fontSize: '10px' },
               }}
+              inputProps={{ maxLength: 10 }}
               InputProps={{
                 style: {
                   borderRadius: '8px',

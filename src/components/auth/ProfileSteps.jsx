@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import { Formik } from 'formik';
@@ -18,6 +18,9 @@ import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { api, BASE_URL } from '../../api/apiConfig';
 import KycUpdate from './KycUpdate';
+import { datavalidationerror, successToast } from '../../utils';
+import { setIsLoading } from '../../features/user/userSlice';
+import { inputNumberLimit } from '../../constant';
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
@@ -74,6 +77,12 @@ const ProfileSteps = () => {
     const { accessToken } = useSelector((state) => state.user)
     const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
+    const dispatch = useDispatch();
+
+
+
+    const { isLoading } = useSelector((state) => state.user);
+
 
     // validationSchema 
     const validationSchema = Yup.object().shape({
@@ -82,24 +91,58 @@ const ProfileSteps = () => {
         business_phone_number: Yup.string()
             .required('Business phone number is required')
             .matches(/^[0-9]{10}$/, 'Business phone number must contain exactly 10 digits'),
-        landline_number: Yup.string()
-            .required('Landline number is required')
-            .matches(/^[0-9]+$/, 'Landline number must contain only digits'),
+        whatsapp_business_phone_number: Yup.string()
+            .min(10, 'Minimum 10 characters required')
+            .max(10, 'Maximum 10 characters allowed')
+        // landline_number: Yup.string()
+        //     .required('Landline number is required')
+        //     .matches(/^[0-9]+$/, 'Landline number must contain only digits'),
         // whatsapp_business_phone_number: Yup.string()
         //     .required('Whatsapp Business phone number is required')
         //     .matches(/^[0-9]+$/, 'Whatsapp Business phone number must contain only digits'),
     });
 
 
-    const profileCallApiCall = async (values) => {
+    // const profileCallApiCall = async (values) => {
+    //     try {
+    //         const { vendor_service_name, point_of_contact_name, business_phone_number, landline_number, whatsapp_business_phone_number } = values;
+
+    //         const formattedPhoneNumber = formatPhoneNumber(business_phone_number);
+    //         const formattedlandline_number = formatLandlineNumber(landline_number);
+    //         const formattedwhatsapp_business_phone_number = whatsapp_business_phone_number ? formatPhoneNumber(whatsapp_business_phone_number) : '';
+
+
+    //         const data = {
+    //             vendor_service_name,
+    //             point_of_contact_name,
+    //             business_phone_number: formattedPhoneNumber,
+    //             landline_number: formattedlandline_number,
+    //             whatsapp_business_phone_number: formattedwhatsapp_business_phone_number
+    //         }
+
+    //         const response = await api.post(`${BASE_URL}/register-vendor-profile-update`, data, {
+    //             headers: {
+    //                 Authorization: `Bearer ${accessToken}`
+    //             }
+    //         })
+    //         toast.success(response?.data?.message);
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error?.response?.data?.message)
+    //         toast.error(error?.response?.data?.data_validation_errors[0].msg)
+    //     }
+    // }
+
+
+
+    const handleSubmit = async (values, { resetForm }) => {
+        dispatch(setIsLoading(true))
         try {
             const { vendor_service_name, point_of_contact_name, business_phone_number, landline_number, whatsapp_business_phone_number } = values;
 
             const formattedPhoneNumber = formatPhoneNumber(business_phone_number);
             const formattedlandline_number = formatLandlineNumber(landline_number);
             const formattedwhatsapp_business_phone_number = whatsapp_business_phone_number ? formatPhoneNumber(whatsapp_business_phone_number) : '';
-
-            // const formattedwhatsapp_business_phone_number = formatPhoneNumber(whatsapp_business_phone_number);
 
             const data = {
                 vendor_service_name,
@@ -114,23 +157,20 @@ const ProfileSteps = () => {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
-            toast.success(response?.data?.message);
-        } catch (error) {
-            console.log(error);
-            toast.error(error?.response?.data?.message)
-            toast.error(error?.response?.data?.data_validation_errors[0].msg)
-        }
-    }
 
+            if (response.status === 200) {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1);
+                toast.success(successToast(response));
+            }
 
-
-    const handleSubmit = async (values, { resetForm }) => {
-        try {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            await profileCallApiCall(values);
-            resetForm();
+            // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            // const response = await profileCallApiCall(values);
+            // resetForm();
         } catch (error) {
             console.error("Error while submitting the form:", error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
         }
     };
 
@@ -244,6 +284,7 @@ const ProfileSteps = () => {
                                                             InputLabelProps={{
                                                                 style: { color: '#777777', fontSize: '12px' },
                                                             }}
+                                                            inputProps={{ maxLength: inputNumberLimit }}
                                                             InputProps={{
                                                                 style: {
                                                                     borderRadius: '8px',
@@ -266,6 +307,7 @@ const ProfileSteps = () => {
                                                             InputLabelProps={{
                                                                 style: { color: '#777777', fontSize: '12px' },
                                                             }}
+                                                            inputProps={{ maxLength: inputNumberLimit }}
                                                             InputProps={{
                                                                 style: {
                                                                     borderRadius: '8px',
@@ -289,11 +331,13 @@ const ProfileSteps = () => {
                                                             InputLabelProps={{
                                                                 style: { color: '#777777', fontSize: '12px' },
                                                             }}
+                                                            inputProps={{ maxLength: inputNumberLimit }}
                                                             InputProps={{
                                                                 style: {
                                                                     borderRadius: '8px',
                                                                     backgroundColor: '#FFFFFF',
                                                                 },
+                                                                minLength: 10
                                                             }}
                                                         />
                                                         {errors.whatsapp_business_phone_number && <small className='text-danger mt-2 ms-1'>{errors.whatsapp_business_phone_number}</small>}
@@ -310,8 +354,8 @@ const ProfileSteps = () => {
                                                             </Button>
                                                             <Box sx={{ flex: '1 1 auto' }} />
 
-                                                            <Button type='submit' disabled={!isValid} className='ct-box-btn-profile-step'>
-                                                                Next
+                                                            <Button type='submit' disabled={!isValid || isLoading} className='ct-box-btn-profile-step'>
+                                                                {isLoading ? 'Loading...' : 'Next'}
                                                             </Button>
                                                             {/* <Button type='submit' onClick={() => handleNext()} className='ct-box-btn-profile-step'>
                                                                 Next
