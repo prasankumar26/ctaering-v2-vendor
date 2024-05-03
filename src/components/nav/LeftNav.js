@@ -22,6 +22,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { api, BASE_URL } from "../../api/apiConfig";
 import { useSelector } from "react-redux";
 import Avatar from '@mui/material/Avatar';
+import useGetVendor from "../../hooks/useGetVendor";
 
 
 const leftnav = [
@@ -48,32 +49,12 @@ const leftnav = [
 
 const LeftNav = () => {
   // const classes = useStyles();
+  const vendorBusinessProfile = useGetVendor();
   const [openDrawer, setOpenDrawer] = useState(false);
-  const { accessToken } = useSelector((state) => state.user);
-  const [vendorBusinessProfile, businessProfile] = useState(null)
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
   };
-
-
-  const fetchVendorData = async () => {
-    try {
-      const response = await api.get(`${BASE_URL}/get-vendor-details`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      })
-      businessProfile(response?.data?.data)
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    fetchVendorData()
-  }, [])
-
 
   return (
     <div className="nav-bg">

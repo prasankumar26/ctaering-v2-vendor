@@ -16,6 +16,7 @@ import Pagination from '@mui/material/Pagination';
 import { Page_Limit } from "../constant";
 
 
+
 const CssTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
@@ -45,6 +46,7 @@ const Inquiries = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
   const [error, setError] = useState(null)
+  const [selectedDate, setSelectedDate] = useState('2024-04-02');
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -53,7 +55,7 @@ const Inquiries = () => {
   const fetchInquiries = async () => {
     setLoading(true)
     try {
-      const response = await api.get(`${BASE_URL}/get-vendor-enquiries?search_term=${search}&enquiry_date=2024-04-02&limit=${Page_Limit}&current_page=${page}&order_by=newest_first`, {
+      const response = await api.get(`${BASE_URL}/get-vendor-enquiries?search_term=${search}&enquiry_date=${selectedDate}&limit=${Page_Limit}&current_page=${page}&order_by=newest_first`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         }
@@ -72,7 +74,7 @@ const Inquiries = () => {
   useEffect(() => {
     fetchInquiries()
     setError(null)
-  }, [page])
+  }, [page, selectedDate])
 
 
   const handleSubmit = (e) => {
@@ -81,7 +83,14 @@ const Inquiries = () => {
     setError(null)
   }
 
-  console.log(inquiries, "inquiries");
+  // console.log(inquiries, "inquiries");
+
+
+  const handleDateChange = (event) => {
+    setSelectedDate(event.target.value)
+  };
+
+  console.log(selectedDate, "selectedDate");
 
   return (
     <>
@@ -119,7 +128,12 @@ const Inquiries = () => {
               </Stack>
             </form>
 
-            <DatePickerSearch />
+
+
+
+            <input type="date" id="birthday" name="birthday" value={selectedDate} onChange={handleDateChange} className="input-date" />
+
+
           </Stack>
 
           <>

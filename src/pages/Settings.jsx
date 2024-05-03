@@ -18,10 +18,18 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
+import useGetVendor from "../hooks/useGetVendor";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsLoading } from "../features/user/userSlice";
+import { api, BASE_URL } from "../api/apiConfig";
+import toast from "react-hot-toast";
+import { datavalidationerror, successToast } from "../utils";
 
 const Settings = () => {
-
+  const dispatch = useDispatch();
+  const { accessToken } = useSelector((state) => state.user);
+  const vendorBusinessProfile = useGetVendor();
+  const { isLoading } = useSelector((state) => state.user);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,7 +56,32 @@ const Settings = () => {
     },
   }));
 
+  // onUploadBrandLogo 
+  const onUploadAdharCard = async (event) => {
+    const formData = new FormData();
+    formData.append('id', '');
+    formData.append('image', event.target.files[0]);
+    formData.append('action_type', 'insert')
 
+    dispatch(setIsLoading(true))
+    try {
+      const response = await api.post(`${BASE_URL}/upload-vendor-enca`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // getVendorImages();
+      toast.success(successToast(response))
+    } catch (error) {
+      console.log(error);
+      toast.error(datavalidationerror(error))
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+
+  console.log(vendorBusinessProfile, "vendorBusinessProfile");
 
   return (
     <>
@@ -67,14 +100,14 @@ const Settings = () => {
                     <Stack direction="row" spacing={2}>
                       <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" className="settings-profile-img" alt="" />
                       <div>
-                        <h3 className="settings-user-name">Saravanan Kumar</h3>
-                        <p className="settings-user-number">8703451965</p>
+                        <h3 className="settings-user-name"> {vendorBusinessProfile?.vendor_service_name} </h3>
+                        <p className="settings-user-number"> {vendorBusinessProfile?.phone_number} </p>
                       </div>
                     </Stack>
                     <EditIcon style={{ color: '#c33332', fontSize: '18px' }} />
                   </Stack>
 
-                  <h2 className="company-id mt-3">Company ID - 112521</h2>
+                  <h2 className="company-id mt-3">Company ID - {vendorBusinessProfile?.company_id} </h2>
                   <p className="company-change-password mt-2 mb-3">Change Login Password below</p>
 
                   <div>
@@ -135,11 +168,26 @@ const Settings = () => {
                       </AccordionSummary>
                       <AccordionDetails>
                         <p className="settings-small mb-1">Front</p>
-                        <img src="https://www.fisdom.com/wp-content/uploads/2023/06/pvc-aadhaar-card-1.webp" alt="" className="img-fluid" />
+                        <img src="https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg"
+                          alt="" className="img-fluid mx-auto" style={{ width: '250px' }} />
                         <p className="settings-small mt-1">Back</p>
 
                         <div className="mt-3 text-center">
-                          <Button variant="contained" className="upload-btn"> <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" /> Upload </Button>
+                          <input
+                            accept="image/*"
+                            id="onUploadAdharCard"
+                            multiple
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={onUploadAdharCard}
+                          />
+                          <label htmlFor="onUploadAdharCard">
+                            <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                              Upload
+                            </Button>
+                          </label>
+                          {/* <Button variant="contained" className="upload-btn"> */}
+                          {/* <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" /> Upload </Button> */}
                         </div>
 
                       </AccordionDetails>
@@ -166,7 +214,6 @@ const Settings = () => {
                       </AccordionDetails>
                     </Accordion>
                   </div>
-
 
                   <div>
                     <Accordion className="faq-bg" >
@@ -200,7 +247,6 @@ const Settings = () => {
                     </Accordion>
                   </div>
 
-
                   <div>
                     <Accordion className="faq-bg" >
                       <AccordionSummary
@@ -221,7 +267,6 @@ const Settings = () => {
                       </AccordionDetails>
                     </Accordion>
                   </div>
-
 
                   <Divider
                     className='mt-3'
@@ -257,17 +302,11 @@ const Settings = () => {
                     }}
                   />
 
-
                   <p className="company-change-password mt-3 mb-3">Help Desk / Support</p>
 
-                 <Link to="/dashboard/raise-ticket">
-                 <Button variant="contained" className="cuisines-list-btn" style={{width: '100%', fontWeight: '500'}}> Raise a Ticket </Button>
-                 </Link>
-
-
-
-
-
+                  <Link to="/dashboard/raise-ticket">
+                    <Button variant="contained" className="cuisines-list-btn" style={{ width: '100%', fontWeight: '500' }}> Raise a Ticket </Button>
+                  </Link>
 
                 </div>
               </div>

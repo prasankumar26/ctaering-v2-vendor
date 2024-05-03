@@ -1069,6 +1069,16 @@ code {
   color: var(--secondarytext);
 }
 
+.input-date {
+  padding: 10px 20px;
+  border-radius: var(--radiusOne);
+  border: 1px solid var(--accent2);
+}
+
+.input-date:focus-visible {
+  border: 1px solid var(--accent2) !important;
+}
+
 /* inquiries page end  */
 
 /* right side fixed start  */
@@ -1293,6 +1303,7 @@ code {
   background: none repeat scroll 0 0 #FFFFFF !important;
   outline-width: 0 !important;
 }
+
 /* select-box */
 .select-box {
   width: 100%;
@@ -1303,13 +1314,17 @@ code {
 }
 
 .select-box:focus {
-  outline: none; /* Remove default focus outline */
-  border: 2px solid #c33332; /* Apply your custom focus border */
+  outline: none;
+  /* Remove default focus outline */
+  border: 2px solid #c33332;
+  /* Apply your custom focus border */
 }
 
 .select-box:focus-visible {
-  border: 2px solid #c33332 !important; /* Override the border for accessibility */
+  border: 2px solid #c33332 !important;
+  /* Override the border for accessibility */
 }
+
 /* Business profile page end */
 
 
