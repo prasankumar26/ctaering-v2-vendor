@@ -85,13 +85,13 @@ const Reviews = () => {
                                     <ReviewCards review={review} key={review.id} />
                                 ))
                             ) : (
-                                <h2 className='text-center'>No Inquiries Found</h2>
+                                <h2 className='text-center'>No Reviews Found</h2>
                             )
                         )}
                     </>
                 </div>
                 <Stack spacing={2} direction="row" justifyContent="center">
-                    <Pagination count={totalPages} page={page} onChange={handleChange} />
+                  {reviews?.length > 0 && <Pagination count={totalPages} page={page} onChange={handleChange} /> }  
                 </Stack>
             </Container>
         </>

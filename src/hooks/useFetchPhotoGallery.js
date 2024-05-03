@@ -440,6 +440,109 @@ const useFetchPhotoGallery = () => {
     }
 
 
+    // Pan Card 
+    const onUploadPancard = async (event) => {
+        const formData = new FormData();
+        formData.append('id', '');
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'insert')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-encp`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    const onReUploadPancard = async (event) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(gallery['vendor-encp'][0]?.id && gallery['vendor-encp'][0]?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'replace')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-encp`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+
+    // fssai Licence
+    const onUploadFssai = async (event) => {
+        const formData = new FormData();
+        formData.append('id', '');
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'insert')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-encf`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    const onReUploadFssai = async (event) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(gallery['vendor-encf'][0]?.id && gallery['vendor-encf'][0]?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'replace')
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/upload-vendor-encf`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+
+
+
+
     return {
         gallery,
         loading,
@@ -471,7 +574,15 @@ const useFetchPhotoGallery = () => {
 
         // Aadhar Card 
         onUploadAdharCard,
-        onReUploadAdharCard
+        onReUploadAdharCard,
+
+        // Pan card
+        onUploadPancard,
+        onReUploadPancard,
+
+        // Fssai Licence
+        onUploadFssai,
+        onReUploadFssai
 
     }
 }

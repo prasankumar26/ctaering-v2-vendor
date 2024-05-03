@@ -28,7 +28,22 @@ const Settings = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const { gallery, onUploadAdharCard, onReUploadAdharCard } = useFetchPhotoGallery()
+  const {
+    gallery,
+
+    // Aadhar card 
+    onUploadAdharCard,
+    onReUploadAdharCard,
+
+    // Pan card
+    onUploadPancard,
+    onReUploadPancard,
+
+    // Fssai Licence
+    onUploadFssai,
+    onReUploadFssai
+
+  } = useFetchPhotoGallery()
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -53,7 +68,7 @@ const Settings = () => {
     },
   }));
 
-
+  console.log(gallery, "gallery gallery gallery");
 
   return (
     <>
@@ -140,8 +155,6 @@ const Settings = () => {
                       </AccordionSummary>
                       <AccordionDetails>
                         <p className="settings-small mb-1">Front</p>
-                        {/* <img src="https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg"
-                          alt="" className="img-fluid mx-auto" style={{ width: '250px' }} /> */}
                         {
                           gallery['vendor-enca'] !== undefined ? (
                             <>
@@ -174,38 +187,35 @@ const Settings = () => {
                             <>
                               <input
                                 accept="image/*"
-                                id="contained-button-file"
+                                id="onReUploadAdharCard"
                                 multiple
                                 type="file"
                                 style={{ display: 'none' }}
                                 onChange={onReUploadAdharCard}
                               />
-                              <label htmlFor="contained-button-file">
-                                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
-                                  Re Upload
-                                </Button>
+                              <label htmlFor="onReUploadAdharCard">
+
+                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />  Re Upload </Button>
                               </label>
                             </>
                           ) : (
                             <>
                               <input
                                 accept="image/*"
-                                id="contained-button-file"
+                                id="onUploadAdharCard"
                                 multiple
                                 type="file"
                                 style={{ display: 'none' }}
                                 onChange={onUploadAdharCard}
                               />
-                              <label htmlFor="contained-button-file">
-                                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
-                                  Upload
-                                </Button>
+                              <label htmlFor="onUploadAdharCard">
+                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />Upload</Button>
                               </label>
                             </>
                           )}
 
-                          {/* <Button variant="contained" className="upload-btn"> */}
-                          {/* <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" /> Upload </Button> */}
                         </div>
 
                       </AccordionDetails>
@@ -222,11 +232,69 @@ const Settings = () => {
                         <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}> PAN Card </p>
                       </AccordionSummary>
                       <AccordionDetails>
-                        <img src="https://www.financialexpress.com/wp-content/uploads/2023/09/pancard-news-pixabay.jpg" alt="" className="img-fluid" />
+                        {/* <img src="https://www.financialexpress.com/wp-content/uploads/2023/09/pancard-news-pixabay.jpg" alt="" className="img-fluid" /> */}
+
+                        {
+                          gallery['vendor-encp'] !== undefined ? (
+                            <>
+                              {gallery['vendor-encp']?.map((logo, index) => (
+                                <img
+                                  className="img-fluid mx-auto"
+                                  style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+                                  key={logo?.id}
+                                  src={logo?.image_name[0]?.medium}
+                                  alt={`Brand Logo ${index}`}
+                                />
+                              ))}
+                            </>
+                          ) : (
+                            <>
+                              <Stack direction="row" justifyContent="center">
+                                <img
+                                  style={{ width: '200px' }}
+                                  src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                                  alt={`Brand Logo`}
+                                />
+                              </Stack>
+                            </>
+                          )
+                        }
+
                         <p className="settings-small mt-1">Upload PAN Card</p>
 
                         <div className="mt-3 text-center">
-                          <Button variant="contained" className="upload-btn"> <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" /> Upload </Button>
+                          {gallery['vendor-encp']?.length && gallery['vendor-encp']?.length > 0 ? (
+                            <>
+                              <input
+                                accept="image/*"
+                                id="onReUploadPancard"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={onReUploadPancard}
+                              />
+                              <label htmlFor="onReUploadPancard">
+
+                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />  Re Upload </Button>
+                              </label>
+                            </>
+                          ) : (
+                            <>
+                              <input
+                                accept="image/*"
+                                id="onUploadPancard"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={onUploadPancard}
+                              />
+                              <label htmlFor="onUploadPancard">
+                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />Upload</Button>
+                              </label>
+                            </>
+                          )}
                         </div>
 
                       </AccordionDetails>
@@ -275,11 +343,69 @@ const Settings = () => {
                         <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}> FSSAI Licence </p>
                       </AccordionSummary>
                       <AccordionDetails>
-                        <img src="https://wpassets.adda247.com/wp-content/uploads/multisite/2022/04/29152453/FSSAI-Score-Card-2022.png" alt="" className="img-fluid" />
+                        {/* <img src="https://wpassets.adda247.com/wp-content/uploads/multisite/2022/04/29152453/FSSAI-Score-Card-2022.png" alt="" className="img-fluid" /> */}
+
+                        {
+                          gallery['vendor-encf'] !== undefined ? (
+                            <>
+                              {gallery['vendor-encf']?.map((logo, index) => (
+                                <img
+                                  className="img-fluid mx-auto"
+                                  style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+                                  key={logo?.id}
+                                  src={logo?.image_name[0]?.medium}
+                                  alt={`Brand Logo ${index}`}
+                                />
+                              ))}
+                            </>
+                          ) : (
+                            <>
+                              <Stack direction="row" justifyContent="center">
+                                <img
+                                  style={{ width: '200px' }}
+                                  src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                                  alt={`Brand Logo`}
+                                />
+                              </Stack>
+                            </>
+                          )
+                        }
+
                         <p className="settings-small mt-1">Upload FSSAI Licence</p>
 
                         <div className="mt-3 text-center">
-                          <Button variant="contained" className="upload-btn"> <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" /> Upload </Button>
+                          {gallery['vendor-encf']?.length && gallery['vendor-encf']?.length > 0 ? (
+                            <>
+                              <input
+                                accept="image/*"
+                                id="onReUploadFssai"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={onReUploadFssai}
+                              />
+                              <label htmlFor="onReUploadFssai">
+
+                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />  Re Upload </Button>
+                              </label>
+                            </>
+                          ) : (
+                            <>
+                              <input
+                                accept="image/*"
+                                id="onUploadFssai"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={onUploadFssai}
+                              />
+                              <label htmlFor="onUploadFssai">
+                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />Upload</Button>
+                              </label>
+                            </>
+                          )}
                         </div>
 
                       </AccordionDetails>
