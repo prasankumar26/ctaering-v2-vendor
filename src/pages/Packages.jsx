@@ -112,7 +112,6 @@ const Packages = () => {
     const [startPrice, setStartPrice] = useState(null)
     const [loading, setLoading] = useState(false)
 
-
     const handleFoodSwitchToggle = (index) => {
         const updatedFoodTypes = foodTypes.map((food, i) =>
             i === index ? { ...food, selected: food.selected === "1" ? "0" : "1" } : food
@@ -287,30 +286,39 @@ const Packages = () => {
                             <Grid item xs={12} lg={6}>
                                 <h3 className='package-capacity mt-3'>Choose your Service type Below</h3>
                                 <p className='max-min-capacity-para text-center'>If you provide both table and buffet service, please check both</p>
-                                {serviceTypes.map((service, index) => (
-                                    <Stack key={service.id} direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3'>
-                                        <img src={`/img/icons/${service.service_type_name.toLowerCase()}.png`} alt="" className='package-icons' />
-                                        <p className='px-3 package-icon-title'>{service.service_type_name}</p>
-                                        <Switch
-                                            size="small"
-                                            checked={service.selected === "1"}
-                                            onChange={() => handleSwitchToggle(index)}
-                                        />
-                                    </Stack>
-                                ))}
+                                {serviceTypes.map((service, index) => {
+                                    // console.log(`/img/icons/${service.service_type_name.toLowerCase()}.png`, "service RRR");
+                                    return (
+                                        <Stack key={service.id} direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3'>
+                                            <img src={`/img/package/${service.service_type_name.toLowerCase()}.png`} alt="" className='package-icons' />
+                                            <p className='px-3 package-icon-title'>{service.service_type_name}</p>
+                                            <Switch
+                                                size="small"
+                                                checked={service.selected === "1"}
+                                                onChange={() => handleSwitchToggle(index)}
+                                            />
+                                        </Stack>
+                                    )
+                                }
+
+                                )}
                             </Grid>
 
                             <Grid item xs={12} lg={6}>
                                 <h3 className='package-capacity mt-3'>Choose your Serving type Below</h3>
                                 <p className='max-min-capacity-para text-center'>If you provide both table and buffet service, please check both</p>
                                 {
-                                    servingTypes.map((servingType, index) => (
-                                        <Stack direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3' key={index}>
-                                            <img src={`/img/icons/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`} alt="" className='package-icons' />
-                                            <p className='px-3 package-icon-title'>{servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}</p>
-                                            <Switch size="small" checked={servingType.selected === "1"} onChange={() => handleServingSwitchToggle(index)} />
-                                        </Stack>
-                                    ))
+                                    servingTypes.map((servingType, index) => {
+                                        console.log(`/img/icons/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`, "servingType servingType");
+                                        return (
+                                            <Stack direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3' key={index}>
+                                                <img src={`/img/package/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`} alt="" className='package-icons' />
+                                                <p className='px-3 package-icon-title'>{servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}</p>
+                                                <Switch size="small" checked={servingType.selected === "1"} onChange={() => handleServingSwitchToggle(index)} />
+                                            </Stack>
+                                        )
+                                    }
+                                    )
                                 }
                             </Grid>
                         </Grid>
