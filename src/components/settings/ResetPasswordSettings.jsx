@@ -1,0 +1,107 @@
+import React, { useState } from 'react'
+import TextField from '@mui/material/TextField';
+import { InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Stack from '@mui/material/Stack';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { api, BASE_URL } from '../../api/apiConfig';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLoading } from '../../features/user/userSlice';
+import toast from 'react-hot-toast';
+import { datavalidationerror, successToast } from '../../utils';
+
+const initialState = {
+    new_password: '',
+}
+
+const ResetPasswordSettings = () => {
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [initialValues, setInitialValues] = useState(initialState);
+    const { isLoading } = useSelector((state) => state.user);
+    const dispatch = useDispatch()
+    const { accessToken } = useSelector((state) => state.user);
+
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const schema = Yup.object().shape({
+        new_password: Yup.string()
+            .required('New Password is required.')
+    });
+
+
+    const handleSubmit = async (values, resetForm) => {
+        const { new_password } = values;
+        const data = {
+            new_password
+        }
+
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.post(`${BASE_URL}/change-vendor-password`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            toast.success(successToast(response))
+            resetForm(initialState);
+            dispatch(setIsLoading(false))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        }
+
+    }
+
+    return (
+        <Formik enableReinitialize={true} initialValues={initialValues} validationSchema={schema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
+            {({ values, errors, handleChange, handleSubmit }) => (
+                <form onSubmit={handleSubmit} className="px-4">
+                    <div>
+                        <TextField
+                            id="outlined-number"
+                            variant="outlined"
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Password"
+                            value={values.new_password}
+                            onChange={handleChange}
+                            name="new_password"
+                            className='mb-1'
+                            style={{ width: '100%', }}
+                            InputLabelProps={{
+                                style: { color: '#777777', fontSize: '12px' },
+                            }}
+                            InputProps={{
+                                style: {
+                                    borderRadius: '8px',
+                                    backgroundColor: '#FFFFFF',
+                                },
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleTogglePasswordVisibility}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <Visibility style={{ fontSize: '16px' }} /> : <VisibilityOff style={{ fontSize: '16px' }} />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        {errors.new_password && <small className='text-danger mt-2 ms-1'>{errors.new_password}</small>}
+
+                        <Stack direction="row" justifyContent="end">
+                            <button disabled={isLoading} className="settings-user-number" style={{ background: 'transparant', backgroundColor: 'none', cursor: 'pointer', border: 'none' }}> {isLoading ? 'Loading...' : 'Reset Password'} </button>
+                        </Stack>
+                    </div>
+                </form>
+            )}
+        </Formik>
+    )
+}
+
+export default ResetPasswordSettings

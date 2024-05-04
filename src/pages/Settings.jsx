@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
 import GstnNumber from "../components/settings/GstnNumber";
 import Avatar from '@mui/material/Avatar';
+import ResetPasswordSettings from "../components/settings/ResetPasswordSettings";
 
 const Settings = () => {
   const vendorBusinessProfile = useGetVendor();
@@ -100,41 +101,7 @@ const Settings = () => {
                   <h2 className="company-id mt-3">Company ID - {vendorBusinessProfile?.company_id} </h2>
                   <p className="company-change-password mt-2 mb-3">Change Login Password below</p>
 
-                  <div>
-                    <TextField
-                      id="outlined-number"
-                      variant="outlined"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Password"
-                      className='mb-1'
-                      style={{ width: '100%', }}
-                      InputLabelProps={{
-                        style: { color: '#777777', fontSize: '12px' },
-                      }}
-                      InputProps={{
-                        style: {
-                          borderRadius: '8px',
-                          backgroundColor: '#FFFFFF',
-                        },
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleTogglePasswordVisibility}
-                              edge="end"
-                            >
-                              {showPassword ? <Visibility style={{ fontSize: '16px' }} /> : <VisibilityOff style={{ fontSize: '16px' }} />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Stack direction="row" justifyContent="end">
-                      <p className="settings-user-number">Reset Password</p>
-                    </Stack>
-                  </div>
+                  <ResetPasswordSettings />
 
                   <Divider
                     className='mt-3'
