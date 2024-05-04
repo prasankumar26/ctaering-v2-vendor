@@ -167,6 +167,7 @@ const Branches = () => {
     setEditId(null)
     setSelectedLocation(null)
     setLocationPlaceId(null)
+    getPlacePredictions("")
   };
 
   const handlechange = (e) => {
