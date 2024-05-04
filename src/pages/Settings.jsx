@@ -21,6 +21,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useGetVendor from "../hooks/useGetVendor";
 import { useSelector } from "react-redux";
 import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
+import GstnNumber from "../components/settings/GstnNumber";
 
 const Settings = () => {
   const vendorBusinessProfile = useGetVendor();
@@ -301,37 +302,7 @@ const Settings = () => {
                     </Accordion>
                   </div>
 
-                  <div>
-                    <Accordion className="faq-bg" >
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                      >
-                        <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}> GSTIN Number </p>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <p className="settings-small mt-1">Enter your GSTIN number below</p>
-
-                        <CssTextField
-                          id="outlined-number"
-                          variant="outlined"
-                          className='mt-2'
-                          style={{ width: '100%' }}
-                          InputLabelProps={{
-                            style: { color: '#777777', fontSize: '10px' },
-                          }}
-                          InputProps={{
-                            style: {
-                              borderRadius: '8px',
-                              backgroundColor: '#FFFFFF',
-                            }
-                          }}
-                        />
-
-                      </AccordionDetails>
-                    </Accordion>
-                  </div>
+                 <GstnNumber />
 
                   <div>
                     <Accordion className="faq-bg" >

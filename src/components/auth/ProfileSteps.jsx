@@ -93,6 +93,9 @@ const ProfileSteps = () => {
             .matches(/^[0-9]{10}$/, 'Business phone number must contain exactly 10 digits'),
         whatsapp_business_phone_number: Yup.string()
             .min(10, 'Minimum 10 characters required')
+            .max(10, 'Maximum 10 characters allowed'),
+        landline_number: Yup.string()
+            .min(10, 'Minimum 10 characters required')
             .max(10, 'Maximum 10 characters allowed')
         // landline_number: Yup.string()
         //     .required('Landline number is required')
