@@ -22,6 +22,7 @@ import useGetVendor from "../hooks/useGetVendor";
 import { useSelector } from "react-redux";
 import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
 import GstnNumber from "../components/settings/GstnNumber";
+import Avatar from '@mui/material/Avatar';
 
 const Settings = () => {
   const vendorBusinessProfile = useGetVendor();
@@ -86,7 +87,8 @@ const Settings = () => {
 
                   <Stack direction="row" justifyContent="space-between" alignItems="center">
                     <Stack direction="row" spacing={2}>
-                      <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" className="settings-profile-img" alt="" />
+                      {/* <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" className="settings-profile-img" alt="" /> */}
+                      <Avatar sx={{ bgcolor: '#C33332' }}>{vendorBusinessProfile?.vendor_service_name?.slice(0, 1)}</Avatar>
                       <div>
                         <h3 className="settings-user-name"> {vendorBusinessProfile?.vendor_service_name} </h3>
                         <p className="settings-user-number"> {vendorBusinessProfile?.phone_number} </p>
