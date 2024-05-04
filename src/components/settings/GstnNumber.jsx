@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { datavalidationerror, successToast } from '../../utils';
 import { setIsLoading } from '../../features/user/userSlice';
+import useFetchPhotoGallery from '../../hooks/useFetchPhotoGallery';
+import { useEffect, useState } from 'react';
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
@@ -40,8 +42,10 @@ const initialState = {
 }
 
 const GstnNumber = () => {
+    const { settings } = useFetchPhotoGallery()
     const { accessToken } = useSelector((state) => state.user);
     const { isLoading } = useSelector((state) => state.user);
+    const [initialValues, setInitialValues] = useState(initialState);
     const dispatch = useDispatch()
 
     const schema = Yup.object().shape({
@@ -73,6 +77,13 @@ const GstnNumber = () => {
 
     }
 
+    useEffect(() => {
+        if (settings && settings.gstin_number) {
+            setInitialValues({ ...initialValues, gstnNumber: settings.gstin_number });
+        }
+    }, [settings]);
+
+
     return (
         <div>
             <Accordion className="faq-bg" >
@@ -87,7 +98,7 @@ const GstnNumber = () => {
                     <p className="settings-small mt-1">Enter your GSTIN number below</p>
 
 
-                    <Formik initialValues={initialState} validationSchema={schema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
+                    <Formik enableReinitialize={true} initialValues={initialValues} validationSchema={schema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
                         {({ values, errors, handleChange, handleSubmit }) => (
                             <form onSubmit={handleSubmit} className="px-4">
                                 <Stack direction="row" alignItems="center" spacing={1}>
@@ -96,7 +107,7 @@ const GstnNumber = () => {
                                             id="outlined-number"
                                             variant="outlined"
                                             className='mt-2'
-                                            type='number'
+                                            type='text'
                                             value={values.gstnNumber}
                                             onChange={handleChange}
                                             name="gstnNumber"
@@ -117,7 +128,7 @@ const GstnNumber = () => {
 
 
                                     <Button type="submit" variant="contained" className="upload-btn">
-                                     {isLoading ? 'Loading...' : 'Submit'}    
+                                        {isLoading ? 'Loading...' : 'Submit'}
                                     </Button>
                                 </Stack>
                             </form>

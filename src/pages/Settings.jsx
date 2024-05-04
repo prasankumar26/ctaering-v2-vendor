@@ -30,7 +30,7 @@ const Settings = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
-    gallery,
+    settings,
 
     // Aadhar card 
     onUploadAdharCard,
@@ -69,7 +69,7 @@ const Settings = () => {
     },
   }));
 
-  console.log(gallery, "gallery gallery gallery");
+  console.log(settings, "gallery gallery gallery");
 
   return (
     <>
@@ -157,9 +157,9 @@ const Settings = () => {
                       <AccordionDetails>
                         <p className="settings-small mb-1">Front</p>
                         {
-                          gallery['vendor-enca'] !== undefined ? (
+                          settings['vendor-enca'] !== undefined ? (
                             <>
-                              {gallery['vendor-enca']?.map((logo, index) => (
+                              {settings['vendor-enca']?.map((logo, index) => (
                                 <img
                                   className="img-fluid mx-auto"
                                   style={{ width: '100%', height: '200px', objectFit: 'contain' }}
@@ -184,7 +184,7 @@ const Settings = () => {
                         <p className="settings-small mt-1">Back</p>
 
                         <div className="mt-3 text-center">
-                          {gallery['vendor-enca']?.length && gallery['vendor-enca']?.length > 0 ? (
+                          {settings['vendor-enca']?.length && settings['vendor-enca']?.length > 0 ? (
                             <>
                               <input
                                 accept="image/*"
@@ -236,9 +236,9 @@ const Settings = () => {
                         {/* <img src="https://www.financialexpress.com/wp-content/uploads/2023/09/pancard-news-pixabay.jpg" alt="" className="img-fluid" /> */}
 
                         {
-                          gallery['vendor-encp'] !== undefined ? (
+                          settings['vendor-encp'] !== undefined ? (
                             <>
-                              {gallery['vendor-encp']?.map((logo, index) => (
+                              {settings['vendor-encp']?.map((logo, index) => (
                                 <img
                                   className="img-fluid mx-auto"
                                   style={{ width: '100%', height: '200px', objectFit: 'contain' }}
@@ -264,7 +264,7 @@ const Settings = () => {
                         <p className="settings-small mt-1">Upload PAN Card</p>
 
                         <div className="mt-3 text-center">
-                          {gallery['vendor-encp']?.length && gallery['vendor-encp']?.length > 0 ? (
+                          {settings['vendor-encp']?.length && settings['vendor-encp']?.length > 0 ? (
                             <>
                               <input
                                 accept="image/*"
@@ -317,9 +317,9 @@ const Settings = () => {
                         {/* <img src="https://wpassets.adda247.com/wp-content/uploads/multisite/2022/04/29152453/FSSAI-Score-Card-2022.png" alt="" className="img-fluid" /> */}
 
                         {
-                          gallery['vendor-encf'] !== undefined ? (
+                          settings['vendor-encf'] !== undefined ? (
                             <>
-                              {gallery['vendor-encf']?.map((logo, index) => (
+                              {settings['vendor-encf']?.map((logo, index) => (
                                 <img
                                   className="img-fluid mx-auto"
                                   style={{ width: '100%', height: '200px', objectFit: 'contain' }}
@@ -345,7 +345,7 @@ const Settings = () => {
                         <p className="settings-small mt-1">Upload FSSAI Licence</p>
 
                         <div className="mt-3 text-center">
-                          {gallery['vendor-encf']?.length && gallery['vendor-encf']?.length > 0 ? (
+                          {settings['vendor-encf']?.length && settings['vendor-encf']?.length > 0 ? (
                             <>
                               <input
                                 accept="image/*"

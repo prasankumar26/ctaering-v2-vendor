@@ -7,6 +7,7 @@ import { setIsLoading } from '../features/user/userSlice';
 
 const useFetchPhotoGallery = () => {
     const [gallery, setGallery] = useState([]);
+    const [settings, setSettings] = useState([]);
     const [loading, setLoading] = useState(false)
     const { accessToken } = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -30,6 +31,27 @@ const useFetchPhotoGallery = () => {
 
     useEffect(() => {
         getVendorImages()
+    }, [])
+
+    // get-vendor-settings-info
+    const getVendorSettingsImages = async () => {
+        dispatch(setIsLoading(true))
+        try {
+            const response = await api.get(`${BASE_URL}/get-vendor-settings-info`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            setSettings(response?.data?.data || []);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            dispatch(setIsLoading(false))
+        }
+    }
+
+    useEffect(() => {
+        getVendorSettingsImages()
     }, [])
 
 
@@ -405,7 +427,7 @@ const useFetchPhotoGallery = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            getVendorImages();
+            getVendorSettingsImages();
             toast.success(successToast(response))
         } catch (error) {
             console.log(error);
@@ -417,7 +439,7 @@ const useFetchPhotoGallery = () => {
 
     const onReUploadAdharCard = async (event) => {
         const formData = new FormData();
-        formData.append('id', parseInt(gallery['vendor-enca'][0]?.id && gallery['vendor-enca'][0]?.id));
+        formData.append('id', parseInt(settings['vendor-enca'][0]?.id && settings['vendor-enca'][0]?.id));
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'replace')
 
@@ -429,7 +451,7 @@ const useFetchPhotoGallery = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            getVendorImages();
+            getVendorSettingsImages();
             toast.success(successToast(response))
         } catch (error) {
             console.log(error);
@@ -455,7 +477,7 @@ const useFetchPhotoGallery = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            getVendorImages();
+            getVendorSettingsImages();
             toast.success(successToast(response))
         } catch (error) {
             console.log(error);
@@ -467,7 +489,7 @@ const useFetchPhotoGallery = () => {
 
     const onReUploadPancard = async (event) => {
         const formData = new FormData();
-        formData.append('id', parseInt(gallery['vendor-encp'][0]?.id && gallery['vendor-encp'][0]?.id));
+        formData.append('id', parseInt(settings['vendor-encp'][0]?.id && settings['vendor-encp'][0]?.id));
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'replace')
 
@@ -479,7 +501,7 @@ const useFetchPhotoGallery = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            getVendorImages();
+            getVendorSettingsImages();
             toast.success(successToast(response))
         } catch (error) {
             console.log(error);
@@ -505,7 +527,7 @@ const useFetchPhotoGallery = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            getVendorImages();
+            getVendorSettingsImages();
             toast.success(successToast(response))
         } catch (error) {
             console.log(error);
@@ -517,7 +539,7 @@ const useFetchPhotoGallery = () => {
 
     const onReUploadFssai = async (event) => {
         const formData = new FormData();
-        formData.append('id', parseInt(gallery['vendor-encf'][0]?.id && gallery['vendor-encf'][0]?.id));
+        formData.append('id', parseInt(settings['vendor-encf'][0]?.id && settings['vendor-encf'][0]?.id));
         formData.append('image', event.target.files[0]);
         formData.append('action_type', 'replace')
 
@@ -529,7 +551,7 @@ const useFetchPhotoGallery = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            getVendorImages();
+            getVendorSettingsImages();
             toast.success(successToast(response))
         } catch (error) {
             console.log(error);
@@ -545,6 +567,7 @@ const useFetchPhotoGallery = () => {
 
     return {
         gallery,
+        settings,
         loading,
 
         // Brand Logo 
