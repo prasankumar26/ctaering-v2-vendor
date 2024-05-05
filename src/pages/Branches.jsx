@@ -275,7 +275,7 @@ const Branches = () => {
       ...locationValues,
       branch_id: parseInt(editId)
     }
-    console.log(updateData, "updateData");
+    // console.log(updateData, "updateData");
 
     try {
       if (editId !== null) {

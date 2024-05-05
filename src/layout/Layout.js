@@ -8,60 +8,34 @@ import { setAccessToken, setRefreshToken } from "../features/user/userSlice";
 import toast from "react-hot-toast";
 import { datavalidationerror, successToast } from "../utils";
 import { jwtDecode } from "jwt-decode";
+import { useTokenInterceptor } from "../hooks/useTokenInterceptor";
 
 const Layout = () => {
   const { accessToken, refreshToken } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+console.log(refreshToken,"refreshToken");
+  useTokenInterceptor();
+
+
+
+  const test = async () => {
+    try {
+      const refreshResponse = await api.post(`${BASE_URL}/token-refresh`, {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        }
+      });
+      console.log(refreshResponse, "refreshResponse");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    if (!accessToken) {
-      navigate("/create-account");
-      return;
-    }
-
-    const checkTokenExpiration = async () => {
-      try {
-        // Decode the access token to get its expiration time
-        const accessTokenExp = jwtDecode(accessToken).exp;
-        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-
-        console.log(accessTokenExp < currentTime, "accessTokenExp < currentTime");
-
-        // If access token has expired
-        if (accessTokenExp < currentTime) {
-          // Check if refresh token is still valid
-          const refreshTokenExp = jwtDecode(refreshToken).exp;
-          if (refreshTokenExp < currentTime) {
-            // Refresh token has expired, navigate to create account
-            navigate("/create-account");
-          } else {
-            // Call token refresh API
-            const response = await api.post(`${BASE_URL}/token-refresh`, {}, {
-              headers: {
-                Authorization: `Bearer ${refreshToken}`,
-              }
-            });
-            // Update access token in the state
-            dispatch(setAccessToken(response.data.accessToken));
-            toast.success(successToast(response))
-          }
-        }
-      } catch (error) {
-        console.error("Error checking token expiration:", error);
-        // Handle error (e.g., show toast message)
-        toast.error("An error occurred while checking token expiration.");
-        toast.error(datavalidationerror(error))
-      }
-    };
-
-    // Run the token expiration check every minute (adjust interval as needed)
-    const interval = setInterval(checkTokenExpiration, 60000);
-
-    // Cleanup function to clear the interval when component unmounts
-    return () => clearInterval(interval);
-  }, [accessToken, refreshToken, navigate, dispatch]);
+    test()
+  }, [])
 
   return (
     <>

@@ -142,7 +142,7 @@ const Cuisines = () => {
             cuisines: JSON.stringify(cuisinesData)
         }
 
-        console.log(data, "data");
+        // console.log(data, "data");
 
         await api.post(`${BASE_URL}/update-vendor-cuisine`, data, {
             headers: {
@@ -156,7 +156,7 @@ const Cuisines = () => {
         fetchCuisines()
     };
 
-    console.log(cuisinesList, "cuisinesList");
+    // console.log(cuisinesList, "cuisinesList"); 
 
     return (
         <>

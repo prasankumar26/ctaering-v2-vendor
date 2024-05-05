@@ -71,7 +71,7 @@ const Settings = () => {
     },
   }));
 
-  console.log(settings, "gallery gallery gallery");
+  // console.log(settings, "gallery gallery gallery");  
 
   return (
     <>

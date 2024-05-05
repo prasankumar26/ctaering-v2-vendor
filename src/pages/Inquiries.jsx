@@ -61,7 +61,7 @@ const Inquiries = () => {
           Authorization: `Bearer ${accessToken}`,
         }
       });
-      console.log(response, "response");
+      // console.log(response, "response");
       setTotalPages(response?.data?.total_pages)
       setTotalRowCount(response?.data?.actual_rows_count)
       setInquiries(response?.data?.enquiries)
@@ -92,7 +92,7 @@ const Inquiries = () => {
     setSelectedDate(event.target.value)
   };
 
-  console.log(selectedDate, "selectedDate");
+  // console.log(selectedDate, "selectedDate");
 
   return (
     <>

@@ -309,7 +309,7 @@ const Packages = () => {
                                 <p className='max-min-capacity-para text-center'>If you provide both table and buffet service, please check both</p>
                                 {
                                     servingTypes.map((servingType, index) => {
-                                        console.log(`/img/icons/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`, "servingType servingType");
+                                        // console.log(`/img/icons/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`, "servingType servingType");
                                         return (
                                             <Stack direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3' key={index}>
                                                 <img src={`/img/package/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`} alt="" className='package-icons' />

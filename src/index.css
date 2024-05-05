@@ -791,7 +791,7 @@ code {
 }
 
 .ct-box-search-results {
-  font-size: 14px;
+  font-size: 12px;
   text-transform: capitalize;
   padding-top: 15px;
   color: var(--primarytext);

@@ -52,7 +52,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
     const validationSchema = Yup.object().shape({
         aadhar_card_number: Yup.string()
             .required('Aadhar card number is required')
-            .matches(/^[0-9*]*$/, 'Invalid number') // Ensure only digits and * are entered
+            .matches(/^\d*$/, 'Invalid Number')
             .matches(/^\d{12}$/, 'Aadhar card number must be exactly 12 digits'),
         gstin_number: Yup.string()
             .required('GSTIN number is required')
@@ -67,8 +67,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
             .min(10, 'PAN number must be at least 10 characters long')
             .max(10, 'PAN number must not exceed 10 characters'),
         fssai_document_filename: Yup.string()
-            .matches(/^[A-Z0-9]*$/, 'FSSAI must contain only uppercase letters and numbers')
-            .test('no-special-characters', 'Invalid number', value => /^[A-Z0-9]*$/.test(value))
+            .matches(/^[A-Z0-9]*$/, 'PAN number must contain only uppercase letters and numbers')
             .min(14, 'FSSAI must be at least 14 characters long')
             .max(14, 'FSSAI must not exceed 14 characters')
     });

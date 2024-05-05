@@ -34,7 +34,7 @@ const Faq = () => {
                     Authorization: `Bearer ${accessToken}`,
                 }
             });
-            console.log(response, "response");
+            // console.log(response, "response");
             // setTotalPages(response?.data?.total_pages)
             setFaq(response?.data?.data);
         } catch (error) {
