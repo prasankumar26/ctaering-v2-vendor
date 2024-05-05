@@ -99,44 +99,9 @@ const ProfileSteps = () => {
             .matches(/^[0-9]{10}$/, 'Business phone number must contain exactly 10 digits')
             .min(10, 'Minimum 10 characters required')
             .max(10, 'Maximum 10 characters allowed')
-        // landline_number: Yup.string()
-        //     .required('Landline number is required')
-        //     .matches(/^[0-9]+$/, 'Landline number must contain only digits'),
-        // whatsapp_business_phone_number: Yup.string()
-        //     .required('Whatsapp Business phone number is required')
-        //     .matches(/^[0-9]+$/, 'Whatsapp Business phone number must contain only digits'),
     });
 
 
-    // const profileCallApiCall = async (values) => {
-    //     try {
-    //         const { vendor_service_name, point_of_contact_name, business_phone_number, landline_number, whatsapp_business_phone_number } = values;
-
-    //         const formattedPhoneNumber = formatPhoneNumber(business_phone_number);
-    //         const formattedlandline_number = formatLandlineNumber(landline_number);
-    //         const formattedwhatsapp_business_phone_number = whatsapp_business_phone_number ? formatPhoneNumber(whatsapp_business_phone_number) : '';
-
-
-    //         const data = {
-    //             vendor_service_name,
-    //             point_of_contact_name,
-    //             business_phone_number: formattedPhoneNumber,
-    //             landline_number: formattedlandline_number,
-    //             whatsapp_business_phone_number: formattedwhatsapp_business_phone_number
-    //         }
-
-    //         const response = await api.post(`${BASE_URL}/register-vendor-profile-update`, data, {
-    //             headers: {
-    //                 Authorization: `Bearer ${accessToken}`
-    //             }
-    //         })
-    //         toast.success(response?.data?.message);
-    //     } catch (error) {
-    //         console.log(error);
-    //         toast.error(error?.response?.data?.message)
-    //         toast.error(error?.response?.data?.data_validation_errors[0].msg)
-    //     }
-    // }
 
 
 
@@ -168,9 +133,6 @@ const ProfileSteps = () => {
                 toast.success(successToast(response));
             }
 
-            // setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            // const response = await profileCallApiCall(values);
-            // resetForm();
         } catch (error) {
             console.error("Error while submitting the form:", error);
             toast.error(datavalidationerror(error))
@@ -186,8 +148,6 @@ const ProfileSteps = () => {
     const handleReset = () => {
         setActiveStep(0);
     };
-
-
 
 
     return (

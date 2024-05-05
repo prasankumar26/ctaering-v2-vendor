@@ -65,7 +65,7 @@ const BusinesssProfile = () => {
   // const [date, setDate] = useState(null)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
 
-  console.log(values?.working_since, "Values");
+  // console.log(values, "Values");
 
   useEffect(() => {
     setValues((prevValues) => ({
@@ -107,18 +107,22 @@ const BusinesssProfile = () => {
     working_days_hours: Yup.string().required('working days hours is required.'),
     total_staffs_approx: Yup.string().required('total staffs approx is required.'),
     about_description: Yup.string().required('about description is required.'),
+    business_email: Yup.string().required('Business email is required.'),
     working_since: Yup.string()
       .matches(/^\d{4}$/, 'Year must be exactly 4 digits Eg: 2024')
       .required('Working since is required.'),
-    // street_name: Yup.string().required('street name is required.'),
-    // area: Yup.string().required('area is required.'),
-    // city: Yup.string().required('city is required.'),
-    // pincode: Yup.string().required('pincode is required.'),
   });
 
   const handleSubmit = async (values, resetForm) => {
+    console.log(values, "values");
     try {
       setLoading(true);
+      if (values.whatsapp_business_phone_number) {
+        values.whatsapp_business_phone_number = `+91-${values.whatsapp_business_phone_number}`;
+      }
+      if (values.business_phone_number) {
+        values.business_phone_number = `+91-${values.business_phone_number}`;
+      }
       await updateBusinessProfile(values, vendor_id);
       setLoading(false);
     } catch (error) {
@@ -198,10 +202,10 @@ const BusinesssProfile = () => {
   }
   // loc end 
 
-  const years = [
-    values.working_since || new Date().getFullYear(), // Add working_since as the first element if it exists, otherwise use the current year
-    ...Array.from({ length: 49 }, (_, i) => new Date().getFullYear() - i - 1).filter(year => year !== values.working_since)
-  ];
+  // const years = [
+  //   values.working_since || new Date().getFullYear(), // Add working_since as the first element if it exists, otherwise use the current year
+  //   ...Array.from({ length: 49 }, (_, i) => new Date().getFullYear() - i - 1).filter(year => year !== values.working_since)
+  // ];
 
   return (
     <>
@@ -548,6 +552,7 @@ const BusinesssProfile = () => {
                         }
                       }}
                     />
+                    {errors.business_email && <small className='text-danger mt-2 ms-1'>{errors.business_email}</small>}
                   </div>
 
                   <div className="mt-3">
@@ -563,6 +568,7 @@ const BusinesssProfile = () => {
                       InputLabelProps={{
                         style: { color: '#777777', fontSize: '10px' },
                       }}
+                      inputProps={{ maxLength: 10 }}
                       InputProps={{
                         style: {
                           borderRadius: '8px',
@@ -584,6 +590,7 @@ const BusinesssProfile = () => {
                       InputLabelProps={{
                         style: { color: '#777777', fontSize: '10px' },
                       }}
+                      inputProps={{ maxLength: 10 }}
                       InputProps={{
                         style: {
                           borderRadius: '8px',
@@ -602,6 +609,7 @@ const BusinesssProfile = () => {
                       name="whatsapp_business_phone_number"
                       variant="outlined"
                       className='mt-0'
+                      inputProps={{ maxLength: 10 }}
                       style={{ width: '100%' }}
                       InputLabelProps={{
                         style: { color: '#777777', fontSize: '10px' },
