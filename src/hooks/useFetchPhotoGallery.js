@@ -57,7 +57,6 @@ const useFetchPhotoGallery = () => {
 
     // Brand Logo 
     const onUploadBrandLogo = async (event) => {
-        console.log(event.target.files[0], "event");
         const formData = new FormData();
         formData.append('id', '');
         formData.append('image', event.target.files[0]);
@@ -65,6 +64,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading brand logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -78,6 +78,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -89,6 +90,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Re Uploading brand logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -101,6 +103,7 @@ const useFetchPhotoGallery = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         } finally {
+            toast.dismiss();
             dispatch(setIsLoading(false))
         }
     }
@@ -112,6 +115,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Removing brand logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -124,6 +128,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error));
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -136,6 +141,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Banner logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -149,6 +155,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -160,6 +167,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Re Uploading Banner logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -173,6 +181,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -183,6 +192,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Removing Banner logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -195,6 +205,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error));
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -207,6 +218,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -220,6 +232,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -232,6 +245,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -245,6 +259,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -255,6 +270,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Removing Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -267,6 +283,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error));
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -279,6 +296,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -292,6 +310,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -303,6 +322,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -316,6 +336,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -326,6 +347,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Removing Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -338,6 +360,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error));
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -350,6 +373,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -363,6 +387,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -374,6 +399,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -387,6 +413,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -397,6 +424,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Removing Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -409,6 +437,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error));
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -421,6 +450,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-enca`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -434,6 +464,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -445,6 +476,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-enca`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -458,6 +490,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -471,6 +504,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Removing Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encp`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -484,6 +518,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -495,6 +530,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encp`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -508,6 +544,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -521,6 +558,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encf`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -534,6 +572,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 
@@ -545,6 +584,7 @@ const useFetchPhotoGallery = () => {
 
         dispatch(setIsLoading(true))
         try {
+            toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encf`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -558,6 +598,7 @@ const useFetchPhotoGallery = () => {
             toast.error(datavalidationerror(error))
         } finally {
             dispatch(setIsLoading(false))
+            toast.dismiss();
         }
     }
 

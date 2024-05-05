@@ -7,7 +7,7 @@ const InquiryCard = ({item}) => {
         <>
             <Stack className="inquiries-box mb-3" direction="row" justifyContent="space-between" alignItems="center">
                 <div>
-                    <h4 className="inquiries-title">{item?.vendor_service_name}</h4>
+                    <h4 className="inquiries-title">{item?.user_name}</h4>
                     <p className="inquiries-date">{item?.enquiry_date.slice(0,10)}</p>
                     <p className="inquiries-desc">{item?.description}</p>
                 </div>
