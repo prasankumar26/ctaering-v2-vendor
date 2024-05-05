@@ -225,7 +225,6 @@ const LoginVendor = () => {
         <div>
             <div className="px-4">
                 <h4 className='ct-create-account'>Welcome Back</h4>
-                <p className='ct-create-para'>Fill out the information below in order to access your account.</p>
 
                 {showOtp ? (
 
@@ -303,6 +302,7 @@ const LoginVendor = () => {
                     </Formik>
                 ) : (
                     <form>
+                        <p className='text-center mb-2 enter-otp mt-3'>Please enter Your OTP below</p>
                         <div className="otp-input-fields mb-3">
                             <OtpInput length={6} onOtpSubmit={onOtpSubmit} />
                         </div>
@@ -325,7 +325,7 @@ const LoginVendor = () => {
                             <button
                                 disabled={seconds > 0 || minutes > 0}
                                 style={{
-                                    color: seconds > 0 || minutes > 0 ? "#DFE3E8" : "#FF5630",
+                                    color: seconds > 0 || minutes > 0 ? "#c33332" : "#c33332",
                                     margin: '0px auto', textAlign: 'center', border: 'none', width: '100%',
                                     background: '#fff', cursor: 'pointer'
                                 }}
@@ -342,7 +342,7 @@ const LoginVendor = () => {
 
                 {/* <p className='ct-box-both' style={{ fontWeight: '600', color: '#14181b' }}>Forgot Password?</p> */}
 
-                <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />
+                {/* <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} /> */}
             </div>
         </div >
     )

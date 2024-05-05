@@ -52,15 +52,25 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
     const validationSchema = Yup.object().shape({
         aadhar_card_number: Yup.string()
             .required('Aadhar card number is required')
+            .matches(/^[0-9*]*$/, 'Invalid number') // Ensure only digits and * are entered
             .matches(/^\d{12}$/, 'Aadhar card number must be exactly 12 digits'),
         gstin_number: Yup.string()
             .required('GSTIN number is required')
+            .matches(/^[A-Z0-9]*$/, 'PAN number must contain only uppercase letters and numbers')
             .min(15, 'GSTIN number must be at least 15 characters long')
             .max(15, 'GSTIN number must not exceed 15 characters'),
         pan_number: Yup.string()
             .required('PAN number is required')
+            .matches(/^[A-Z0-9]*$/, 'PAN number must contain only uppercase letters and numbers')
+            .test('no-special-characters', 'Invalid number', value => /^[A-Z0-9]*$/.test(value))
+            .test('uppercase-letters', 'Character types should be in Caps', value => /^[A-Z0-9]*$/.test(value.toUpperCase()))
             .min(10, 'PAN number must be at least 10 characters long')
-            .max(10, 'PAN number must not exceed 10 characters')
+            .max(10, 'PAN number must not exceed 10 characters'),
+        fssai_document_filename: Yup.string()
+            .matches(/^[A-Z0-9]*$/, 'FSSAI must contain only uppercase letters and numbers')
+            .test('no-special-characters', 'Invalid number', value => /^[A-Z0-9]*$/.test(value))
+            .min(14, 'FSSAI must be at least 14 characters long')
+            .max(14, 'FSSAI must not exceed 14 characters')
     });
 
 
@@ -89,7 +99,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
             toast.success('Login Details Sended to your mail...');
         } catch (error) {
             setLoading(false);
-            console.log(error," error");
+            console.log(error, " error");
             toast.error(error?.response?.data?.message);
             // toast.error(error?.response?.data?.data_validation_errors[0].msg);
         }
@@ -102,7 +112,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
         <>
             <Formik initialValues={initialKycState} validationSchema={validationSchema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
                 {({ values, errors, handleChange, handleSubmit, isValid }) => (
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className='mx-3'>
                         <h4 className='ct-box-profile-title mt-1'>Please Enter Your Aadhar Card Number *</h4>
                         <CssTextFieldTwo
                             value={values.aadhar_card_number}
@@ -177,6 +187,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                             InputLabelProps={{
                                 style: { color: '#777777', fontSize: '12px' },
                             }}
+                            inputProps={{ maxLength: 14 }}
                             InputProps={{
                                 style: {
                                     borderRadius: '8px',

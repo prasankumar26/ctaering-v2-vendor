@@ -79,15 +79,13 @@ const ProfileSteps = () => {
     const [activeStep, setActiveStep] = useState(0);
     const dispatch = useDispatch();
 
-
-
     const { isLoading } = useSelector((state) => state.user);
 
 
     // validationSchema 
     const validationSchema = Yup.object().shape({
-        vendor_service_name: Yup.string().required('Vendor service name is required'),
-        point_of_contact_name: Yup.string().required('Point of contact name is required'),
+        vendor_service_name: Yup.string().required('Your name is required'),
+        point_of_contact_name: Yup.string().required('Catering service name is required'),
         business_phone_number: Yup.string()
             .required('Business phone number is required')
             .matches(/^[0-9]{10}$/, 'Business phone number must contain exactly 10 digits'),
@@ -189,11 +187,13 @@ const ProfileSteps = () => {
                                 ) : (
                                     <>
                                         {activeStep === 0 && <div className="px-2">
-                                            <h4 className='ct-box-profile-title pb-1'>Profile Update</h4>
-                                            <p className='ct-box-loc-desc'>Let's get started by filling out the form below</p>
+                                            <div className="mx-3">
+                                                <h4 className='ct-box-profile-title pb-1'>Profile Update</h4>
+                                                <p className='ct-box-loc-desc'>Let's get started by filling out the form below</p>
+                                            </div>
                                             <Formik initialValues={initialProfileState} validationSchema={validationSchema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
                                                 {({ values, errors, handleChange, handleSubmit, isValid }) => (
-                                                    <form onSubmit={handleSubmit}>
+                                                    <form onSubmit={handleSubmit} className='mx-3'>
                                                         <CssTextField
                                                             value={values.vendor_service_name}
                                                             onChange={handleChange}
@@ -309,14 +309,7 @@ const ProfileSteps = () => {
 
 
                                                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                                            <Button
-                                                                color="inherit"
-                                                                disabled={activeStep === 0}
-                                                                onClick={handleBack}
-                                                                sx={{ mr: 1 }}
-                                                            >
-                                                                Back
-                                                            </Button>
+                                                          
                                                             <Box sx={{ flex: '1 1 auto' }} />
 
                                                             <Button type='submit' disabled={!isValid || isLoading} className='ct-box-btn-profile-step'>

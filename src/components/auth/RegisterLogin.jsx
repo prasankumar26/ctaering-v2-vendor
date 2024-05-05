@@ -7,10 +7,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Button from '@mui/material/Button';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import LoginVendor from './LoginVendor';
 import useRegistration from '../../hooks/useRegistration';
@@ -131,11 +129,6 @@ const RegisterLogin = () => {
         setValue(newValue);
     };
 
-    const navigate = useNavigate();
-
-    const handleBack = () => {
-        navigate(-1);
-    };
 
 
     // validation schema 
@@ -201,7 +194,7 @@ const RegisterLogin = () => {
         <>
             <Container maxWidth="lg">
                 <div className='mt-3 bg-primary'>
-                    <h1 className='ct-heading'>caterings Service</h1>
+                    <h1 className='ct-heading'>catering Service</h1>
                 </div>
                 <Grid container spacing={2} className='box-negative'>
                     <Grid item xs={12} sm={6.5} md={4.5} lg={4.5}>
@@ -265,7 +258,7 @@ const RegisterLogin = () => {
                                                                 />
                                                                 {errors.phone_number && <small className='text-danger mt-2 ms-1'>{errors.phone_number}</small>}
 
-                                                                <div className="mt-3">
+                                                                <div className="mt-4">
                                                                     <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering ' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
                                                                         {loading ? 'Loading...' : 'Get Otp'}
                                                                     </Button>
@@ -275,6 +268,7 @@ const RegisterLogin = () => {
                                                     </Formik>
                                                 </>
                                                 : <form>
+                                                        <p className='text-center mb-3 enter-otp'>Please enter Your OTP below</p>
                                                     <div className="otp-input-fields mb-3">
                                                         <OtpInput length={6} onOtpSubmit={onOtpSubmit} />
                                                     </div>
@@ -291,25 +285,26 @@ const RegisterLogin = () => {
                                                                 {seconds < 10 ? `0${seconds}` : seconds}
                                                             </p>
                                                         ) : (
-                                                            <p className='ct-box-both'>Didn't recieve code?</p>
+                                                            <p className='ct-box-both'>Didn't Receive code?</p>
                                                         )}
 
+                                                        <Box style={{width: '100%', textAlign: 'center'}}>
                                                         <button
                                                             disabled={seconds > 0 || minutes > 0}
                                                             style={{
-                                                                color: seconds > 0 || minutes > 0 ? "#DFE3E8" : "#FF5630",
-                                                                margin: '0px auto', textAlign: 'center', border: 'none', width: '100%',
+                                                                color: seconds > 0 || minutes > 0 ? "#c33332" : "#c33332",
+                                                                margin: '0px auto', textAlign: 'center', border: 'none',
                                                                 background: '#fff', cursor: 'pointer'
                                                             }}
                                                             onClick={handleResendOtp}
                                                         >
                                                             Resend OTP
                                                         </button>
+                                                        </Box>
                                                     </div>
 
                                                 </form>}
 
-                                            <KeyboardArrowLeftIcon style={{ color: '#57636c', cursor: 'pointer' }} onClick={handleBack} />
                                         </div>
                                     </TabPanel>
                                     <TabPanel value="2" style={{ padding: '0px' }} className='mt-4'>

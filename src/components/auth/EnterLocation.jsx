@@ -125,18 +125,20 @@ const EnterLocation = () => {
                     <Grid item xs={12} sm={6.5} md={4.5} lg={4.5}>
                         <div className="ct-box ct-box-padding">
                             <div className="px-4">
-                                <h4 className='ct-box-loc-title'>Whats's your location?</h4>
+                                <h4 className='ct-box-loc-title mb-2'>Whats's your location?</h4>
                                 <p className='ct-box-loc-desc'>Could you please share your company location to receive personalized promotions</p>
                                 <img style={{ width: '300px' }} src="/img/allowlocation.jpg" alt="" className="img-fluid mx-auto" />
 
                                 <Stack direction="column">
                                     <>
                                         <Button variant="contained" className='ct-box-allow-location' onClick={() => getCurrentLocation()}>
-                                           {loading ? 'Loading...' : 'Allow Location Access' } 
+                                            {loading ? 'Loading...' : 'Allow Location Access'}
                                         </Button>
-                                        <Link to="/enter-location-manually" className="text-decoration-none text-center">
-                                            <Button variant="contained" className='ct-box-loc'>Enter Location Manually</Button>
-                                        </Link>
+                                        <div style={{width: '100%', textAlign: 'center'}}>
+                                            <Link to="/enter-location-manually" className="text-decoration-none text-center">
+                                                <Button variant="contained" className='ct-box-loc'>Enter Location Manually</Button>
+                                            </Link>
+                                        </div>
                                     </>
                                 </Stack>
 

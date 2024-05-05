@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { DATA_VALIDATION_ERROR, datavalidationerror, successToast } from '../../utils';
 import axios from 'axios';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 
 const CssTextField = styled(TextField)(({ theme }) => ({
@@ -86,6 +87,9 @@ const EnterLocationManually = () => {
         isPlacePredictionsLoading,
     } = usePlacesService({
         apiKey: process.env.REACT_APP_GOOGLE,
+        options: {
+            componentRestrictions: { country: 'in' }
+        }
     });
 
     useEffect(() => {
@@ -290,7 +294,7 @@ const EnterLocationManually = () => {
                                     />
 
                                     <Button variant="contained" className='ct-box-btn-current-loc' disabled={loading} onClick={() => getCurrentLocation()}>
-                                     {loading ? 'Loading...' : 'Use my current location'}   
+                                        <MyLocationIcon style={{ marginRight: '5px', fontSize: '15px' }} /> {loading ? 'Loading...' : `Use my current location`}
                                     </Button>
 
                                     <div className='mb-3' style={{ marginTop: '20px', borderTop: '2px solid #c33332' }}>
@@ -306,18 +310,20 @@ const EnterLocationManually = () => {
                                             <h2 className='ct-box-search-results' onClick={() => setSelectedLocation(null)}>{selectedLocation.description}</h2>
                                         ) : (
                                             placePredictions?.map((item, index) => (
-                                                <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
+                                                <>
+                                                    <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
+                                                    <hr className='mt-1 mb-0' />
+                                                </>
                                             ))
                                         )
                                     )}
 
-                                    <Stack direction="column" className='mt-5'>
+                                    <Stack direction="column" className='mt-4'>
                                         <Button type='submit' variant="contained" className='ct-box-btn-catering' disabled={loading}> {loading ? 'Loading...' : 'Next'}</Button>
                                     </Stack>
 
 
 
-                                    <KeyboardArrowLeftIcon style={{ color: '#57636c', marginTop: '30px', cursor: 'pointer' }} onClick={handleBack} />
                                 </div>
                             </div>
                         </form>

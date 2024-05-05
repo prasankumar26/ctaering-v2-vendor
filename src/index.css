@@ -538,7 +538,7 @@ code {
   text-align: center;
   font-size: 18px;
   font-family: var(--fontPrimary);
-  color: var(--alternate);
+  color: var(--primarybg);
   text-transform: uppercase;
   padding-top: 40px;
 }
@@ -731,7 +731,7 @@ code {
   width: 200px !important;
   margin: 0px auto !important;
   margin-bottom: 10px !important;
-  color: var(--alternate) !important;
+  color: var(--primarybg) !important;
 }
 
 .ct-box-loc {
@@ -776,7 +776,7 @@ code {
   font-family: var(--fontPrimary) !important;
   font-weight: 500 !important;
   border-radius: 8px !important;
-  width: 160px !important;
+  width: 180px !important;
   margin: 0px auto !important;
   color: var(--secondary) !important;
 }
@@ -791,11 +791,11 @@ code {
 }
 
 .ct-box-search-results {
-  font-size: 16px;
+  font-size: 14px;
   text-transform: capitalize;
   padding-top: 15px;
   color: var(--primarytext);
-  font-weight: 500;
+  font-weight: 400;
   font-family: var(--fontPrimary);
 }
 
@@ -838,7 +838,7 @@ code {
   width: 150px !important;
   margin: 0px auto !important;
   margin-bottom: 10px !important;
-  color: var(--alternate) !important;
+  color: var(--primarybg) !important;
   margin-right: 10px !important;
 }
 
@@ -1857,7 +1857,7 @@ code {
 
 /* raise ticket page end */
 
-/* loading */
+/* loading spinner */
 @keyframes spinner {
   to {
     transform: rotate(360deg);
@@ -1882,4 +1882,19 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* otp */
+.enter-otp{
+  color: var(--secondarytext);
+  font-family: var(--fontSecondary);
 }
