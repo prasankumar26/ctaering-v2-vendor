@@ -107,7 +107,9 @@ const BusinesssProfile = () => {
     working_days_hours: Yup.string().required('working days hours is required.'),
     total_staffs_approx: Yup.string().required('total staffs approx is required.'),
     about_description: Yup.string().required('about description is required.'),
-    working_since: Yup.string().required('working since is required.'),
+    working_since: Yup.string()
+      .matches(/^\d{4}$/, 'Year must be exactly 4 digits Eg: 2024')
+      .required('Working since is required.'),
     // street_name: Yup.string().required('street name is required.'),
     // area: Yup.string().required('area is required.'),
     // city: Yup.string().required('city is required.'),
@@ -482,12 +484,31 @@ const BusinesssProfile = () => {
                 <Grid item xs={8} >
                   <div className="mt-3">
                     <p className="business-profile-name">Working Since</p>
-                    <select name="working_since" id="working_since" onChange={handleChange} value={values.working_since} className="select-box">
+                    {/* <select name="working_since" id="working_since" onChange={handleChange} value={values.working_since} className="select-box">
                     <option value="">Select Year</option> 
                       {years.map((year) => (
                          <option key={year} value={year}>{year+1}</option>
                       ))}
-                    </select>
+                    </select> */}
+                    <CssTextField
+                      value={values.working_since}
+                      onChange={handleChange}
+                      placeholder="Enter Year"
+                      name="working_since"
+                      variant="outlined"
+                      className='mt-0'
+                      style={{ width: '100%' }}
+                      InputLabelProps={{
+                        style: { color: '#777777', fontSize: '10px' },
+                      }}
+                      inputProps={{ maxLength: 4 }}
+                      InputProps={{
+                        style: {
+                          borderRadius: '8px',
+                          backgroundColor: '#FFFFFF',
+                        }
+                      }}
+                    />
                     {errors.working_since && <small className='text-danger mt-2 ms-1'>{errors.working_since}</small>}
                   </div>
                 </Grid>

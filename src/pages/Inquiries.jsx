@@ -43,6 +43,7 @@ const Inquiries = () => {
   const [loading, setLoading] = useState(false)
   const [inquiries, setInquiries] = useState([]);
   const [totalPages, setTotalPages] = useState(null)
+  const [totalRowCount, setTotalRowCount] = useState(null)
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
   const [error, setError] = useState(null)
@@ -62,6 +63,7 @@ const Inquiries = () => {
       });
       console.log(response, "response");
       setTotalPages(response?.data?.total_pages)
+      setTotalRowCount(response?.data?.actual_rows_count)
       setInquiries(response?.data?.enquiries)
     } catch (error) {
       setError(error?.response?.data?.message)
@@ -161,7 +163,7 @@ const Inquiries = () => {
           </>
 
           {error === null && <Stack spacing={2} direction="row" justifyContent="center">
-            <Pagination count={totalPages} page={page} onChange={handleChange} />
+            <Pagination count={parseInt(totalRowCount)} page={page} onChange={handleChange} />
           </Stack>}
         </div>
 
