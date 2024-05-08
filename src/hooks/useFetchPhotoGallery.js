@@ -5,12 +5,17 @@ import toast from 'react-hot-toast';
 import { datavalidationerror, successToast } from '../utils';
 import { setIsLoading } from '../features/user/userSlice';
 
+
+
 const useFetchPhotoGallery = () => {
     const [gallery, setGallery] = useState([]);
     const [settings, setSettings] = useState([]);
     const [loading, setLoading] = useState(false)
     const { accessToken } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+
+
+
 
     // get vendor images 
     const getVendorImages = async () => {

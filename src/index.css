@@ -1894,7 +1894,16 @@ input:-webkit-autofill:active {
 }
 
 /* otp */
-.enter-otp{
+.enter-otp {
   color: var(--secondarytext);
   font-family: var(--fontSecondary);
+}
+
+/* gallery-box-image */
+.gallery-box-image {
+  width: 400px;
+  height: 300px;
+}
+.gallery-round{
+  border-radius: 10px;
 }

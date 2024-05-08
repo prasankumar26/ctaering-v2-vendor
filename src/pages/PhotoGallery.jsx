@@ -6,103 +6,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { useEffect, useState } from "react";
-import { api, BASE_URL } from "../api/apiConfig";
 import { useSelector } from "react-redux";
-import { datavalidationerror, successToast } from "../utils";
-import toast from "react-hot-toast";
 import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
-
-let nextId = 5;
-let servicePhotosId = 7;
-let otherPhotosId = 7;
-
-
-// Create a date object representing the last modified date
-// const createDummyFile = () => {
-//   const date = new Date("2024-04-26");
-//   const fileWithDetails = new File(["Dummy content"], "06.png", {
-//     type: "image/png",
-//     lastModified: date.getTime(),
-//   });
-//   return fileWithDetails;
-// }
+import BrandedLogo from "../components/gallery/BrandedLogo";
 
 
 const PhotoGallery = () => {
-  const [photos, setPhotos] = useState([
-    {
-      id: 1,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 2,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 3,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 4,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    }
-  ])
-
-  const [servicePhotos, setServicePhotos] = useState([
-    {
-      id: 1,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 2,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 3,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 4,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 5,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 6,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-  ])
-
-  const [otherPhotos, setOtherPhotos] = useState([
-    {
-      id: 1,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 2,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 3,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 4,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 5,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-    {
-      id: 6,
-      url: 'https://img.freepik.com/premium-photo/mountain-landscape-with-sunset-background_726745-519.jpg'
-    },
-  ])
-
   const { isLoading } = useSelector((state) => state.user);
 
   // const [gallery, setGallery] = useState([])
@@ -146,7 +55,7 @@ const PhotoGallery = () => {
         <div className='card-box-shadow px-5 py-4 mb-4'>
 
           {/* Brand Logo  */}
-          <div className="mb-4 mt-2">
+          {/* <div className="mb-4 mt-2">
             <p className='cuisines-title text-center'>Brand Logo</p>
             <Divider
               className='mt-2 mb-5'
@@ -164,6 +73,7 @@ const PhotoGallery = () => {
                   <>
                     {gallery['vendor-brand-logo']?.map((logo, index) => (
                       <img
+                      className="gallery-round"
                         key={logo?.id}
                         src={logo?.image_name[0]?.medium}
                         alt={`Brand Logo ${index}`}
@@ -222,7 +132,8 @@ const PhotoGallery = () => {
               </Button>
 
             </Stack>
-          </div>
+          </div> */}
+          <BrandedLogo />
 
           {/* Main Banner Photo  */}
           <div className="mb-4 mt-5">

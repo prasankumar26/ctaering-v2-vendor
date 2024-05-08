@@ -23,6 +23,7 @@ import Faq from './pages/Faq';
 import Notification from './pages/Notification';
 import RaiseTicket from './pages/RaiseTicket';
 import { Toaster } from 'react-hot-toast';
+import PhotoGalleryTest from "./pages/PhotoGalleryTest";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
 
             <Route path='/dashboard/businesss-profile' element={<BusinesssProfile />} />
             <Route path='/dashboard/photo-gallery' element={<PhotoGallery />} />
+            <Route path='/dashboard/photo-gallery-test' element={<PhotoGalleryTest />} />
             <Route path='/dashboard/branches' element={<Branches />} />
 
             <Route path='/dashboard/subscription' element={<Subscription />} />
