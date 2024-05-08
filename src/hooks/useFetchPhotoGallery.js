@@ -4,17 +4,35 @@ import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { datavalidationerror, successToast } from '../utils';
 import { setIsLoading } from '../features/user/userSlice';
+import getCroppedImg from '../components/gallery/cropImage';
 
 
 
 const useFetchPhotoGallery = () => {
     const [gallery, setGallery] = useState([]);
     const [settings, setSettings] = useState([]);
-    const [loading, setLoading] = useState(false)
     const { accessToken } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const [photoURL, setPhotoURL] = useState(false)
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    const [rotation, setRotation] = useState(0);
+    const [open, setOpen] = React.useState(false);
+    const [BrandDeleteopen, setBrandDeleteopen] = React.useState(false);
 
 
+    const handleBrandClose = () => {
+        setBrandDeleteopen(false);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleBrandClickOpen = () => {
+        setBrandDeleteopen(true);
+    };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
 
     // get vendor images 
@@ -60,14 +78,21 @@ const useFetchPhotoGallery = () => {
     }, [])
 
 
-    // Brand Logo 
-    const onUploadBrandLogo = async (event) => {
+    // onUploadBrandLogo 
+    const onUploadBrandLogo = async () => {
+        dispatch(setIsLoading(true))
+
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
+
         const formData = new FormData();
         formData.append('id', '');
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'insert')
 
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading brand logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
@@ -84,16 +109,24 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
         }
     }
 
+    // onReUploadBrandLogo 
     const onReUploadBrandLogo = async (event) => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
+
         const formData = new FormData();
         formData.append('id', parseInt(gallery['vendor-brand-logo'][0]?.id && gallery['vendor-brand-logo'][0]?.id));
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'replace')
 
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Re Uploading brand logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-brand-logo`, formData, {
@@ -110,9 +143,11 @@ const useFetchPhotoGallery = () => {
         } finally {
             toast.dismiss();
             dispatch(setIsLoading(false))
+            handleClose();
         }
     }
 
+    // onHandleRemoveBrandLogo 
     const onHandleRemoveBrandLogo = async () => {
         const formData = new FormData();
         formData.append('id', parseInt(gallery['vendor-brand-logo'][0]?.id && gallery['vendor-brand-logo'][0]?.id));
@@ -134,17 +169,25 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleBrandClose()
         }
     }
 
-    // Banner Image 
+    // Main Banner Photo
     const onUploadBannerLogo = async (event) => {
+        dispatch(setIsLoading(true))
+
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
+
         const formData = new FormData();
         formData.append('id', '');
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'insert')
 
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Banner logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
@@ -161,16 +204,26 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
     const onReUploadBannerLogo = async (event) => {
-        const formData = new FormData();
-        formData.append('id', parseInt(gallery['vendor-banner'][0]?.id && gallery['vendor-banner'][0]?.id));
-        formData.append('image', event.target.files[0]);
-        formData.append('action_type', 'replace')
+        dispatch(setIsLoading(true))
 
         dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
+
+        const formData = new FormData();
+        formData.append('id', parseInt(gallery['vendor-banner'][0]?.id && gallery['vendor-banner'][0]?.id));
+        formData.append('image', file);
+        formData.append('action_type', 'replace')
+
         try {
             toast.loading('Re Uploading Banner logo...');
             const response = await api.post(`${BASE_URL}/upload-vendor-banner-image`, formData, {
@@ -187,6 +240,8 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
@@ -211,6 +266,7 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleBrandClose()
         }
     }
 
@@ -614,7 +670,19 @@ const useFetchPhotoGallery = () => {
     return {
         gallery,
         settings,
-        loading,
+
+        photoURL,
+        setPhotoURL,
+        setCroppedAreaPixels,
+        rotation,
+        setRotation,
+        handleBrandClose,
+        handleClose,
+        handleBrandClickOpen,
+        handleClickOpen,
+        BrandDeleteopen,
+        open,
+
 
         // Brand Logo 
         onUploadBrandLogo,

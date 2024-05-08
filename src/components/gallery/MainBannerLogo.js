@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
@@ -29,7 +29,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const BrandedLogo = () => {
+const MainBannerLogo = () => {
     const dispatch = useDispatch()
     const { isLoading } = useSelector((state) => state.user);
 
@@ -47,10 +47,10 @@ const BrandedLogo = () => {
         BrandDeleteopen,
         open,
 
-        // brand Logo
-        onUploadBrandLogo,
-        onReUploadBrandLogo,
-        onHandleRemoveBrandLogo
+        // Main Banner Photo
+        onUploadBannerLogo,
+        onReUploadBannerLogo,
+        onHandleRemoveBannerLogo,
 
     } = useFetchPhotoGallery()
   
@@ -70,10 +70,10 @@ const BrandedLogo = () => {
         dispatch(setIsLoading(true))
         try {
             if (photoURL) {
-                if (gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0) {
-                    await onReUploadBrandLogo();
+                if (gallery['vendor-banner']?.length && gallery['vendor-banner']?.length > 0) {
+                    await onReUploadBannerLogo();
                 } else {
-                    await onUploadBrandLogo();
+                    await onUploadBannerLogo();
                 }
             } else {
                 console.log("No photo URL to submit.");
@@ -99,7 +99,7 @@ const BrandedLogo = () => {
 
                 {/* Brand Logo  */}
                 <div className="mb-4 mt-2">
-                    <p className='cuisines-title text-center'>Brand Logo</p>
+                    <p className='cuisines-title text-center'>Main Banner Photo</p>
                     <Divider
                         className='mt-2 mb-5'
                         variant="middle"
@@ -114,9 +114,9 @@ const BrandedLogo = () => {
 
                         <>
                             {
-                                gallery['vendor-brand-logo'] !== undefined ? (
+                                gallery['vendor-banner'] !== undefined ? (
                                     <>
-                                        {gallery['vendor-brand-logo']?.map((logo, index) => (
+                                        {gallery['vendor-banner']?.map((logo, index) => (
                                             <img
                                                 className="gallery-round"
                                                 key={logo?.id}
@@ -141,21 +141,21 @@ const BrandedLogo = () => {
 
                         <input
                             accept="image/*"
-                            id="contained-button-file"
+                            id="mainbannerlogo"
                             multiple
                             type="file"
                             style={{ display: 'none' }}
                             onChange={handleChange}
                         />
-                        <label htmlFor="contained-button-file">
+                        <label htmlFor="mainbannerlogo">
                             <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
-                                {gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0 ? 'Re Upload' : 'Upload'}
+                                {gallery['vendor-banner']?.length && gallery['vendor-banner']?.length > 0 ? 'Re Upload' : 'Upload'}
                             </Button>
                         </label>
 
 
                         <Button onClick={handleBrandClickOpen} variant="contained" component="span" className="cuisines-list-white-btn"
-                            disabled={isLoading || !(gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0)}
+                            disabled={isLoading || !(gallery['vendor-banner']?.length && gallery['vendor-banner']?.length > 0)}
                         >
                             Delete
                         </Button>
@@ -245,7 +245,7 @@ const BrandedLogo = () => {
                             </DialogActions>
                         </>
                     ) : (
-                        <p>KFMBlkn</p >
+                        <p>Main Banner Photo</p >
                     )}
                 </form>
             </BootstrapDialog>
@@ -254,13 +254,13 @@ const BrandedLogo = () => {
             <DeleteModal
                 DeleteModalopen={BrandDeleteopen}
                 handleDeleteModalClose={handleBrandClose}
-                onHandleRemoveModalLogo={onHandleRemoveBrandLogo} />
+                onHandleRemoveModalLogo={onHandleRemoveBannerLogo} />
 
         </>
     )
 }
 
-export default BrandedLogo
+export default MainBannerLogo
 
 const zoomPercent = (value) => {
     return `${Math.round(value * 100)}%`;

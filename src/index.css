@@ -1907,3 +1907,12 @@ input:-webkit-autofill:active {
 .gallery-round{
   border-radius: 10px;
 }
+.delete-gallery-image{
+  font-size: 1.2em !important;
+  font-family: var(--fontPrimary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 5px !important;
+  text-transform: capitalize !important;
+  text-align: left !important;
+  color: var(--primarytext) !important;
+}

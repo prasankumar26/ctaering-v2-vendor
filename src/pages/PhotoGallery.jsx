@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from "react-redux";
 import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
 import BrandedLogo from "../components/gallery/BrandedLogo";
+import MainBannerLogo from "../components/gallery/MainBannerLogo";
 
 
 const PhotoGallery = () => {
@@ -136,7 +137,7 @@ const PhotoGallery = () => {
           <BrandedLogo />
 
           {/* Main Banner Photo  */}
-          <div className="mb-4 mt-5">
+          {/* <div className="mb-4 mt-5">
             <p className='cuisines-title text-center'>Main Banner Photo</p>
             <Divider
               className='mt-2 mb-5'
@@ -214,7 +215,8 @@ const PhotoGallery = () => {
               </Button>
 
             </Stack>
-          </div>
+          </div> */}
+          <MainBannerLogo />
 
           {/* Package / Menu Card Photos  */}
           <div className="mt-2">
