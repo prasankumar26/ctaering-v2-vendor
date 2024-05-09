@@ -11,6 +11,8 @@ import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
 import BrandedLogo from "../components/gallery/BrandedLogo";
 import MainBannerLogo from "../components/gallery/MainBannerLogo";
 import PackageMenuCards from "../components/gallery/PackageMenuCards";
+import ServicePhotos from "../components/gallery/ServicePhotos";
+import OtherPhotos from "../components/gallery/OtherPhotos";
 
 
 const PhotoGallery = () => {
@@ -300,7 +302,7 @@ const PhotoGallery = () => {
           <PackageMenuCards />
 
           {/* Service Photos start */}
-          <div className="mt-2">
+          {/* <div className="mt-2">
             <p className='cuisines-title text-center'>Service Photos</p>
             <Divider
               className='mt-2 mb-4'
@@ -374,10 +376,11 @@ const PhotoGallery = () => {
               </>
 
             </Stack>
-          </div>
+          </div> */}
+          <ServicePhotos />
 
           {/* Other Photos */}
-          <div className="mt-2">
+          {/* <div className="mt-2">
             <p className='cuisines-title text-center'>Other Photos</p>
             <Divider
               className='mt-2 mb-4'
@@ -451,7 +454,8 @@ const PhotoGallery = () => {
               </>
 
             </Stack>
-          </div>
+          </div> */}
+          <OtherPhotos />
 
 
         </div>

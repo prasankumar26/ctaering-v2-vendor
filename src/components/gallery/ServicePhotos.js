@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import Container from '@mui/material/Container';
+import React, { useState } from 'react'
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +34,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 
-const PackageMenuCards = () => {
+const ServicePhotos = () => {
 
     const dispatch = useDispatch()
     const { isLoading } = useSelector((state) => state.user);
@@ -58,21 +57,21 @@ const PackageMenuCards = () => {
         uploadTrue,
 
         // Package / Menu Card Photos 
-        onUploadBannerPackageMenu,
-        onReUploadPackageMenu,
-        onHandleRemovePackageMenu,
+        onUploadService,
+        onReUploadEditService,
+        onHandleRemoveService,
 
     } = useFetchPhotoGallery()
 
     // handleChange fn 
     const handleChange = (event) => {
 
-        if (gallery['vendor-menu']?.length && gallery['vendor-menu']?.length >= 10) {
+        if (gallery['vendor-service']?.length && gallery['vendor-service']?.length >= 10) {
             toast.error("You can add only 10 Package Images")
             return
         }
 
-       
+
         handleClickOpen()
         const file = event.target.files[0];
         const formData = new FormData();
@@ -88,9 +87,9 @@ const PackageMenuCards = () => {
         try {
             if (photoURL) {
                 if (!uploadTrue) {
-                    await onReUploadPackageMenu();
+                    await onReUploadEditService();
                 } else {
-                    await onUploadBannerPackageMenu();
+                    await onUploadService();
                 }
             } else {
                 console.log("No photo URL to submit.");
@@ -112,7 +111,7 @@ const PackageMenuCards = () => {
     return (
         <>
             <div className="mt-2">
-                <p className='cuisines-title text-center'>Package / Menu Card Photos</p>
+                <p className='cuisines-title text-center'> Service Photos </p>
                 <Divider
                     className='mt-2 mb-4'
                     variant="middle"
@@ -125,9 +124,9 @@ const PackageMenuCards = () => {
                 />
                 <Stack direction="row" justifyContent="start" flexWrap="wrap" alignItems="center" spacing={0}>
                     {
-                        gallery['vendor-menu'] !== undefined ? (
+                        gallery['vendor-service'] !== undefined ? (
                             <>
-                                {gallery['vendor-menu'].map((item, index) => (
+                                {gallery['vendor-service'].map((item, index) => (
                                     <div className="pg-shadow me-2">
                                         <img key={index} src={item?.image_name[0]?.medium} alt={`Package Menu ${index}`} className="img-fluid pg-gallery-img" />
                                         <div className="pg-img-icons">
@@ -135,7 +134,7 @@ const PackageMenuCards = () => {
                                                 <>
                                                     <input
                                                         accept="image/*"
-                                                        id="onReUploadPackageMenu"
+                                                        id="onReUploadEditService"
                                                         multiple
                                                         type="file"
                                                         style={{ display: 'none' }}
@@ -145,7 +144,7 @@ const PackageMenuCards = () => {
                                                             dispatch(setMultiImageDelete(item));
                                                         }}
                                                     />
-                                                    <label htmlFor="onReUploadPackageMenu">
+                                                    <label htmlFor="onReUploadEditService">
                                                         <span variant="contained" component="span" disabled={isLoading}>
                                                             {<EditIcon className="pg-img-icon" />}
                                                         </span>
@@ -180,7 +179,7 @@ const PackageMenuCards = () => {
                     <>
                         <input
                             accept="image/*"
-                            id="onUploadBannerPackageMenu"
+                            id="onUploadService"
                             multiple
                             type="file"
                             style={{ display: 'none' }}
@@ -189,7 +188,7 @@ const PackageMenuCards = () => {
                                 setUploadTrue(true)
                             }}
                         />
-                        <label htmlFor="onUploadBannerPackageMenu">
+                        <label htmlFor="onUploadService">
 
                             <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
                                 {<AddIcon />}
@@ -291,13 +290,13 @@ const PackageMenuCards = () => {
             <DeleteModal
                 DeleteModalopen={BrandDeleteopen}
                 handleDeleteModalClose={handleBrandClose}
-                onHandleRemoveModalLogo={onHandleRemovePackageMenu} />
+                onHandleRemoveModalLogo={onHandleRemoveService} />
 
         </>
     )
 }
 
-export default PackageMenuCards
+export default ServicePhotos
 
 
 const zoomPercent = (value) => {

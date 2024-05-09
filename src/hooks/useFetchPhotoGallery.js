@@ -282,8 +282,6 @@ const useFetchPhotoGallery = () => {
         formData.append('image', file);
         formData.append('action_type', 'insert')
 
-        console.log("INSERT");
-
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
@@ -364,12 +362,16 @@ const useFetchPhotoGallery = () => {
 
     // other service 
     const onUploadService = async (event) => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
         formData.append('id', '');
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'insert')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
@@ -386,16 +388,22 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
-    const onReUploadEditService = async (event, item) => {
+    const onReUploadEditService = async () => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
-        formData.append('id', parseInt(item?.id && item?.id));
-        formData.append('image', event.target.files[0]);
+        formData.append('id', parseInt(multiImageDelete?.id && multiImageDelete?.id));
+        formData.append('image', file);
         formData.append('action_type', 'replace')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-service-image`, formData, {
@@ -412,12 +420,14 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
-    const onHandleRemoveService = async (item) => {
+    const onHandleRemoveService = async () => {
         const formData = new FormData();
-        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('id', parseInt(multiImageDelete?.id && multiImageDelete?.id));
         formData.append('action_type', 'remove')
 
         dispatch(setIsLoading(true))
@@ -436,17 +446,22 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleBrandClose()
         }
     }
 
     // other photos 
-    const onUploadOtherPhotos = async (event) => {
+    const onUploadOtherPhotos = async () => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
         formData.append('id', '');
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'insert')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
@@ -463,16 +478,22 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
-    const onReUploadEditOtherPhotos = async (event, item) => {
+    const onReUploadEditOtherPhotos = async () => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
-        formData.append('id', parseInt(item?.id && item?.id));
-        formData.append('image', event.target.files[0]);
+        formData.append('id', parseInt(multiImageDelete?.id && multiImageDelete?.id));
+        formData.append('image', file);
         formData.append('action_type', 'replace')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-other-image`, formData, {
@@ -489,12 +510,14 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
-    const onHandleRemoveOtherPhotos = async (item) => {
+    const onHandleRemoveOtherPhotos = async () => {
         const formData = new FormData();
-        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('id', parseInt(multiImageDelete?.id && multiImageDelete?.id));
         formData.append('action_type', 'remove')
 
         dispatch(setIsLoading(true))
@@ -513,6 +536,7 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleBrandClose()
         }
     }
 
@@ -716,7 +740,7 @@ const useFetchPhotoGallery = () => {
         onReUploadPackageMenu,
         onHandleRemovePackageMenu,
 
-        // other service 
+        // Service photos 
         onUploadService,
         onReUploadEditService,
         onHandleRemoveService,
