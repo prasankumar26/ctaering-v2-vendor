@@ -7,6 +7,7 @@ const initialState = {
     vendorId: {},
     accessToken: "",
     refreshToken: "",
+    multiImageDelete: {},
 }
 
 export const userSlice = createSlice({
@@ -37,9 +38,12 @@ export const userSlice = createSlice({
             state.vendorId = initialState.vendorId;
             state.accessToken = initialState.accessToken;
             state.refreshToken = initialState.refreshToken;
+        },
+        setMultiImageDelete: (state, action) => {
+            state.multiImageDelete = action.payload;
         }
     }
 })
 
-export const {setIsLoading, setData, setLoginUserData, setVendorId, setAccessToken, setRefreshToken, logoutUser } = userSlice.actions;
+export const { setIsLoading, setData, setLoginUserData, setVendorId, setAccessToken, setRefreshToken, logoutUser, setMultiImageDelete } = userSlice.actions;
 export default userSlice.reducer

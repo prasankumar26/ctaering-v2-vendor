@@ -4,12 +4,13 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
 import { useSelector } from "react-redux";
 import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
 import BrandedLogo from "../components/gallery/BrandedLogo";
 import MainBannerLogo from "../components/gallery/MainBannerLogo";
+import PackageMenuCards from "../components/gallery/PackageMenuCards";
 
 
 const PhotoGallery = () => {
@@ -219,7 +220,7 @@ const PhotoGallery = () => {
           <MainBannerLogo />
 
           {/* Package / Menu Card Photos  */}
-          <div className="mt-2">
+          {/* <div className="mt-2">
             <p className='cuisines-title text-center'>Package / Menu Card Photos</p>
             <Divider
               className='mt-2 mb-4'
@@ -295,7 +296,8 @@ const PhotoGallery = () => {
               </>
 
             </Stack>
-          </div>
+          </div> */}
+          <PackageMenuCards />
 
           {/* Service Photos start */}
           <div className="mt-2">
@@ -373,8 +375,6 @@ const PhotoGallery = () => {
 
             </Stack>
           </div>
-
-
 
           {/* Other Photos */}
           <div className="mt-2">

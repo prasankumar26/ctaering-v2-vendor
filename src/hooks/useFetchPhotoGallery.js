@@ -11,13 +11,14 @@ import getCroppedImg from '../components/gallery/cropImage';
 const useFetchPhotoGallery = () => {
     const [gallery, setGallery] = useState([]);
     const [settings, setSettings] = useState([]);
-    const { accessToken } = useSelector((state) => state.user);
+    const { accessToken, multiImageDelete } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [photoURL, setPhotoURL] = useState(false)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [rotation, setRotation] = useState(0);
     const [open, setOpen] = React.useState(false);
     const [BrandDeleteopen, setBrandDeleteopen] = React.useState(false);
+    const [uploadTrue, setUploadTrue] = useState(false)
 
 
     const handleBrandClose = () => {
@@ -25,6 +26,7 @@ const useFetchPhotoGallery = () => {
     };
     const handleClose = () => {
         setOpen(false);
+        setUploadTrue(false)
     };
 
     const handleBrandClickOpen = () => {
@@ -211,14 +213,11 @@ const useFetchPhotoGallery = () => {
 
     const onReUploadBannerLogo = async (event) => {
         dispatch(setIsLoading(true))
-
-        dispatch(setIsLoading(true))
         const { file, url } = await getCroppedImg(
             photoURL,
             croppedAreaPixels,
             rotation
         );
-
         const formData = new FormData();
         formData.append('id', parseInt(gallery['vendor-banner'][0]?.id && gallery['vendor-banner'][0]?.id));
         formData.append('image', file);
@@ -272,12 +271,19 @@ const useFetchPhotoGallery = () => {
 
     // Package / Menu 
     const onUploadBannerPackageMenu = async (event) => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
         formData.append('id', '');
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'insert')
 
-        dispatch(setIsLoading(true))
+        console.log("INSERT");
+
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
@@ -294,17 +300,22 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
-    const onReUploadPackageMenu = async (event, item) => {
-        console.log(event, item, "event, item");
+    const onReUploadPackageMenu = async () => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
-        formData.append('id', parseInt(item?.id && item?.id));
-        formData.append('image', event.target.files[0]);
+        formData.append('id', parseInt(multiImageDelete?.id && multiImageDelete?.id));
+        formData.append('image', file);
         formData.append('action_type', 'replace')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-menu-image`, formData, {
@@ -321,12 +332,14 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
+            handleBrandClose()
         }
     }
 
-    const onHandleRemovePackageMenu = async (item) => {
+    const onHandleRemovePackageMenu = async () => {
         const formData = new FormData();
-        formData.append('id', parseInt(item?.id && item?.id));
+        formData.append('id', parseInt(multiImageDelete?.id && multiImageDelete?.id));
         formData.append('action_type', 'remove')
 
         dispatch(setIsLoading(true))
@@ -345,6 +358,7 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleBrandClose()
         }
     }
 
@@ -682,6 +696,9 @@ const useFetchPhotoGallery = () => {
         handleClickOpen,
         BrandDeleteopen,
         open,
+
+        setUploadTrue,
+        uploadTrue,
 
 
         // Brand Logo 
