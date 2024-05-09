@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { datavalidationerror, successToast } from '../utils';
 import { setIsLoading } from '../features/user/userSlice';
 import getCroppedImg from '../components/gallery/cropImage';
+import getSettingsCroppedImg from '../components/gallery/settingsCropImage';
 
 
 
@@ -83,13 +84,11 @@ const useFetchPhotoGallery = () => {
     // onUploadBrandLogo 
     const onUploadBrandLogo = async () => {
         dispatch(setIsLoading(true))
-
         const { file, url } = await getCroppedImg(
             photoURL,
             croppedAreaPixels,
             rotation
         );
-
         const formData = new FormData();
         formData.append('id', '');
         formData.append('image', file);
@@ -596,12 +595,16 @@ const useFetchPhotoGallery = () => {
 
     // Pan Card 
     const onUploadPancard = async (event) => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
         formData.append('id', '');
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'insert')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Removing Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encp`, formData, {
@@ -618,16 +621,21 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
         }
     }
 
     const onReUploadPancard = async (event) => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getSettingsCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
         formData.append('id', parseInt(settings['vendor-encp'][0]?.id && settings['vendor-encp'][0]?.id));
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'replace')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encp`, formData, {
@@ -644,18 +652,23 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
         }
     }
 
 
     // fssai Licence
     const onUploadFssai = async (event) => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
         formData.append('id', '');
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'insert')
-
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encf`, formData, {
@@ -672,16 +685,22 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
         }
     }
 
     const onReUploadFssai = async (event) => {
+        dispatch(setIsLoading(true))
+        const { file, url } = await getSettingsCroppedImg(
+            photoURL,
+            croppedAreaPixels,
+            rotation
+        );
         const formData = new FormData();
         formData.append('id', parseInt(settings['vendor-encf'][0]?.id && settings['vendor-encf'][0]?.id));
-        formData.append('image', event.target.files[0]);
+        formData.append('image', file);
         formData.append('action_type', 'replace')
 
-        dispatch(setIsLoading(true))
         try {
             toast.loading('Uploading Image...');
             const response = await api.post(`${BASE_URL}/upload-vendor-encf`, formData, {
@@ -698,6 +717,7 @@ const useFetchPhotoGallery = () => {
         } finally {
             dispatch(setIsLoading(false))
             toast.dismiss();
+            handleClose();
         }
     }
 

@@ -20,6 +20,12 @@ import { setIsLoading } from '../../features/user/userSlice';
 import DeleteModal from './DeleteModal';
 import useFetchPhotoGallery from '../../hooks/useFetchPhotoGallery';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -29,12 +35,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const BrandedLogo = () => {
+const FssaiPhoto = () => {
     const dispatch = useDispatch()
     const { isLoading } = useSelector((state) => state.user);
 
     const {
-        gallery,
+        settings,
         photoURL,
         setPhotoURL,
         setCroppedAreaPixels,
@@ -47,13 +53,12 @@ const BrandedLogo = () => {
         BrandDeleteopen,
         open,
 
-        // brand Logo
-        onUploadBrandLogo,
-        onReUploadBrandLogo,
-        onHandleRemoveBrandLogo
+        // Fssai Photo
+        onUploadFssai,
+        onReUploadFssai
 
     } = useFetchPhotoGallery()
-  
+
     // handleChange fn 
     const handleChange = (event) => {
         handleClickOpen()
@@ -70,10 +75,10 @@ const BrandedLogo = () => {
         dispatch(setIsLoading(true))
         try {
             if (photoURL) {
-                if (gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0) {
-                    await onReUploadBrandLogo();
+                if (settings['vendor-encf']?.length && settings['vendor-encf']?.length > 0) {
+                    await onReUploadFssai();
                 } else {
-                    await onUploadBrandLogo();
+                    await onUploadFssai();
                 }
             } else {
                 console.log("No photo URL to submit.");
@@ -87,83 +92,88 @@ const BrandedLogo = () => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
 
+    console.log(crop, "crop");
+    console.log(zoom, "zoom");
 
     const cropComplete = (croppedArea, croppedAreaPixels) => {
+        console.log(croppedAreaPixels, "croppedAreaPixels");
         setCroppedAreaPixels(croppedAreaPixels);
     };
 
 
+    // const [aspect, setAspect] = useState(1); // Initialize aspect ratio to 1:1
+
+    // useEffect(() => {
+    //     // Fetch the image dimensions and calculate the aspect ratio
+    //     const image = new Image();
+    //     image.src = photoURL;
+    //     image.onload = () => {
+    //         const imageAspectRatio = image.width / image.height;
+    //         setAspect(imageAspectRatio);
+    //     };
+    // }, [photoURL]);
+
     return (
         <>
-            <Container maxWidth="lg">
+            <div>
+                <Accordion className="faq-bg" >
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                    >
+                        <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}> FSSAI Licence </p>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {
+                            settings['vendor-encf'] !== undefined ? (
+                                <>
+                                    {settings['vendor-encf']?.map((logo, index) => (
+                                        <img
+                                            className="img-fluid mx-auto gallery-round"
+                                            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                                            key={logo?.id}
+                                            src={logo?.image_name[0]?.medium}
+                                            alt={`Brand Logo ${index}`}
+                                        />
+                                    ))}
+                                </>
+                            ) : (
+                                <>
+                                    <Stack direction="row" justifyContent="center">
+                                        <img
+                                            style={{ width: '200px' }}
+                                            src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                                            alt={`Brand Logo`}
+                                        />
+                                    </Stack>
+                                </>
+                            )
+                        }
 
-                {/* Brand Logo  */}
-                <div className="mb-4 mt-2">
-                    <p className='cuisines-title text-center'>Brand Logo</p>
-                    <Divider
-                        className='mt-2 mb-5'
-                        variant="middle"
-                        style={{
-                            backgroundColor: '#c33332',
-                            margin: '0px',
-                            width: '35%',
-                            margin: '0px auto'
-                        }}
-                    />
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                        <p className="settings-small mt-1">Upload FSSAI Licence</p>
 
-                        <>
-                            {
-                                gallery['vendor-brand-logo'] !== undefined ? (
-                                    <>
-                                        {gallery['vendor-brand-logo']?.map((logo, index) => (
-                                            <img
-                                                className="gallery-round"
-                                                key={logo?.id}
-                                                src={logo?.image_name[0]?.medium}
-                                                alt={`Brand Logo ${index}`}
-                                            />
-                                        ))}
-                                    </>
-                                ) : (
-                                    <>
-                                        <Stack direction="row" justifyContent="center">
-                                            <img
-                                                style={{ width: '200px' }}
-                                                src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
-                                                alt={`Brand Logo`}
-                                            />
-                                        </Stack>
-                                    </>
-                                )
-                            }
-                        </>
+                        <div className="mt-3 text-center">
+                            <input
+                                accept="image/*"
+                                id="vendor-encf"
+                                multiple
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={handleChange}
+                            />
+                            <label htmlFor="vendor-encf">
+                                <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                                    {settings['vendor-encf']?.length && settings['vendor-encf']?.length > 0 ? 'Re Upload' : 'Upload'}
+                                </Button>
+                            </label>
+                        </div>
 
-                        <input
-                            accept="image/*"
-                            id="contained-button-file"
-                            multiple
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={handleChange}
-                        />
-                        <label htmlFor="contained-button-file">
-                            <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
-                                {gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0 ? 'Re Upload' : 'Upload'}
-                            </Button>
-                        </label>
+                    </AccordionDetails>
+                </Accordion>
+            </div>
 
 
-                        <Button onClick={handleBrandClickOpen} variant="contained" component="span" className="cuisines-list-white-btn"
-                            disabled={isLoading || !(gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0)}
-                        >
-                            Delete
-                        </Button>
-
-                    </Stack>
-                </div>
-
-            </Container>
 
             <BootstrapDialog
                 aria-labelledby="customized-dialog-title"
@@ -187,7 +197,7 @@ const BrandedLogo = () => {
                                     crop={crop}
                                     zoom={zoom}
                                     rotation={rotation}
-                                    aspect={1}
+                                    aspect={3 / 2}
                                     onZoomChange={setZoom}
                                     onRotationChange={setRotation}
                                     onCropChange={setCrop}
@@ -245,22 +255,22 @@ const BrandedLogo = () => {
                             </DialogActions>
                         </>
                     ) : (
-                        <p>No Images</p >
+                        <p>KFMBlkn</p >
                     )}
                 </form>
             </BootstrapDialog>
 
             {/* Delete Image Modal */}
-            <DeleteModal
+            {/* <DeleteModal
                 DeleteModalopen={BrandDeleteopen}
                 handleDeleteModalClose={handleBrandClose}
-                onHandleRemoveModalLogo={onHandleRemoveBrandLogo} />
+                onHandleRemoveModalLogo={onHandleRemoveBrandLogo} /> */}
 
         </>
     )
 }
 
-export default BrandedLogo
+export default FssaiPhoto
 
 const zoomPercent = (value) => {
     return `${Math.round(value * 100)}%`;

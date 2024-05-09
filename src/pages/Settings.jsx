@@ -24,6 +24,8 @@ import useFetchPhotoGallery from "../hooks/useFetchPhotoGallery";
 import GstnNumber from "../components/settings/GstnNumber";
 import Avatar from '@mui/material/Avatar';
 import ResetPasswordSettings from "../components/settings/ResetPasswordSettings";
+import FssaiPhoto from "../components/gallery/FssaiPhoto";
+import PanCard from "../components/gallery/PanCard";
 
 const Settings = () => {
   const vendorBusinessProfile = useGetVendor();
@@ -192,7 +194,7 @@ const Settings = () => {
                     </Accordion>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <Accordion className="faq-bg" >
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -202,8 +204,6 @@ const Settings = () => {
                         <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}> PAN Card </p>
                       </AccordionSummary>
                       <AccordionDetails>
-                        {/* <img src="https://www.financialexpress.com/wp-content/uploads/2023/09/pancard-news-pixabay.jpg" alt="" className="img-fluid" /> */}
-
                         {
                           settings['vendor-encp'] !== undefined ? (
                             <>
@@ -269,11 +269,13 @@ const Settings = () => {
 
                       </AccordionDetails>
                     </Accordion>
-                  </div>
+                  </div> */}
 
-                 <GstnNumber />
+                  <PanCard />
 
-                  <div>
+                  <GstnNumber />
+
+                  {/* <div>
                     <Accordion className="faq-bg" >
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -283,8 +285,6 @@ const Settings = () => {
                         <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}> FSSAI Licence </p>
                       </AccordionSummary>
                       <AccordionDetails>
-                        {/* <img src="https://wpassets.adda247.com/wp-content/uploads/multisite/2022/04/29152453/FSSAI-Score-Card-2022.png" alt="" className="img-fluid" /> */}
-
                         {
                           settings['vendor-encf'] !== undefined ? (
                             <>
@@ -350,7 +350,9 @@ const Settings = () => {
 
                       </AccordionDetails>
                     </Accordion>
-                  </div>
+                  </div> */}
+
+                  <FssaiPhoto />
 
                   <Divider
                     className='mt-3'
@@ -397,6 +399,7 @@ const Settings = () => {
             </Grid>
           </Grid>
         </div>
+
       </Container>
     </>
   )
