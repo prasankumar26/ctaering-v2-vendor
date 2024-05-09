@@ -1084,7 +1084,7 @@ code {
 /* right side fixed start  */
 .dashboard-container {
   height: 100vh !important;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
 
 .outlet-container {
