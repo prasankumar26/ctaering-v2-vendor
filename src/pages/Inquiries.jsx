@@ -14,8 +14,14 @@ import InquiryCard from "../components/global/InquiryCard";
 import LoadingAnimation from "../components/LoadingAnimation";
 import Pagination from '@mui/material/Pagination';
 import { Page_Limit } from "../constant";
-
-
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
+import dayjs from 'dayjs';
 
 const CssTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
@@ -48,6 +54,22 @@ const Inquiries = () => {
   const [search, setSearch] = useState("")
   const [error, setError] = useState(null)
   const [selectedDate, setSelectedDate] = useState('2024-04-02');
+  const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+
+  // console.log(formattedDate, "formattedDate formattedDate");
+
+  const [cleared, setCleared] = useState(false);
+
+  useEffect(() => {
+    if (cleared) {
+      const timeout = setTimeout(() => {
+        setCleared(false);
+      }, 1500);
+
+      return () => clearTimeout(timeout);
+    }
+    return () => { };
+  }, [cleared]);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -56,7 +78,7 @@ const Inquiries = () => {
   const fetchInquiries = async () => {
     setLoading(true)
     try {
-      const response = await api.get(`${BASE_URL}/get-vendor-enquiries?search_term=${search}&enquiry_date=${selectedDate}&limit=${Page_Limit}&current_page=${page}&order_by=newest_first`, {
+      const response = await api.get(`${BASE_URL}/get-vendor-enquiries?search_term=${search}&enquiry_date=${formattedDate}&limit=${Page_Limit}&current_page=${page}&order_by=newest_first`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         }
@@ -86,13 +108,6 @@ const Inquiries = () => {
   }
 
   // console.log(inquiries, "inquiries");
-
-
-  const handleDateChange = (event) => {
-    setSelectedDate(event.target.value)
-  };
-
-  // console.log(selectedDate, "selectedDate");
 
   return (
     <>
@@ -132,8 +147,16 @@ const Inquiries = () => {
 
 
 
-
-            <input type="date" id="birthday" name="birthday" value={selectedDate} onChange={handleDateChange} className="input-date" />
+            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DatePicker
+                  value={selectedDate && dayjs(selectedDate)}
+                  onChange={date => setSelectedDate(date)}
+                  sx={{ width: 260 }}
+                  slotProps={{
+                    field: { clearable: true, onClear: () => setCleared(true) },
+                  }}
+                />
+            </LocalizationProvider>
 
 
           </Stack>
