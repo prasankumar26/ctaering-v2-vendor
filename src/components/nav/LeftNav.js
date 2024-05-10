@@ -56,10 +56,14 @@ const LeftNav = () => {
     setOpenDrawer(!openDrawer);
   };
 
+  const handleCloseDrawer = () =>{
+    setOpenDrawer(false)
+  }
+
   return (
     <div className="nav-bg">
       <div className="red-nav-bg">
-        <Stack direction='row' alignItems="center" spacing={0} sx={{ marginBottom: '20px' }}>
+        <Stack direction='row' alignItems="center" spacing={0} className="left-nav-title">
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer} className="mobile-menu">
             <MenuIcon />
           </IconButton>
@@ -97,9 +101,9 @@ const LeftNav = () => {
           }
         })}
         {/* <button className="logout-btn">logout</button> */}
-
       </div>
 
+      {/* Mobile Drawer  */}
       <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer} >
         <div style={{ backgroundColor: '#C33332' }} className="pt-4 ps-2">
           {leftnav.map((item, index) => {
@@ -109,7 +113,7 @@ const LeftNav = () => {
               </Stack>
             } else {
               return (
-                <NavLink className="text-white nav-links" to={item.url} key={index}>
+                <NavLink onClick={handleCloseDrawer} className="text-white nav-links" to={item.url} key={index}>
                   <Stack direction="row" alignItems="center" spacing={2} sx={{ width: '100%' }}>
                     <span className="left-line"></span> <span>{item.icon} </span> <span className="nav-name">{item.name}</span>
                   </Stack>

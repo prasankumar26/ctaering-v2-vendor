@@ -37,7 +37,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
     '& input': {
         border: 'none',
         fontSize: '12px',
-        padding: '10px 20px',
+        padding: '15px 20px',
     },
 }));
 

@@ -32,7 +32,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
     '& input': {
         border: 'none',
         fontSize: '16px',
-        padding: '10px 20px',
+        padding: '12.5px 20px',
     },
 }));
 
@@ -268,7 +268,7 @@ const RegisterLogin = () => {
                                                     </Formik>
                                                 </>
                                                 : <form>
-                                                        <p className='text-center mb-3 enter-otp'>Please enter Your OTP below</p>
+                                                    <p className='text-center mb-3 enter-otp'>Please enter Your OTP below</p>
                                                     <div className="otp-input-fields mb-3">
                                                         <OtpInput length={6} onOtpSubmit={onOtpSubmit} />
                                                     </div>
@@ -288,18 +288,18 @@ const RegisterLogin = () => {
                                                             <p className='ct-box-both'>Didn't Receive code?</p>
                                                         )}
 
-                                                        <Box style={{width: '100%', textAlign: 'center'}}>
-                                                        <button
-                                                            disabled={seconds > 0 || minutes > 0}
-                                                            style={{
-                                                                color: seconds > 0 || minutes > 0 ? "#c33332" : "#c33332",
-                                                                margin: '0px auto', textAlign: 'center', border: 'none',
-                                                                background: '#fff', cursor: 'pointer'
-                                                            }}
-                                                            onClick={handleResendOtp}
-                                                        >
-                                                            Resend OTP
-                                                        </button>
+                                                        <Box style={{ width: '100%', textAlign: 'center' }}>
+                                                            <button
+                                                                disabled={seconds > 0 || minutes > 0}
+                                                                style={{
+                                                                    color: seconds > 0 || minutes > 0 ? "#c33332" : "#c33332",
+                                                                    margin: '0px auto', textAlign: 'center', border: 'none',
+                                                                    background: '#fff', cursor: 'pointer'
+                                                                }}
+                                                                onClick={handleResendOtp}
+                                                            >
+                                                                Resend OTP
+                                                            </button>
                                                         </Box>
                                                     </div>
 
