@@ -109,7 +109,8 @@ const EnterLocationManually = () => {
 
         const country = address_components?.find(c => c?.types?.includes('country')) || {};
         const state = address_components?.find(c => c?.types?.includes('administrative_area_level_1')) || {};
-        const city = address_components?.find(c => c?.types?.includes('administrative_area_level_3')) || {};
+        // const city = address_components?.find(c => c?.types?.includes('administrative_area_level_3')) || {};
+        const city = address_components?.find(c => c?.types?.includes('locality')) || {};
         const pincode = address_components?.find(c => c?.types?.includes('postal_code')) || {};
         const area = address_components?.find(c => c?.types?.includes('locality')) || {};
         const street_name = address_components?.find(c => c?.types?.includes('locality')) || {};
@@ -119,7 +120,7 @@ const EnterLocationManually = () => {
 
         setLocationValues({
             ...locationValues,
-            street_name: street_name,
+            street_name: street_name  || "",
             area: area,
             pincode: pincode?.long_name,
             latitude: lat(),
