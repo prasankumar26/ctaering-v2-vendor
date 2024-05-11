@@ -207,7 +207,14 @@ const Packages = () => {
                                 {foodTypes.slice(0, 2).map((food, index) => (
                                     <Stack key={food.id} direction="row" alignItems="center" justifyContent="center" spacing={2} className={food.selected ? 'mb-5 green-switch' : 'mb-5'}>
                                         <h4 className={food.food_type_name === 'Veg' ? 'package-vn-title-veg' : 'package-vn-title-nonveg'}>{food.food_type_name}</h4>
+
                                         <Switch
+                                            size="small"
+                                            checked={food.selected === "1"}
+                                            onChange={() => handleFoodSwitchToggle(index)}
+                                        />
+
+                                        {/* <Switch
                                             size='small'
                                             checked={food.selected === "1"}
                                             onChange={() => handleFoodSwitchToggle(index)}
@@ -219,7 +226,7 @@ const Packages = () => {
                                                     color: food.food_type_name === 'Non Veg' ? "#7c1e1e" : "#459412",
                                                 }
                                             }}
-                                        />
+                                        /> */}
                                     </Stack>
                                 ))}
                             </Grid>

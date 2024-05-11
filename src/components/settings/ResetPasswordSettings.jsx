@@ -16,10 +16,11 @@ const initialState = {
 }
 
 const ResetPasswordSettings = () => {
-    const [password, setPassword] = useState('');
+    // const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [initialValues, setInitialValues] = useState(initialState);
-    const { isLoading } = useSelector((state) => state.user);
+    // const { isLoading } = useSelector((state) => state.user);
+    const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     const { accessToken } = useSelector((state) => state.user);
 
@@ -32,31 +33,8 @@ const ResetPasswordSettings = () => {
             .required('New Password is required.')
     });
 
-
-    const handleSubmit = async (values, resetForm) => {
-        const { new_password } = values;
-        const data = {
-            new_password
-        }
-
-        dispatch(setIsLoading(true))
-        try {
-            const response = await api.post(`${BASE_URL}/change-vendor-password`, data, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            })
-            toast.success(successToast(response))
-            resetForm(initialState);
-            dispatch(setIsLoading(false))
-        } catch (error) {
-            console.log(error);
-            toast.error(datavalidationerror(error))
-        }
-    }
-
-    // fetchPassword 
-    const fetchPassword = async () => {
+     // fetchPassword 
+     const fetchPassword = async () => {
         try {
             const response = await api.get(`${BASE_URL}/get-vendor-infos`, {
                 headers: {
@@ -90,6 +68,33 @@ const ResetPasswordSettings = () => {
     useEffect(() => {
         fetchPassword()
     }, [])
+
+
+    const handleSubmit = async (values, resetForm) => {
+        const { new_password } = values;
+        const data = {
+            new_password
+        }
+
+        setLoading(true)
+        try {
+            const response = await api.post(`${BASE_URL}/change-vendor-password`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            fetchPassword()
+            toast.success(successToast(response))
+            resetForm(initialState);
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            setLoading(false)
+        }
+    }
+
+   
 
     return (
         <Formik enableReinitialize={true} initialValues={initialValues} validationSchema={schema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
@@ -130,7 +135,7 @@ const ResetPasswordSettings = () => {
                         {errors.new_password && <small className='text-danger mt-2 ms-1'>{errors.new_password}</small>}
 
                         <Stack direction="row" justifyContent="end">
-                            <button disabled={isLoading} className="settings-user-number" style={{ background: 'transparant', backgroundColor: 'none', cursor: 'pointer', border: 'none' }}> {isLoading ? 'Loading...' : 'Reset Password'} </button>
+                            <button disabled={loading} className="settings-user-number" style={{ background: 'transparant', backgroundColor: 'none', cursor: 'pointer', border: 'none' }}> {loading ? 'Loading...' : 'Reset Password'} </button>
                         </Stack>
                     </div>
                 </form>

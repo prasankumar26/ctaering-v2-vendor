@@ -58,6 +58,7 @@ code {
   --accent3: #459412;
   --accent4: #7c1e1e;
   --branded: #8e11a5;
+  --bgprimary: #C53A31; 
 
   /* box shadow  */
   --card-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
@@ -498,7 +499,7 @@ code {
 }
 
 .bg-primary {
-  background-color: #C53A31;
+  background-color: var(--bgprimary);
   height: 155px;
   border-radius: var(--radiusOne);
 }
@@ -714,7 +715,7 @@ code {
 
 .otp-input-fields input:focus {
   border-width: 2px;
-  border-color: #c33332;
+  border-color: var(--secondary);
   font-size: 20px;
   border-radius: 8px;
 }
@@ -866,7 +867,7 @@ code {
 }
 
 .nav-bg {
-  background-color: #C33332;
+  background-color: var(--secondary);
   height: 100%;
   /* border-bottom-right-radius: 20px;
   border-top-right-radius: 20px; */
@@ -914,7 +915,7 @@ code {
 }
 
 .left-nav-color {
-  background-color: #C33332;
+  background-color: var(--secondary);
 }
 
 .nav-avatar {
@@ -924,12 +925,12 @@ code {
 
 .nav-username {
   font-size: 12px;
-  color: #fff !important;
+  color: var(--primarybg) !important;
 }
 
 .nav-gmail {
   font-size: 10px;
-  color: #fff !important;
+  color: var(--primarybg) !important;
 }
 
 .ln-sub-title {
@@ -1630,9 +1631,9 @@ code {
 /* faq end */
 
 /* package start  */
-.green-switch .MuiSwitch-track {
+/* .green-switch .MuiSwitch-track {
   background-color: var(--accent3) !important;
-}
+} */
 
 .package-capacity {
   font-size: 16px !important;
@@ -1772,11 +1773,11 @@ code {
   width: 8px;
   height: 8px;
   border-radius: 99px;
-  background-color: #C33332;
+  background-color: var(--secondary);
 }
 
 .notification-username {
-  color: #C33332;
+  color: var(--secondary);
   font-size: 12px;
 }
 
@@ -1793,7 +1794,7 @@ code {
 }
 
 .mark-read {
-  color: #C33332;
+  color: var(--secondary);
   font-size: 12px;
   cursor: pointer;
 }

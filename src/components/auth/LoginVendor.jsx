@@ -37,7 +37,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 
 const initialState = {
     company_id: '358868',
-    password: 'p1fXiT8V'
+    password: 'Virat@2026'
 
     // company_id: '372313',
     // password: 'Y6ZhP0EU'
@@ -293,7 +293,7 @@ const LoginVendor = () => {
                                 <div className="mt-3">
                                     <Button type='submit' variant="contained" className='ct-box-btn-catering'
                                         style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
-                                        Get Otp
+                                        {loading ? 'Loading...' : 'Get Otp'}
                                     </Button>
                                 </div>
                                 {/* </Link> */}

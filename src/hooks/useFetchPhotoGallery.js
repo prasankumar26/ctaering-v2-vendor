@@ -67,7 +67,7 @@ const useFetchPhotoGallery = () => {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
-            })
+            })  
             setSettings(response?.data?.data || []);
         } catch (error) {
             console.log(error);
