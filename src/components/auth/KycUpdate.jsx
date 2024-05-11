@@ -56,7 +56,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
             .matches(/^\d{12}$/, 'Aadhar card number must be exactly 12 digits'),
         gstin_number: Yup.string()
             .required('GSTIN number is required')
-            .matches(/^[A-Z0-9]*$/, 'PAN number must contain only uppercase letters and numbers')
+            .matches(/^[A-Z0-9]*$/, 'GSTIN number must contain only uppercase letters and numbers')
             .min(15, 'GSTIN number must be at least 15 characters long')
             .max(15, 'GSTIN number must not exceed 15 characters'),
         pan_number: Yup.string()
@@ -67,7 +67,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
             .min(10, 'PAN number must be at least 10 characters long')
             .max(10, 'PAN number must not exceed 10 characters'),
         fssai_document_filename: Yup.string()
-            .matches(/^[A-Z0-9]*$/, 'PAN number must contain only uppercase letters and numbers')
+            .matches(/^[A-Z0-9]*$/, 'FSSAI number must contain only uppercase letters and numbers')
             .min(14, 'FSSAI must be at least 14 characters long')
             .max(14, 'FSSAI must not exceed 14 characters')
     });
@@ -131,7 +131,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                                 },
                             }}
                         />
-                        {errors.aadhar_card_number && <small className='text-danger mt-2 ms-1'>{errors.aadhar_card_number}</small>}
+                        {errors.aadhar_card_number && <small className='text-danger mt-2 ms-0'>{errors.aadhar_card_number}</small>}
 
                         <h4 className='ct-box-profile-title mt-1'>Please Enter Your PAN Number *</h4>
                         <CssTextFieldTwo
@@ -152,7 +152,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                                 },
                             }}
                         />
-                        {errors.pan_number && <small className='text-danger mt-2 ms-1'>{errors.pan_number}</small>}
+                        {errors.pan_number && <small className='text-danger mt-2 ms-0'>{errors.pan_number}</small>}
 
                         <h4 className='ct-box-profile-title mt-1'>Please Enter Your GSTIN Number *</h4>
                         <CssTextFieldTwo
@@ -173,7 +173,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                                 },
                             }}
                         />
-                        {errors.gstin_number && <small className='text-danger mt-2 ms-1'>{errors.gstin_number}</small>}
+                        {errors.gstin_number && <small className='text-danger mt-2 ms-0'>{errors.gstin_number}</small>}
 
                         <h4 className='ct-box-profile-title mt-1'>Please Enter Your FSSAI Licence Number</h4>
                         <CssTextFieldTwo
@@ -194,7 +194,7 @@ const KycUpdate = ({ activeStep, setActiveStep }) => {
                                 },
                             }}
                         />
-                        {errors.fssai_document_filename && <small className='text-danger mt-2 ms-1'>{errors.fssai_document_filename}</small>}
+                        {errors.fssai_document_filename && <small className='text-danger mt-2 ms-0'>{errors.fssai_document_filename}</small>}
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                             {/* <Button

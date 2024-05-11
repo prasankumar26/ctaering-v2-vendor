@@ -78,7 +78,6 @@ const Settings = () => {
   // console.log(settings, "gallery gallery gallery");  
 
 
-
   return (
     <>
       <TopHeader title="Settings" description="Manage all your personal settings here" />
