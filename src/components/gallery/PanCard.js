@@ -61,7 +61,7 @@ const PanCard = () => {
 
     } = useFetchPhotoGallery()
 
-    console.log(settings['vendor-encp']?.length && settings['vendor-encp']?.length > 0, "settings");
+    // console.log(settings['vendor-encp']?.length && settings['vendor-encp']?.length > 0, "settings");
 
     // handleChange fn 
     const handleChange = (event) => {
@@ -96,11 +96,11 @@ const PanCard = () => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
 
-    console.log(crop, "crop");
-    console.log(zoom, "zoom");
+    // console.log(crop, "crop");
+    // console.log(zoom, "zoom");
 
     const cropComplete = (croppedArea, croppedAreaPixels) => {
-        console.log(croppedAreaPixels, "croppedAreaPixels");
+        // console.log(croppedAreaPixels, "croppedAreaPixels");
         setCroppedAreaPixels(croppedAreaPixels);
     };
 

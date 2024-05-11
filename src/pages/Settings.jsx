@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { InputAdornment, IconButton } from '@mui/material';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Divider from '@mui/material/Divider';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Accordion from '@mui/material/Accordion';
@@ -26,8 +26,10 @@ import Avatar from '@mui/material/Avatar';
 import ResetPasswordSettings from "../components/settings/ResetPasswordSettings";
 import FssaiPhoto from "../components/gallery/FssaiPhoto";
 import PanCard from "../components/gallery/PanCard";
+import { api, BASE_URL } from "../api/apiConfig";
 
 const Settings = () => {
+  const { accessToken } = useSelector((state) => state.user)
   const vendorBusinessProfile = useGetVendor();
   const { isLoading } = useSelector((state) => state.user);
   const [password, setPassword] = useState('');
@@ -74,6 +76,8 @@ const Settings = () => {
   }));
 
   // console.log(settings, "gallery gallery gallery");  
+
+
 
   return (
     <>

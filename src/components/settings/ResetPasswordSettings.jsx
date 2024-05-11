@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -53,8 +53,43 @@ const ResetPasswordSettings = () => {
             console.log(error);
             toast.error(datavalidationerror(error))
         }
-
     }
+
+    // fetchPassword 
+    const fetchPassword = async () => {
+        try {
+            const response = await api.get(`${BASE_URL}/get-vendor-infos`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+
+            const responseData = response?.data?.data?.password;
+            console.log(responseData, "responseData responseData");
+
+            if (typeof responseData === 'string') {
+                // Define the regular expression pattern
+                let pattern = /%&\^\$([^]*)\^#\*/;
+
+                // Extract the substring using match
+                let match = responseData.match(pattern);
+
+                // Extract the password from the captured group
+                let password = match ? match[1] : null;
+                setInitialValues({ ...initialValues, new_password: password })
+            } else {
+                console.log("responseData is not a string.");
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    useEffect(() => {
+        fetchPassword()
+    }, [])
 
     return (
         <Formik enableReinitialize={true} initialValues={initialValues} validationSchema={schema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>

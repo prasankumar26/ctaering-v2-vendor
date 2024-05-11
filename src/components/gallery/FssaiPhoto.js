@@ -92,11 +92,11 @@ const FssaiPhoto = () => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
 
-    console.log(crop, "crop");
-    console.log(zoom, "zoom");
+    // console.log(crop, "crop");
+    // console.log(zoom, "zoom");
 
     const cropComplete = (croppedArea, croppedAreaPixels) => {
-        console.log(croppedAreaPixels, "croppedAreaPixels");
+        // console.log(croppedAreaPixels, "croppedAreaPixels");
         setCroppedAreaPixels(croppedAreaPixels);
     };
 
