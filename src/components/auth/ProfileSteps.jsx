@@ -121,9 +121,6 @@ const ProfileSteps = () => {
                 whatsapp_business_phone_number: formattedwhatsapp_business_phone_number
             }
 
-            console.log(data, "data");
-            return;
-
             const response = await api.post(`${BASE_URL}/register-vendor-profile-update`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
