@@ -187,7 +187,7 @@ const Cuisines = () => {
                                     {item.children.some(childItem => childItem.selected === "1") ? (
                                         <>
                                             <h6 className='top-header-desc'> {item?.name}</h6>
-                                            <Grid container spacing={2} className='mt-1 mb-3'>
+                                            <Grid container spacing={2} className='mt-1 mb-3' marginLeft={{marginLeft: '40px'}}>
                                                 {item.children.filter(childItem => childItem.selected === "1").map((childItem) => (
                                                     <Stack direction="row" flexWrap="wrap" spacing={2} key={childItem.id}>
                                                         <Button variant="contained" className="cuisines-list-btn mb-2 me-2"> {childItem?.name} </Button>

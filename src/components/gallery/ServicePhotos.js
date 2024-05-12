@@ -189,7 +189,6 @@ const ServicePhotos = () => {
                             }}
                         />
                         <label htmlFor="onUploadService">
-
                             <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
                                 {<AddIcon />}
                             </Button>
@@ -291,7 +290,6 @@ const ServicePhotos = () => {
                 DeleteModalopen={BrandDeleteopen}
                 handleDeleteModalClose={handleBrandClose}
                 onHandleRemoveModalLogo={onHandleRemoveService} />
-
         </>
     )
 }

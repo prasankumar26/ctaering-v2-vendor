@@ -41,14 +41,14 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const formatPhoneNumber = (phoneNumber) => {
-  
+
   let formatedNumber = "";
-  if(phoneNumber.startsWith('+91-')){
-    formatedNumber += phoneNumber; 
+  if (phoneNumber.startsWith('+91-')) {
+    formatedNumber += phoneNumber;
   } else {
-    formatedNumber += '+91-' + phoneNumber; 
+    formatedNumber += '+91-' + phoneNumber;
   }
-console.log(formatedNumber, "formatedNumber");
+  console.log(formatedNumber, "formatedNumber");
   return formatedNumber
 
 };
@@ -166,6 +166,9 @@ const BusinesssProfile = () => {
     isPlacePredictionsLoading,
   } = usePlacesService({
     apiKey: process.env.REACT_APP_GOOGLE,
+    options: {
+      componentRestrictions: { country: 'in' }
+    }
   });
 
   useEffect(() => {
@@ -471,7 +474,7 @@ const BusinesssProfile = () => {
                   ) : (
                     !selectedLocation && (
                       placePredictions?.map((item, index) => (
-                        <h2 className='ct-box-search-results' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
+                        <h2 className='ct-box-search-results cursor-pointer' key={index} onClick={() => selectLocation(item)}>{item?.description}</h2>
                       ))
                     )
                   )}
@@ -483,7 +486,7 @@ const BusinesssProfile = () => {
 
 
 
-              <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
+              <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }} className={`${!selectedLocation && 'mt-5'}`}>
                 <Grid item xs={8} >
                   <div className="mt-5">
                     <p className="business-profile-name">About</p>

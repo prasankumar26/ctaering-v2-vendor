@@ -1753,7 +1753,10 @@ code {
   text-transform: capitalize !important;
   color: var(--secondary) !important;
   font-weight: 500 !important;
+  min-width: 15px !important;
+  margin-left: 30px !important;
 }
+
 
 /* photo gallery page end */
 
@@ -1916,6 +1919,13 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
