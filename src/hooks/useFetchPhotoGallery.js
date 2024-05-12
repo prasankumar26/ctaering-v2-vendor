@@ -592,6 +592,60 @@ const useFetchPhotoGallery = () => {
         }
     }
 
+    const onUploadAdharCardBack = async (event) => {
+        const formData = new FormData();
+        formData.append('id', '');
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'insert')
+
+        dispatch(setIsLoading(true))
+        try {
+            toast.loading('Uploading Image...');
+            const response = await api.post(`${BASE_URL}/upload-vendor-enca-back`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorSettingsImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+            toast.dismiss();
+        }
+    }
+
+    const onReUploadAdharCardBack = async (event) => {
+        const formData = new FormData();
+        formData.append('id', parseInt(settings['vendor-enca-back'][0]?.id && settings['vendor-enca-back'][0]?.id));
+        formData.append('image', event.target.files[0]);
+        formData.append('action_type', 'replace')
+
+        dispatch(setIsLoading(true))
+        try {
+            toast.loading('Uploading Image...');
+            const response = await api.post(`${BASE_URL}/upload-vendor-enca-back`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            getVendorSettingsImages();
+            toast.success(successToast(response))
+        } catch (error) {
+            console.log(error);
+            toast.error(datavalidationerror(error))
+        } finally {
+            dispatch(setIsLoading(false))
+            toast.dismiss();
+        }
+    }
+
+
+
 
     // Pan Card 
     const onUploadPancard = async (event) => {
@@ -773,6 +827,9 @@ const useFetchPhotoGallery = () => {
         // Aadhar Card 
         onUploadAdharCard,
         onReUploadAdharCard,
+
+        onUploadAdharCardBack,
+        onReUploadAdharCardBack,
 
         // Pan card
         onUploadPancard,

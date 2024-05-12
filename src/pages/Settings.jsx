@@ -42,6 +42,9 @@ const Settings = () => {
     onUploadAdharCard,
     onReUploadAdharCard,
 
+    onUploadAdharCardBack,
+    onReUploadAdharCardBack,
+
     // Pan card
     onUploadPancard,
     onReUploadPancard,
@@ -129,70 +132,141 @@ const Settings = () => {
                         <p className="settings-faq-title" style={{ fontSize: '14px', fontWeight: '500' }}> Aadhar Card </p>
                       </AccordionSummary>
                       <AccordionDetails>
-                        <p className="settings-small mb-1">Front</p>
-                        {
-                          settings['vendor-enca'] !== undefined ? (
-                            <>
-                              {settings['vendor-enca']?.map((logo, index) => (
-                                <img
-                                  className="img-fluid mx-auto"
-                                  style={{ width: '100%', height: '200px', objectFit: 'contain' }}
-                                  key={logo?.id}
-                                  src={logo?.image_name[0]?.medium}
-                                  alt={`Brand Logo ${index}`}
-                                />
-                              ))}
-                            </>
-                          ) : (
-                            <>
-                              <Stack direction="row" justifyContent="center">
-                                <img
-                                  style={{ width: '200px' }}
-                                  src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
-                                  alt={`Brand Logo`}
-                                />
-                              </Stack>
-                            </>
-                          )
-                        }
-                        <p className="settings-small mt-1">Back</p>
+                        <Stack direction="row" spacing={2} flexDirection="row">
+                          <div>
+                            {/* <p className="settings-small mb-1">Front</p> */}
+                            {
+                              settings['vendor-enca'] !== undefined ? (
+                                <>
+                                  {settings['vendor-enca']?.map((logo, index) => (
+                                    <img
+                                      className="img-fluid mx-auto"
+                                      style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+                                      key={logo?.id}
+                                      src={logo?.image_name[0]?.medium}
+                                      alt={`Brand Logo ${index}`}
+                                    />
+                                  ))}
+                                </>
+                              ) : (
+                                <>
+                                  <Stack direction="row" justifyContent="center">
+                                    <img
+                                      style={{ width: '200px' }}
+                                      src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                                      alt={`Brand Logo`}
+                                    />
+                                  </Stack>
+                                </>
+                              )
+                            }
+                            {/* <p className="settings-small mt-1">Back</p> */}
 
-                        <div className="mt-3 text-center">
-                          {settings['vendor-enca']?.length && settings['vendor-enca']?.length > 0 ? (
-                            <>
-                              <input
-                                accept="image/*"
-                                id="onReUploadAdharCard"
-                                multiple
-                                type="file"
-                                style={{ display: 'none' }}
-                                onChange={onReUploadAdharCard}
-                              />
-                              <label htmlFor="onReUploadAdharCard">
+                            <div className="mt-3 text-center">
+                              {settings['vendor-enca']?.length && settings['vendor-enca']?.length > 0 ? (
+                                <>
+                                  <input
+                                    accept="image/*"
+                                    id="onReUploadAdharCard"
+                                    multiple
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={onReUploadAdharCard}
+                                  />
+                                  <label htmlFor="onReUploadAdharCard">
 
-                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
-                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />  Re Upload </Button>
-                              </label>
-                            </>
-                          ) : (
-                            <>
-                              <input
-                                accept="image/*"
-                                id="onUploadAdharCard"
-                                multiple
-                                type="file"
-                                style={{ display: 'none' }}
-                                onChange={onUploadAdharCard}
-                              />
-                              <label htmlFor="onUploadAdharCard">
-                                <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
-                                  <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />Upload</Button>
-                              </label>
-                            </>
-                          )}
+                                    <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                      <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />  Re Upload Front</Button>
+                                  </label>
+                                </>
+                              ) : (
+                                <>
+                                  <input
+                                    accept="image/*"
+                                    id="onUploadAdharCard"
+                                    multiple
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={onUploadAdharCard}
+                                  />
+                                  <label htmlFor="onUploadAdharCard">
+                                    <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                      <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />Upload Front</Button>
+                                  </label>
+                                </>
+                              )}
 
-                        </div>
+                            </div>
+                          </div>
 
+                          <div>
+                            {/* <p className="settings-small mb-1">Front</p> */}
+                            {
+                              settings['vendor-enca-back'] !== undefined ? (
+                                <>
+                                  {settings['vendor-enca-back']?.map((logo, index) => (
+                                    <img
+                                      className="img-fluid mx-auto"
+                                      style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+                                      key={logo?.id}
+                                      src={logo?.image_name[0]?.medium}
+                                      alt={`Brand Logo ${index}`}
+                                    />
+                                  ))}
+                                </>
+                              ) : (
+                                <>
+                                  <Stack direction="row" justifyContent="center">
+                                    <img
+                                      style={{ width: '200px' }}
+                                      src={'https://img.freepik.com/premium-vector/illustration-upload_498740-5719.jpg'}
+                                      alt={`Brand Logo`}
+                                    />
+                                  </Stack>
+                                </>
+                              )
+                            }
+                            {/* <p className="settings-small mt-1">Back</p> */}
+
+                            <div className="mt-3 text-center">
+                              {settings['vendor-enca-back']?.length && settings['vendor-enca-back']?.length > 0 ? (
+                                <>
+                                  <input
+                                    accept="image/*"
+                                    id="onReUploadAdharCardBack"
+                                    multiple
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={onReUploadAdharCardBack}
+                                  />
+                                  <label htmlFor="onReUploadAdharCardBack">
+
+                                    <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                      <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />  Re Upload Back </Button>
+                                  </label>
+                                </>
+                              ) : (
+                                <>
+                                  <input
+                                    accept="image/*"
+                                    id="onUploadAdharCard"
+                                    multiple
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={onUploadAdharCardBack}
+                                  />
+                                  <label htmlFor="onUploadAdharCard">
+                                    <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                      <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />Upload Back</Button>
+                                  </label>
+                                </>
+                              )}
+
+                            </div>
+                          </div>
+
+
+                        </Stack>
                       </AccordionDetails>
                     </Accordion>
                   </div>
