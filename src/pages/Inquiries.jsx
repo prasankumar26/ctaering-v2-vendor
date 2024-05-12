@@ -147,16 +147,18 @@ const Inquiries = () => {
 
 
 
-            <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <div className="inquiries-name">
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
                 <DatePicker
                   value={selectedDate && dayjs(selectedDate)}
                   onChange={date => setSelectedDate(date)}
-                  sx={{ width: 260 }}
+                  sx={{ width: 260, height: 20 }}
                   slotProps={{
                     field: { clearable: true, onClear: () => setCleared(true) },
                   }}
                 />
-            </LocalizationProvider>
+              </LocalizationProvider>
+            </div>
 
 
           </Stack>

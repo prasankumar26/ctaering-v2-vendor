@@ -28,9 +28,12 @@ const ReactSelect = ({ text1, selectedOption, handleSelectedChange }) => {
             styles={{
                 control: (baseStyles, { isFocused }) => ({
                     ...baseStyles,
+                    fontSize: '12px',
                     borderRadius: '8px',
                     padding: '0px 0px',
+                    margin: '0px',
                     border: `2px solid #e0e3e7`,
+                    outline: isFocused ? '2px solid #C33332' : 'none', 
                     width: '200px',
                     color: '#FFFFFF',
                     '&:hover': {
@@ -52,6 +55,7 @@ const ReactSelect = ({ text1, selectedOption, handleSelectedChange }) => {
                 }),
                 option: (baseStyles, { isFocused, isSelected }) => ({
                     ...baseStyles,
+                    fontSize: '12px',
                     backgroundColor: isSelected ? '#C33332' : isFocused ? '#FADBD8' : 'transparent',
                     color: isSelected ? 'white' : '#C33332',
                     '&:hover': {
@@ -85,13 +89,15 @@ const Reviews = () => {
                                     <ReviewCards review={review} key={review.id} />
                                 ))
                             ) : (
-                                <h2 className='text-center'>No Reviews Found</h2>
+                                <>
+                                    <h2 className='text-center'>No Reviews Found</h2><br />
+                                </>
                             )
                         )}
                     </>
                 </div>
                 <Stack spacing={2} direction="row" justifyContent="center">
-                  {reviews?.length > 0 && <Pagination count={totalPages} page={page} onChange={handleChange} /> }  
+                    {reviews?.length > 0 && <Pagination count={totalPages} page={page} onChange={handleChange} />}
                 </Stack>
             </Container>
         </>

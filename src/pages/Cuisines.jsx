@@ -108,9 +108,10 @@ const Cuisines = () => {
     const handleAutocompleteChange = (event, value, parentItem) => {
         const updatedCuisinesList = cuisinesList.map(item => {
             if (item?.id === parentItem?.id) {
+                const allSelected = value.includes('All');
                 const updatedChildren = item?.children?.map(child => ({
                     ...child,
-                    selected: value.includes(child?.name) ? "1" : "0" // Make sure to use strings "1" and "0" instead of numbers
+                    selected: allSelected ? "1" : (value.includes(child?.name) ? "1" : "0")
                 }));
                 return {
                     ...item,
@@ -177,10 +178,6 @@ const Cuisines = () => {
                         }}
                     />
 
-                    {/* <Stack direction="row" justifyContent="end" className='mt-4 cursor-pointer' onClick={handleClickOpen}>
-                        <EditIcon className='text-primary' style={{ fontSize: '18px' }} />
-                    </Stack> */}
-
                     {loading ? (
                         <LoaderSpinner />
                     ) : (
@@ -194,10 +191,6 @@ const Cuisines = () => {
                                                 {item.children.filter(childItem => childItem.selected === "1").map((childItem) => (
                                                     <Stack direction="row" flexWrap="wrap" spacing={2} key={childItem.id}>
                                                         <Button variant="contained" className="cuisines-list-btn mb-2 me-2"> {childItem?.name} </Button>
-                                                        {/* <div className="explore-cator-box">
-                                                            <img src={childItem?.file_name?.medium} alt="" className="img-fluid caterers-occasion-img image-shadow" />
-                                                            <h4 className='text-center caterers-occasion-title'>{childItem?.name}</h4>
-                                                        </div> */}
                                                     </Stack>
                                                 ))}
                                             </Grid>
@@ -210,10 +203,6 @@ const Cuisines = () => {
                             )}
                         </Stack>
                     )}
-
-
-
-
                 </div>
             </Container>
 
@@ -243,12 +232,13 @@ const Cuisines = () => {
                     </IconButton>
                     <DialogContent dividers>
                         <Grid container spacing={2}>
+                            {console.log(cuisinesList, "cuisinesList")}
                             {cuisinesList?.map((item) => (
                                 <Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={item.id}>
                                     <Autocomplete
                                         multiple
                                         id="checkboxes-tags-demo"
-                                        options={item.children.map(child => child.name)}
+                                        options={['All', ...item.children.map(child => child.name)]}
                                         disableCloseOnSelect
                                         getOptionLabel={(option) => option}
                                         renderOption={(props, option, { selected }) => (

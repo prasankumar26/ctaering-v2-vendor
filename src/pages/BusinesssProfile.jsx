@@ -40,6 +40,19 @@ const CssTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
+const formatPhoneNumber = (phoneNumber) => {
+  
+  let formatedNumber = "";
+  if(phoneNumber.startsWith('+91-')){
+    formatedNumber += phoneNumber; 
+  } else {
+    formatedNumber += '+91-' + phoneNumber; 
+  }
+console.log(formatedNumber, "formatedNumber");
+  return formatedNumber
+
+};
+
 
 // const initialState = {
 //   street_name: '',
@@ -114,14 +127,17 @@ const BusinesssProfile = () => {
   });
 
   const handleSubmit = async (values, resetForm) => {
-    // console.log(values, "values");
+    console.log(values, "values");
+    const formattedBusinessPhoneNumber = formatPhoneNumber(values.business_phone_number);
+    const formattedwhatsapp_business_phone_number = values.whatsapp_business_phone_number ? formatPhoneNumber(values.whatsapp_business_phone_number) : '';
+
     try {
       setLoading(true);
       if (values.whatsapp_business_phone_number) {
-        values.whatsapp_business_phone_number = `+91-${values.whatsapp_business_phone_number}`;
+        values.whatsapp_business_phone_number = formattedwhatsapp_business_phone_number;
       }
       if (values.business_phone_number) {
-        values.business_phone_number = `+91-${values.business_phone_number}`;
+        values.business_phone_number = formattedBusinessPhoneNumber;
       }
       await updateBusinessProfile(values, vendor_id);
       setLoading(false);
@@ -560,7 +576,7 @@ const BusinesssProfile = () => {
                     <CssTextField
                       value={values.business_phone_number}
                       onChange={handleChange}
-                      placeholder="Eg:- +91-9000000000"
+                      placeholder="Enter your business number"
                       name="business_phone_number"
                       variant="outlined"
                       className='mt-0'
@@ -568,7 +584,7 @@ const BusinesssProfile = () => {
                       InputLabelProps={{
                         style: { color: '#777777', fontSize: '10px' },
                       }}
-                      inputProps={{ maxLength: 10 }}
+                      inputProps={{ maxLength: 14 }}
                       InputProps={{
                         style: {
                           borderRadius: '8px',
@@ -605,11 +621,11 @@ const BusinesssProfile = () => {
                     <CssTextField
                       value={values.whatsapp_business_phone_number}
                       onChange={handleChange}
-                      placeholder="Eg:- +91-9000000000"
+                      placeholder="Enter Your Number"
                       name="whatsapp_business_phone_number"
                       variant="outlined"
                       className='mt-0'
-                      inputProps={{ maxLength: 10 }}
+                      inputProps={{ maxLength: 14 }}
                       style={{ width: '100%' }}
                       InputLabelProps={{
                         style: { color: '#777777', fontSize: '10px' },

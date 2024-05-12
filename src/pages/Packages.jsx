@@ -234,7 +234,7 @@ const Packages = () => {
 
                             <Grid item xs={12} lg={6}>
                                 <h3 className='package-capacity mt-0'>Starting Price / Plate</h3>
-                                <p className='max-min-capacity-para-green text-center mt-3'>Enter veg Starting price / plate</p>
+                                <p className='max-min-capacity-para-green text-center mt-3'>Enter Starting price / Plate</p>
                                 <Stack direction="row" justifyContent="end">
                                     <CssTextFieldSmall
                                         value={startPrice}

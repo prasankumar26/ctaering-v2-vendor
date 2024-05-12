@@ -86,7 +86,7 @@ const Occasions = () => {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
-        toast.success("Occatins Updated Successfully...")
+        toast.success("Occasions Updated Successfully...")
         setIsLoading(false)
         setOpen(false);
         fetchOccations()
@@ -183,7 +183,7 @@ const Occasions = () => {
                     </DialogContent>
                     <DialogActions style={{ backgroundColor: '#c89f9f29', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'absolute', bottom: 0 }}>
                         <Button variant="contained" className="inquiries-btn" type="submit" onClick={handleClickOpen}>
-                            {isLoading ? 'Loading...' : occasionsList?.filter((item) => item?.selected === "1").length >= 1 ? '+ Update Occasions' : '+ Add Occasions'}  </Button>
+                            {isLoading ? 'Loading...' : 'Add Occasions'}  </Button>
                     </DialogActions>
                 </form>
             </BootstrapDialog>

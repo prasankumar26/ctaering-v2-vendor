@@ -1153,7 +1153,7 @@ code {
 }
 
 .inquiries-btn {
-  background-color: var(--accent3) !important;
+  background-color: var(--secondary) !important;
   border-radius: var(--radiusOne) !important;
   font-size: 12px !important;
   text-transform: capitalize !important;
@@ -1164,7 +1164,7 @@ code {
   border-radius: var(--radiusOne) !important;
   font-size: 12px !important;
   text-transform: capitalize !important;
-  padding: 10px 25px !important;
+  padding: 9px 25px !important;
 }
 
 .rdrDefinedRangesWrapper {
@@ -1181,6 +1181,12 @@ code {
   left: -65px !important;
 }
 
+.inquiries-name {
+  margin-top: -25px !important;
+}
+.inquiries-name .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 9px 14px !important;
+}
 /* inquiries page end  */
 
 /* cuisines page start  */
@@ -1663,7 +1669,7 @@ code {
   font-size: 12px;
   font-family: var(--fontSecondary);
   font-weight: 400;
-  color: var(--accent3);
+  color: var(--secondarytext);
 }
 
 .max-min-capacity-para-red {
