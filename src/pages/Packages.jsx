@@ -293,7 +293,7 @@ const Packages = () => {
                             <Grid item xs={12} lg={6}>
                                 <h3 className='package-capacity mt-3'>Choose your Service type Below</h3>
                                 <p className='max-min-capacity-para text-center'>If you provide both table and buffet service, please check both</p>
-                                {serviceTypes.map((service, index) => {
+                                {serviceTypes?.slice(0, 2).map((service, index) => {
                                     // console.log(`/img/icons/${service.service_type_name.toLowerCase()}.png`, "service RRR");
                                     return (
                                         <Stack key={service.id} direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3'>

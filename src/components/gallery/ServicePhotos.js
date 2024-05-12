@@ -222,7 +222,7 @@ const ServicePhotos = () => {
                                     crop={crop}
                                     zoom={zoom}
                                     rotation={rotation}
-                                    aspect={1}
+                                    aspect={3 / 2}
                                     onZoomChange={setZoom}
                                     onRotationChange={setRotation}
                                     onCropChange={setCrop}

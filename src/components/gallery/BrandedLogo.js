@@ -19,6 +19,11 @@ import Cropper from 'react-easy-crop';
 import { setIsLoading } from '../../features/user/userSlice';
 import DeleteModal from './DeleteModal';
 import useFetchPhotoGallery from '../../hooks/useFetchPhotoGallery';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -32,6 +37,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const BrandedLogo = () => {
     const dispatch = useDispatch()
     const { isLoading } = useSelector((state) => state.user);
+
+    const [openBox, setOpenBox] = useState(false);
+    const handleClickBoxOpen = () => {
+        setOpenBox(true);
+    };
+    const handleBoxClose = () => {
+        setOpenBox(false);
+    };
+
 
     const {
         gallery,
@@ -48,14 +62,17 @@ const BrandedLogo = () => {
         open,
 
         // brand Logo
+        onUploadBoxBrand,
+        onReUploadBoxBrand,
         onUploadBrandLogo,
         onReUploadBrandLogo,
         onHandleRemoveBrandLogo
 
-    } = useFetchPhotoGallery()
-  
+    } = useFetchPhotoGallery(handleBoxClose)
+
     // handleChange fn 
     const handleChange = (event) => {
+        handleBoxClose()
         handleClickOpen()
         const file = event.target.files[0];
         const formData = new FormData();
@@ -96,7 +113,6 @@ const BrandedLogo = () => {
     return (
         <>
             <Container maxWidth="lg">
-
                 {/* Brand Logo  */}
                 <div className="mb-4 mt-2">
                     <p className='cuisines-title text-center'>Brand Logo</p>
@@ -139,7 +155,7 @@ const BrandedLogo = () => {
                             }
                         </>
 
-                        <input
+                        {/* <input
                             accept="image/*"
                             id="contained-button-file"
                             multiple
@@ -151,7 +167,11 @@ const BrandedLogo = () => {
                             <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
                                 {gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0 ? 'Re Upload' : 'Upload'}
                             </Button>
-                        </label>
+                        </label> */}
+
+                        <Button variant="contained" component="span" className="cuisines-list-white-btn" onClick={handleClickBoxOpen}>
+                            Upload
+                        </Button>
 
 
                         <Button onClick={handleBrandClickOpen} variant="contained" component="span" className="cuisines-list-white-btn"
@@ -162,7 +182,6 @@ const BrandedLogo = () => {
 
                     </Stack>
                 </div>
-
             </Container>
 
             <BootstrapDialog
@@ -187,7 +206,8 @@ const BrandedLogo = () => {
                                     crop={crop}
                                     zoom={zoom}
                                     rotation={rotation}
-                                    aspect={1}
+                                    // aspect={1}
+                                    aspect={3 / 2}
                                     onZoomChange={setZoom}
                                     onRotationChange={setRotation}
                                     onCropChange={setCrop}
@@ -255,6 +275,96 @@ const BrandedLogo = () => {
                 DeleteModalopen={BrandDeleteopen}
                 handleDeleteModalClose={handleBrandClose}
                 onHandleRemoveModalLogo={onHandleRemoveBrandLogo} />
+
+
+
+            {/* open Box Modal  */}
+            <React.Fragment>
+                <BootstrapDialog
+                    onClose={handleBoxClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={openBox}
+                >
+                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                        Upload Image
+                    </DialogTitle>
+                    <IconButton
+                        aria-label="close"
+                        onClick={handleBoxClose}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <DialogContent dividers>
+                        <Stack direction="row" alignItems="center" justifyContent="center" spacing={2} >
+
+                            <div className="text-center">
+                                {gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0 ? (
+                                    <>
+                                        <input
+                                            accept="image/*"
+                                            id="onReUploadBoxBrand"
+                                            multiple
+                                            type="file"
+                                            style={{ display: 'none' }}
+                                            onChange={onReUploadBoxBrand}
+                                        />
+                                        <label htmlFor="onReUploadBoxBrand">
+
+                                            <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                                <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" /> Re Upload Image </Button>
+                                        </label>
+                                    </>
+                                ) : (
+                                    <>
+                                        <input
+                                            accept="image/*"
+                                            id="onUploadBoxBrand"
+                                            multiple
+                                            type="file"
+                                            style={{ display: 'none' }}
+                                            onChange={onUploadBoxBrand}
+                                        />
+                                        <label htmlFor="onUploadBoxBrand">
+                                            <Button variant="contained" component="span" className="upload-btn" disabled={isLoading}>
+                                                <CloudUploadIcon style={{ fontSize: '14px' }} className="me-2" />  Upload Image </Button>
+                                        </label>
+                                    </>
+                                )}
+                            </div>
+
+                            <div> OR </div>
+
+                            <div>
+                                <input
+                                    accept="image/*"
+                                    id="mainbannerlogo"
+                                    multiple
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="mainbannerlogo">
+                                    <Button variant="contained" component="span" className="cuisines-list-white-btn" disabled={isLoading}>
+                                        {gallery['vendor-brand-logo']?.length && gallery['vendor-brand-logo']?.length > 0 ? 'Re Upload Crop Image' : 'Upload Crop Image'}
+                                    </Button>
+                                </label>
+                            </div>
+                        </Stack>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={handleBoxClose}>
+                            Close
+                        </Button>
+                    </DialogActions>
+                </BootstrapDialog>
+            </React.Fragment>
+
 
         </>
     )

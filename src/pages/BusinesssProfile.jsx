@@ -129,7 +129,7 @@ const BusinesssProfile = () => {
   const schema = Yup.object().shape({
     vendor_service_name: Yup.string().required('Name is required.'),
     point_of_contact_name: Yup.string().required('contact person name is required.'),
-    working_days_hours: Yup.string().required('working days hours is required.'),
+    // working_days_hours: Yup.string().required('working days hours is required.'),
     total_staffs_approx: Yup.string().required('total staffs approx is required.'),
     about_description: Yup.string().required('about description is required.'),
     business_email: Yup.string().required('Business email is required.'),
@@ -337,6 +337,7 @@ const BusinesssProfile = () => {
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DateTimeRangePicker', 'DateTimeRangePicker']}>
                           <DateTimeRangePicker
+                            required
                             value={value}
                             onChange={(newValue) => setValue(newValue)}
                           />
@@ -344,10 +345,10 @@ const BusinesssProfile = () => {
                       </LocalizationProvider>
                       {values.working_days_hours && values.working_days_hours}
                     </div>
-                    {errors.working_days_hours && <small className='text-danger mt-2 ms-1'>{errors.working_days_hours}</small>}
+                    {/* {errors.working_days_hours && <small className='text-danger mt-2 ms-1'>{errors.working_days_hours}</small>} */}
                   </div>
 
-                  <div style={{marginTop:'30px'}}>
+                  <div style={values.working_days_hours ? { marginTop: '30px' } : {}}>
                     <p className="business-profile-name">Total No. of Staffs Approx</p>
                     <CssTextField
                       value={values.total_staffs_approx}
