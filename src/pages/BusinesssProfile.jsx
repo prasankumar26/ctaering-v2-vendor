@@ -21,6 +21,13 @@ import { useLocation } from "react-router-dom";
 import { MenuItem, Select } from '@mui/material';
 
 
+import dayjs from 'dayjs';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimeRangePicker } from '@mui/x-date-pickers-pro/DateTimeRangePicker';
+
+
 const CssTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
@@ -77,8 +84,13 @@ const BusinesssProfile = () => {
   const [loading, setLoading] = useState(false)
   // const [date, setDate] = useState(null)
   const [data, updateBusinessProfile] = useBusinessProfile('/get-vendor-business-profile', accessToken)
+  const [value, setValue] = useState([
+    dayjs(''),
+    dayjs(''),
+  ]);
+  const formattedValues = value?.map(date => date?.format('YYYY-MM-DD HH:mm:ss'));
+  const working_days_hours_time = formattedValues?.join(' - ');
 
-  // console.log(values, "Values");
 
   useEffect(() => {
     setValues((prevValues) => ({
@@ -139,7 +151,11 @@ const BusinesssProfile = () => {
       if (values.business_phone_number) {
         values.business_phone_number = formattedBusinessPhoneNumber;
       }
-      await updateBusinessProfile(values, vendor_id);
+      const data = {
+        ...values,
+        working_days_hours: working_days_hours_time
+      }
+      await updateBusinessProfile(data, vendor_id);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -221,10 +237,7 @@ const BusinesssProfile = () => {
   }
   // loc end 
 
-  // const years = [
-  //   values.working_since || new Date().getFullYear(), // Add working_since as the first element if it exists, otherwise use the current year
-  //   ...Array.from({ length: 49 }, (_, i) => new Date().getFullYear() - i - 1).filter(year => year !== values.working_since)
-  // ];
+
 
   return (
     <>
@@ -301,7 +314,7 @@ const BusinesssProfile = () => {
                 <Grid item xs={6}>
                   <div className="">
                     <p className="business-profile-name">Working days/hours</p>
-                    <CssTextField
+                    {/* <CssTextField
                       value={values.working_days_hours}
                       onChange={handleChange}
                       name="working_days_hours"
@@ -318,7 +331,19 @@ const BusinesssProfile = () => {
                           backgroundColor: '#FFFFFF',
                         }
                       }}
-                    />
+                    /> */}
+
+                    <div className="business-date-picker">
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DateTimeRangePicker', 'DateTimeRangePicker']}>
+                          <DateTimeRangePicker
+                            value={value}
+                            onChange={(newValue) => setValue(newValue)}
+                          />
+                        </DemoContainer>
+                      </LocalizationProvider>
+                      {values.working_days_hours && values.working_days_hours}
+                    </div>
                     {errors.working_days_hours && <small className='text-danger mt-2 ms-1'>{errors.working_days_hours}</small>}
                   </div>
 

@@ -1301,6 +1301,13 @@ code {
 
 
 /* Business profile page start  */
+.business-date-picker{
+  margin-top: -10px;
+}
+.business-date-picker .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 9.5px 14px !important;
+}
+
 .business-profile-name {
   font-size: 12px;
   font-family: var(--fontSecondary);
