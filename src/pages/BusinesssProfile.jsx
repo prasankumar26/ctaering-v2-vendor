@@ -286,7 +286,7 @@ const BusinesssProfile = () => {
                     {errors.vendor_service_name && <small className='text-danger mt-2 ms-1'>{errors.vendor_service_name}</small>}
                   </div>
 
-                  <div className="mt-3">
+                  <div className="mt-5">
                     <p className="business-profile-name">Conatct person Name</p>
                     <CssTextField
                       value={values.point_of_contact_name}
@@ -347,7 +347,7 @@ const BusinesssProfile = () => {
                     {errors.working_days_hours && <small className='text-danger mt-2 ms-1'>{errors.working_days_hours}</small>}
                   </div>
 
-                  <div className="mt-3">
+                  <div style={{marginTop:'30px'}}>
                     <p className="business-profile-name">Total No. of Staffs Approx</p>
                     <CssTextField
                       value={values.total_staffs_approx}
