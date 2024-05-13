@@ -72,7 +72,7 @@ const LeftNav = () => {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" className="mobile-none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar sx={{ bgcolor: '#C33332' }}>{vendorBusinessProfile?.point_of_contact_name?.slice(0, 1)}</Avatar>
+            <Avatar sx={{ bgcolor: '#d9822b' }}>{vendorBusinessProfile?.point_of_contact_name?.slice(0, 1)}</Avatar>
             <div>
               <h2 className="m-0 text-white nav-username">{vendorBusinessProfile?.point_of_contact_name}</h2>
               <p className="m-0 text-white nav-gmail">{vendorBusinessProfile?.phone_number}</p>
@@ -105,7 +105,7 @@ const LeftNav = () => {
 
       {/* Mobile Drawer  */}
       <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer} >
-        <div style={{ backgroundColor: '#C33332' }} className="pt-4 ps-2">
+        <div style={{ backgroundColor: '#d9822b' }} className="pt-4 ps-2">
           {leftnav.map((item, index) => {
             if (item.title) {
               return <Stack key={index} direction="row" sx={{ width: '100%' }} className="ps-3 pb-2">

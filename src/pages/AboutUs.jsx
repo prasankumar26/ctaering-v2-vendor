@@ -46,7 +46,7 @@ const AboutUs = () => {
                 border: '2px solid #F0F1F3',
             },
             '&.Mui-focused fieldset': {
-                border: '2px solid #c33332',
+                border: '2px solid #d9822b',
             },
         },
         '& input': {
@@ -72,7 +72,7 @@ const AboutUs = () => {
                                 <div className="px-4">
 
                                     <Stack direction="row" alignItems="center" className="mb-3">
-                                        <ArrowBackIcon className="cursor-pointer" style={{ fontSize: '18px', color: '#c33332' }} onClick={handleBack} /> <h3 className="faq-heading ms-2">About Us</h3>
+                                        <ArrowBackIcon className="cursor-pointer" style={{ fontSize: '18px', color: '#d9822b' }} onClick={handleBack} /> <h3 className="faq-heading ms-2">About Us</h3>
                                     </Stack>
 
                                     <p className="company-change-password mt-3 mb-2">Click to view</p>

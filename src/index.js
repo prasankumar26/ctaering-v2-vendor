@@ -11,7 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#c33332', // Change this to the desired primary color
+      main: '#d9822b', // Change this to the desired primary color
     },
   },
 });

@@ -25,7 +25,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -325,7 +325,7 @@ const LoginVendor = () => {
                             <button
                                 disabled={seconds > 0 || minutes > 0}
                                 style={{
-                                    color: seconds > 0 || minutes > 0 ? "#c33332" : "#c33332",
+                                    color: seconds > 0 || minutes > 0 ? "#d9822b" : "#d9822b",
                                     margin: '0px auto', textAlign: 'center', border: 'none', width: '100%',
                                     background: '#fff', cursor: 'pointer'
                                 }}

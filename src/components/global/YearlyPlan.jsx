@@ -14,13 +14,13 @@ const YearlyPlan = () => {
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-violet-title">
-                                <h3 className="sub-box-name">Branded Caterer</h3>
+                                <h3 className="sub-box-name">Branded Tiffin</h3>
                             </div>
                             <div className="sub-body px-2 pt-2">
                                 <div className="sub-price">
                                     <h3 className="text-center"> ₹4000 / <sub className="sub-plan-month">month</sub></h3>
                                 </div>
-                                <p className="sub-plan-brand mb-3 mt-3">List as Branded Caterer</p>
+                                <p className="sub-plan-brand mb-3 mt-3">List as Branded Tiffin</p>
                                 <p className="sub-plan-para">Benifits:</p>
                                 <p className="sub-plan-para">- Gets clean dashboard </p>
                                 <p className="sub-plan-para">- Track your incomes </p>
@@ -42,13 +42,13 @@ const YearlyPlan = () => {
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-green-title">
-                                <h3 className="sub-box-name">Popular Caterer</h3>
+                                <h3 className="sub-box-name">Popular Tiffin</h3>
                             </div>
                             <div className="sub-body px-2 pt-2">
                                 <div className="sub-price">
                                     <h3 className="text-center"> ₹3000 / <sub className="sub-plan-month">month</sub></h3>
                                 </div>
-                                <p className="sub-plan-brand mb-3 mt-3">List as Popular Caterer</p>
+                                <p className="sub-plan-brand mb-3 mt-3">List as Popular Tiffin</p>
                                 <p className="sub-plan-para">Benifits:</p>
                                 <p className="sub-plan-para">- Gets clean dashboard </p>
                                 <p className="sub-plan-para">- Track your incomes </p>
@@ -70,13 +70,13 @@ const YearlyPlan = () => {
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-red-title">
-                                <h3 className="sub-box-name">Recommended Caterer</h3>
+                                <h3 className="sub-box-name">Recommended Tiffin</h3>
                             </div>
                             <div className="sub-body px-2 pt-2">
                                 <div className="sub-price">
                                     <h3 className="text-center"> ₹2000 / <sub className="sub-plan-month">month</sub></h3>
                                 </div>
-                                <p className="sub-plan-brand mb-3 mt-3">List as Recommended Caterer</p>
+                                <p className="sub-plan-brand mb-3 mt-3">List as Recommended Tiffin</p>
                                 <p className="sub-plan-para">Benifits:</p>
                                 <p className="sub-plan-para">- Gets clean dashboard </p>
                                 <p className="sub-plan-para">- Track your incomes </p>
@@ -98,13 +98,13 @@ const YearlyPlan = () => {
                     <div className="subscription-plans-shadow">
                         <div className="sub-box-violet">
                             <div className="sub-box-yellow-title">
-                                <h3 className="sub-box-name">Normal Caterer</h3>
+                                <h3 className="sub-box-name">Normal Tiffin</h3>
                             </div>
                             <div className="sub-body px-2 pt-2">
                                 <div className="sub-price">
                                     <h3 className="text-center"> ₹1000 / <sub className="sub-plan-month">month</sub></h3>
                                 </div>
-                                <p className="sub-plan-brand mb-3 mt-3">List as Normal Caterer</p>
+                                <p className="sub-plan-brand mb-3 mt-3">List as Normal Tiffin</p>
                                 <p className="sub-plan-para">Benifits:</p>
                                 <p className="sub-plan-para">- Gets clean dashboard </p>
                                 <p className="sub-plan-para">- Track your incomes </p>

@@ -64,7 +64,7 @@ const Faq = () => {
                                 <div className="px-4">
 
                                     <Stack direction="row" alignItems="center" className="mb-3">
-                                        <ArrowBackIcon className="cursor-pointer" style={{ fontSize: '18px', color: '#c33332' }} onClick={handleBack} /> <h3 className="faq-heading ms-2">FAQ's</h3>
+                                        <ArrowBackIcon className="cursor-pointer" style={{ fontSize: '18px', color: '#d9822b' }} onClick={handleBack} /> <h3 className="faq-heading ms-2">FAQ's</h3>
                                     </Stack>
 
                                     <p className="company-change-password mt-3 mb-2">Click to view</p>

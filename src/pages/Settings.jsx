@@ -68,7 +68,7 @@ const Settings = () => {
         border: '2px solid #F0F1F3',
       },
       '&.Mui-focused fieldset': {
-        border: '2px solid #c33332',
+        border: '2px solid #d9822b',
       },
     },
     '& input': {
@@ -97,13 +97,13 @@ const Settings = () => {
                   <Stack direction="row" justifyContent="space-between" alignItems="center">
                     <Stack direction="row" spacing={2}>
                       {/* <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" className="settings-profile-img" alt="" /> */}
-                      <Avatar sx={{ bgcolor: '#C33332' }}>{vendorBusinessProfile?.vendor_service_name?.slice(0, 1)}</Avatar>
+                      <Avatar sx={{ bgcolor: '#d9822b' }}>{vendorBusinessProfile?.vendor_service_name?.slice(0, 1)}</Avatar>
                       <div>
                         <h3 className="settings-user-name"> {vendorBusinessProfile?.vendor_service_name} </h3>
                         <p className="settings-user-number"> {vendorBusinessProfile?.phone_number} </p>
                       </div>
                     </Stack>
-                    <EditIcon style={{ color: '#c33332', fontSize: '18px' }} />
+                    <EditIcon style={{ color: '#d9822b', fontSize: '18px' }} />
                   </Stack>
 
                   <h2 className="company-id mt-3">Company ID - {vendorBusinessProfile?.company_id} </h2>
@@ -115,7 +115,7 @@ const Settings = () => {
                     className='mt-3'
                     variant="middle"
                     style={{
-                      backgroundColor: '#c33332',
+                      backgroundColor: '#d9822b',
                       margin: '0px'
                     }}
                   />
@@ -435,7 +435,7 @@ const Settings = () => {
                     className='mt-3'
                     variant="middle"
                     style={{
-                      backgroundColor: '#c33332',
+                      backgroundColor: '#d9822b',
                       margin: '0px'
                     }}
                   />
@@ -460,7 +460,7 @@ const Settings = () => {
                     className='mt-3'
                     variant="middle"
                     style={{
-                      backgroundColor: '#c33332',
+                      backgroundColor: '#d9822b',
                       margin: '0px'
                     }}
                   />

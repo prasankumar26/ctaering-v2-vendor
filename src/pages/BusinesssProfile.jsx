@@ -37,7 +37,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
       border: '2px solid #F0F1F3',
     },
     '&.Mui-focused fieldset': {
-      border: '2px solid #c33332',
+      border: '2px solid #d9822b',
     },
   },
   '& input': {
@@ -101,7 +101,6 @@ const BusinesssProfile = () => {
       working_days_hours: data?.working_days_hours,
       working_since: data?.working_since || "",
       about_description: data?.about_description,
-      total_staffs_approx: data?.total_staffs_approx,
       business_email: data?.business_email,
       business_phone_number: data?.business_phone_number,
       landline_number: data?.landline_number,
@@ -130,7 +129,6 @@ const BusinesssProfile = () => {
     vendor_service_name: Yup.string().required('Name is required.'),
     point_of_contact_name: Yup.string().required('contact person name is required.'),
     // working_days_hours: Yup.string().required('working days hours is required.'),
-    total_staffs_approx: Yup.string().required('total staffs approx is required.'),
     about_description: Yup.string().required('about description is required.'),
     business_email: Yup.string().required('Business email is required.'),
     working_since: Yup.string()
@@ -253,7 +251,7 @@ const BusinesssProfile = () => {
                 className='mt-2'
                 variant="middle"
                 style={{
-                  backgroundColor: '#c33332',
+                  backgroundColor: '#d9822b',
                   margin: '0px',
                   width: '35%',
                   margin: '0px auto'
@@ -264,7 +262,7 @@ const BusinesssProfile = () => {
               <Grid container spacing={2} className="mt-4">
                 <Grid item xs={6}>
                   <div>
-                    <p className="business-profile-name">Catering Name</p>
+                    <p className="business-profile-name">Tiffin Service Name</p>
                     <CssTextField
                       value={values.vendor_service_name}
                       onChange={handleChange}
@@ -348,29 +346,7 @@ const BusinesssProfile = () => {
                     {/* {errors.working_days_hours && <small className='text-danger mt-2 ms-1'>{errors.working_days_hours}</small>} */}
                   </div>
 
-                  <div style={values.working_days_hours ? { marginTop: '30px' } : {}}>
-                    <p className="business-profile-name">Total No. of Staffs Approx</p>
-                    <CssTextField
-                      value={values.total_staffs_approx}
-                      onChange={handleChange}
-                      name="total_staffs_approx"
-                      variant="outlined"
-                      placeholder="Eg. 10 - 15"
-                      className='mt-0'
-                      style={{ width: '100%' }}
-                      InputLabelProps={{
-                        style: { color: '#777777', fontSize: '10px' },
-                      }}
-                      InputProps={{
-                        style: {
-                          borderRadius: '8px',
-                          backgroundColor: '#FFFFFF',
-                        }
-                      }}
-                    />
-                    {errors.total_staffs_approx && <small className='text-danger mt-2 ms-1'>{errors.total_staffs_approx}</small>}
-                  </div>
-
+                 
                   {/* <div>
                     <p className="business-profile-name">Street Name</p>
                     <CssTextField
@@ -569,7 +545,7 @@ const BusinesssProfile = () => {
                 className='mt-2 mb-5'
                 variant="middle"
                 style={{
-                  backgroundColor: '#c33332',
+                  backgroundColor: '#d9822b',
                   margin: '0px',
                   width: '35%',
                   margin: '0px auto'
@@ -676,7 +652,7 @@ const BusinesssProfile = () => {
                 className='mt-2 mb-5'
                 variant="middle"
                 style={{
-                  backgroundColor: '#c33332',
+                  backgroundColor: '#d9822b',
                   margin: '0px',
                   width: '35%',
                   margin: '0px auto'
