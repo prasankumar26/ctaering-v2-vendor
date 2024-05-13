@@ -7,7 +7,6 @@ import { persistor, store } from './app/store';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 
-
 // Create a custom theme
 const theme = createTheme({
   palette: {
