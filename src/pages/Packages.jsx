@@ -23,7 +23,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -42,7 +42,7 @@ const CssTextFieldSmall = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -111,6 +111,9 @@ const Packages = () => {
     const [minimumCapacity, setMinimumCapacity] = useState("")
     const [startPrice, setStartPrice] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [mealTypes, setMealTypes] = useState([])
+    const [kitchenTypes, setKitchenTypes] = useState([])
+
 
     const handleFoodSwitchToggle = (index) => {
         const updatedFoodTypes = foodTypes.map((food, i) =>
@@ -134,6 +137,21 @@ const Packages = () => {
         setServingTypes(updatedServingTypes);
     };
 
+    const handleMealTimeSwitchToggle = (index) => {
+        const updatedMealTypes = mealTypes.map((meal, i) =>
+            i === index ? { ...meal, selected: meal.selected === "1" ? "0" : "1" } : meal
+        );
+        setMealTypes(updatedMealTypes);
+    };
+
+    const handleKitchenSwitchToggle = (index) => {
+        const updatedKitchenTypes = kitchenTypes.map((kitchen, i) =>
+            i === index ? { ...kitchen, selected: kitchen.selected === "1" ? "0" : "1" } : kitchen
+        );
+        setKitchenTypes(updatedKitchenTypes);
+    };
+
+
     const onHandleSubmit = async (e) => {
         e.preventDefault();
 
@@ -142,17 +160,21 @@ const Packages = () => {
         const updatedFoodTypes = foodTypes.map(food => ({ id: +food.id, selected: +food.selected }));
         const updatedServiceTypes = serviceTypes.map(service => ({ id: +service.id, selected: +service.selected }));
         const updatedServingTypes = servingTypes.map(serving => ({ id: +serving.id, selected: +serving.selected }));
+        const updatedMealTypes = mealTypes.map(mealtype => ({ id: +mealtype.id, selected: +mealtype.selected }));
+        const updatedkitchenTypes = kitchenTypes.map(kitchen => ({ id: +kitchen.id, selected: +kitchen.selected }));
 
         const data = {
             foodTypes: JSON.stringify(updatedFoodTypes),
             serviceTypes: JSON.stringify(updatedServiceTypes),
             servingTypes: JSON.stringify(updatedServingTypes),
+            mealTimes: JSON.stringify(updatedMealTypes),
+            kitchenTypes: JSON.stringify(updatedkitchenTypes),
             maximumCapacity: maximumCapacity,
             minimumCapacity: minimumCapacity,
             startPrice: startPrice
         };
         try {
-            const response = await api.post(`${BASE_URL}/update-vendor-business-package-details`, data, {
+            const response = await api.post(`${BASE_URL}/update-tiffin-package-details`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 }
@@ -167,7 +189,6 @@ const Packages = () => {
         }
     }
 
-
     const fetchPackages = async () => {
         try {
             const response = await api.get(`${BASE_URL}/get-vendor-package-details`, {
@@ -175,13 +196,15 @@ const Packages = () => {
                     Authorization: `Bearer ${accessToken}`,
                 }
             });
-            const { foodTypes, maximum_capacity, minimum_capacity, serviceTypes, servingTypes, start_price } = response?.data?.data;
+            const { foodTypes, maximum_capacity, minimum_capacity, serviceTypes, servingTypes, start_price, mealTimes, kitchenTypes } = response?.data?.data;
             setServiceTypes(serviceTypes)
             setServingTypes(servingTypes)
             setFoodTypes(foodTypes)
             setMaximumCapacity(maximum_capacity)
             setMinimumCapacity(minimum_capacity)
             setStartPrice(start_price)
+            setMealTypes(mealTimes)
+            setKitchenTypes(kitchenTypes)
         } catch (error) {
             console.log(error);
         }
@@ -284,7 +307,7 @@ const Packages = () => {
                             className='mt-4'
                             variant="middle"
                             style={{
-                                backgroundColor: '#c33332',
+                                backgroundColor: '#d9822b',
                                 margin: '0px'
                             }}
                         />
@@ -292,12 +315,12 @@ const Packages = () => {
                         <Grid container spacing={2} className='mt-2'>
                             <Grid item xs={12} lg={6}>
                                 <h3 className='package-capacity mt-3'>Choose your Service type Below</h3>
-                                <p className='max-min-capacity-para text-center'>If you provide both table and buffet service, please check both</p>
-                                {serviceTypes?.slice(0, 2).map((service, index) => {
-                                    // console.log(`/img/icons/${service.service_type_name.toLowerCase()}.png`, "service RRR");
+                                <p className='max-min-capacity-para text-center'>If you provide all service, please check all.</p>
+                                {serviceTypes?.map((service, index) => {
+                                    const imageName = service.service_type_name.toLowerCase().replace(/\s+/g, '-');
                                     return (
                                         <Stack key={service.id} direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3'>
-                                            <img src={`/img/package/${service.service_type_name.toLowerCase()}.png`} alt="" className='package-icons' />
+                                            <img src={`/img/package/${imageName}.png`} alt="" className='package-icons' />
                                             <p className='px-3 package-icon-title'>{service.service_type_name}</p>
                                             <Switch
                                                 size="small"
@@ -307,21 +330,18 @@ const Packages = () => {
                                         </Stack>
                                     )
                                 }
-
                                 )}
                             </Grid>
 
                             <Grid item xs={12} lg={6}>
-                                <h3 className='package-capacity mt-3'>Choose your Serving type Below</h3>
-                                <p className='max-min-capacity-para text-center'>If you provide both table and buffet service, please check both</p>
+                                <h3 className='package-capacity mt-3'>Choose your Meal Time Below</h3>
+                                <p className='max-min-capacity-para text-center'>Please Select your Meal Time below</p>
                                 {
-                                    servingTypes.map((servingType, index) => {
-                                        // console.log(`/img/icons/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`, "servingType servingType");
+                                    mealTypes.map((mealtype, index) => {
                                         return (
                                             <Stack direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3' key={index}>
-                                                <img src={`/img/package/${servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}.png`} alt="" className='package-icons' />
-                                                <p className='px-3 package-icon-title'>{servingType.serving_type_name.toLowerCase().replace(/\s+/g, '-')}</p>
-                                                <Switch size="small" checked={servingType.selected === "1"} onChange={() => handleServingSwitchToggle(index)} />
+                                                <p className='px-3 package-icon-title'>{mealtype?.meal_time_name}</p>
+                                                <Switch size="small" checked={mealtype.selected === "1"} onChange={() => handleMealTimeSwitchToggle(index)} />
                                             </Stack>
                                         )
                                     }
@@ -335,59 +355,39 @@ const Packages = () => {
                             className='mt-4'
                             variant="middle"
                             style={{
-                                backgroundColor: '#c33332',
+                                backgroundColor: '#d9822b',
                                 margin: '0px'
                             }}
                         />
 
-                        <h3 className='package-capacity mt-3'>Capacity</h3>
+                        <Stack direction="row" justifyContent="center" className="mt-4">
+                            <div>
+                                <h3 className='package-capacity mt-3'>Choose your Kitchen Type Below</h3>
+                                <p className='max-min-capacity-para text-center'>Please Select Only One Kitchen Type below</p>
+                                {
+                                    kitchenTypes.map((kitchen, index) => {
+                                        return (
+                                            <Stack direction="row" justifyContent="center" alignItems="center" spacing="2" className='mt-3' key={index}>
+                                                <p className='px-3 package-icon-title'>{kitchen?.kitchen_type_name}</p>
+                                                <Switch size="small" checked={kitchen?.selected === "1"} onChange={() => handleKitchenSwitchToggle(index)} />
+                                            </Stack>
+                                        )
+                                    }
+                                    )
+                                }
+                            </div>
+                        </Stack>
 
-                        <Grid container spacing={2} className='mt-2'>
-                            <Grid item xs={12} lg={6}>
-                                <p className='max-min-capacity mb-2'>Minimum Capacity</p>
-                                <CssTextField
-                                    value={minimumCapacity}
-                                    onChange={(e) => setMinimumCapacity(e.target.value)}
-                                    type='number'
-                                    id="outlined-number"
-                                    variant="outlined"
-                                    placeholder="Enter Minimum Capacity - Eg: 100plates"
-                                    className='mt-0'
-                                    style={{ width: '100%' }}
-                                    InputLabelProps={{
-                                        style: { color: '#777777', fontSize: '10px' },
-                                    }}
-                                    InputProps={{
-                                        style: {
-                                            borderRadius: '8px',
-                                            backgroundColor: '#FFFFFF',
-                                        }
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} lg={6}>
-                                <p className='max-min-capacity mb-2'>Maximum Capacity</p>
-                                <CssTextField
-                                    value={maximumCapacity}
-                                    onChange={(e) => setMaximumCapacity(e.target.value)}
-                                    type='number'
-                                    id="outlined-number"
-                                    variant="outlined"
-                                    placeholder="Enter Maximum Capacity - Eg: 7000plates"
-                                    className='mt-0'
-                                    style={{ width: '100%' }}
-                                    InputLabelProps={{
-                                        style: { color: '#777777', fontSize: '10px' },
-                                    }}
-                                    InputProps={{
-                                        style: {
-                                            borderRadius: '8px',
-                                            backgroundColor: '#FFFFFF',
-                                        }
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
+
+                        <Divider
+                            className='mt-4'
+                            variant="middle"
+                            style={{
+                                backgroundColor: '#d9822b',
+                                margin: '0px'
+                            }}
+                        />
+
 
                         <Stack direction="row" justifyContent="center" className="mt-4">
                             <Button variant="contained" className="inquiries-red-btn" type="submit"> {loading ? 'Loading...' : 'Update'}  </Button>

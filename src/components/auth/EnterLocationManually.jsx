@@ -31,7 +31,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -298,7 +298,7 @@ const EnterLocationManually = () => {
                                         <MyLocationIcon style={{ marginRight: '5px', fontSize: '15px' }} /> {loading ? 'Loading...' : `Use my current location`}
                                     </Button>
 
-                                    <div className='mb-3' style={{ marginTop: '20px', borderTop: '2px solid #c33332' }}>
+                                    <div className='mb-3' style={{ marginTop: '20px', borderTop: '2px solid #d9822b' }}>
                                         <Divider />
                                     </div>
 

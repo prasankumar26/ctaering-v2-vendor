@@ -32,7 +32,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -221,7 +221,7 @@ const ProfileSteps = () => {
                                                             onChange={handleChange}
                                                             name="point_of_contact_name"
                                                             variant="outlined"
-                                                            label="Enter Catering Service Name / Display Name"
+                                                            label="Enter Tiffin Service Name / Display Name"
                                                             className='mt-3'
                                                             style={{ width: '100%' }}
                                                             InputLabelProps={{

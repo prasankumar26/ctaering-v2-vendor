@@ -322,7 +322,7 @@ const Branches = () => {
             className='mt-4'
             variant="middle"
             style={{
-              backgroundColor: '#c33332',
+              backgroundColor: '#d9822b',
               margin: '0px'
             }}
           />
@@ -382,7 +382,7 @@ const Branches = () => {
               name='catering_service_name'
               id="outlined-number"
               variant="outlined"
-              label="Catering Service Name"
+              label="Tiffin Service Name"
               className='mb-3'
               style={{ width: '100%' }}
               InputLabelProps={{

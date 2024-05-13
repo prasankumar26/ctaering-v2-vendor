@@ -24,7 +24,7 @@ const TopHeader = ({ title, description, date }) => {
                         <p className='top-header-desc'>{description ? description : ''}</p>
                         <p className='top-header-desc'>{date ? date : ''}</p>
                     </div>
-                    <LogoutIcon onClick={handleLogout} style={{ color: '#c33332', fontSize: '18px', cursor: 'pointer' }} />
+                    <LogoutIcon onClick={handleLogout} style={{ color: '#d9822b', fontSize: '18px', cursor: 'pointer' }} />
                 </Stack>
             </Container>
         </>

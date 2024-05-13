@@ -44,7 +44,7 @@ const DatePickerSearch = () => {
         setShowPicker(!showPicker);
     };
 
-    const rangeColors = ['#C33332', '#C33332', '#C33332'];
+    const rangeColors = ['#d9822b', '#d9822b', '#d9822b'];
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -69,10 +69,10 @@ const DatePickerSearch = () => {
                     borderRadius: '8px',
                     fontSize: '12px',
                     fontWeight: 'bold',
-                    color: '#C33332',
+                    color: '#d9822b',
                     width: '100%',
                     padding: '11px 10px',
-                    border: '2px solid #C33332',
+                    border: '2px solid #d9822b',
                     textTransform: 'capitalize', 
                 }}
                 startIcon={<CalendarTodayIcon />}

@@ -26,7 +26,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -259,7 +259,7 @@ const RegisterLogin = () => {
                                                                 {errors.phone_number && <small className='text-danger mt-2 ms-1'>{errors.phone_number}</small>}
 
                                                                 <div className="mt-4">
-                                                                    <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering ' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
+                                                                    <Button disabled={loading} variant="contained" type='submit' className='ct-box-btn-catering' style={{ textTransform: 'capitalize', margin: '0px auto', display: 'block' }}>
                                                                         {loading ? 'Loading...' : 'Get Otp'}
                                                                     </Button>
                                                                 </div>
@@ -292,7 +292,7 @@ const RegisterLogin = () => {
                                                             <button
                                                                 disabled={seconds > 0 || minutes > 0}
                                                                 style={{
-                                                                    color: seconds > 0 || minutes > 0 ? "#c33332" : "#c33332",
+                                                                    color: seconds > 0 || minutes > 0 ? "#d9822b" : "#d9822b",
                                                                     margin: '0px auto', textAlign: 'center', border: 'none',
                                                                     background: '#fff', cursor: 'pointer'
                                                                 }}

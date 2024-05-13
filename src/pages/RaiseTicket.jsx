@@ -105,7 +105,7 @@ const RaiseTicket = () => {
                             <div className="ct-box ct-box-padding">
                                 <div className="px-4">
                                     <Stack direction="row" alignItems="center" className="mb-3">
-                                        <ArrowBackIcon className="cursor-pointer" style={{ fontSize: '18px', color: '#c33332' }} onClick={handleBack} /> <h3 className="faq-heading ms-2">Help Desk / Support</h3>
+                                        <ArrowBackIcon className="cursor-pointer" style={{ fontSize: '18px', color: '#d9822b' }} onClick={handleBack} /> <h3 className="faq-heading ms-2">Help Desk / Support</h3>
                                     </Stack>
                                     <h2 className="rt-heading mb-4 mt-5">Raise a Ticket</h2>
                                     <Formik enableReinitialize={true} initialValues={initialState} validationSchema={schema} onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>

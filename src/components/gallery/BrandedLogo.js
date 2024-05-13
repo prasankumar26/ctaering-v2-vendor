@@ -120,7 +120,7 @@ const BrandedLogo = () => {
                         className='mt-2 mb-5'
                         variant="middle"
                         style={{
-                            backgroundColor: '#c33332',
+                            backgroundColor: '#d9822b',
                             margin: '0px',
                             width: '35%',
                             margin: '0px auto'

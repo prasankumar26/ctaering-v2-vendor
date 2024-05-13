@@ -41,7 +41,7 @@ const CssTextField = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -66,7 +66,7 @@ const CssTextFieldMultiSelect = styled(TextField)(({ theme }) => ({
             border: '2px solid #F0F1F3',
         },
         '&.Mui-focused fieldset': {
-            border: '2px solid #c33332',
+            border: '2px solid #d9822b',
         },
     },
     '& input': {
@@ -173,7 +173,7 @@ const Cuisines = () => {
                         className='mt-4'
                         variant="middle"
                         style={{
-                            backgroundColor: '#c33332',
+                            backgroundColor: '#d9822b',
                             margin: '0px'
                         }}
                     />

@@ -14,7 +14,7 @@ const BranchesCard = ({ branches, onHandleEdit, handleToggleStatus }) => {
                             <Switch onChange={() => handleToggleStatus(branches)} checked={branches?.status === "1"} size="small" style={{ color: '#459412' }} />
                         </Stack>
                         <div>
-                            <EditIcon style={{ color: '#c33332', fontSize: '18px' }} onClick={() => onHandleEdit(branches)} />
+                            <EditIcon style={{ color: '#d9822b', fontSize: '18px' }} onClick={() => onHandleEdit(branches)} />
                         </div>
                     </Stack>
                     <div className='mt-3'>

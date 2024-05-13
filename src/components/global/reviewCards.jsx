@@ -8,7 +8,7 @@ const ReviewCards = ({ review }) => {
             <Stack direction="row" justifyContent="space-between" spacing={1}>
                 <Stack direction="row" spacing={1} style={{ width: '75%' }}>
                     {/* <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" alt="" className="img-fluid ic-img" /> */}
-                    <Avatar sx={{ bgcolor: '#C33332' }}>{review?.username?.slice(0, 1)}</Avatar>
+                    <Avatar sx={{ bgcolor: '#d9822b' }}>{review?.username?.slice(0, 1)}</Avatar>
                     <div className="">
                         <h5 className='ic-title'> {review?.username} </h5>
                         <p className='ic-desc'> {review?.review_text} </p>

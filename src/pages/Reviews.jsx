@@ -33,7 +33,7 @@ const ReactSelect = ({ text1, selectedOption, handleSelectedChange }) => {
                     padding: '0px 0px',
                     margin: '0px',
                     border: `2px solid #e0e3e7`,
-                    outline: isFocused ? '2px solid #C33332' : 'none', 
+                    outline: isFocused ? '2px solid #d9822b' : 'none', 
                     width: '200px',
                     color: '#FFFFFF',
                     '&:hover': {
@@ -42,24 +42,24 @@ const ReactSelect = ({ text1, selectedOption, handleSelectedChange }) => {
                 }),
                 input: (baseStyles) => ({
                     ...baseStyles,
-                    color: '#C33332',
+                    color: '#d9822b',
                 }),
                 multiValue: (baseStyles) => ({
                     ...baseStyles,
-                    color: '#C33332',
-                    backgroundColor: '#C33332',
+                    color: '#d9822b',
+                    backgroundColor: '#d9822b',
                 }),
                 multiValueLabel: (baseStyles) => ({
                     ...baseStyles,
-                    color: '#C33332',
+                    color: '#d9822b',
                 }),
                 option: (baseStyles, { isFocused, isSelected }) => ({
                     ...baseStyles,
                     fontSize: '12px',
-                    backgroundColor: isSelected ? '#C33332' : isFocused ? '#FADBD8' : 'transparent',
-                    color: isSelected ? 'white' : '#C33332',
+                    backgroundColor: isSelected ? '#d9822b' : isFocused ? '#FADBD8' : 'transparent',
+                    color: isSelected ? 'white' : '#d9822b',
                     '&:hover': {
-                        backgroundColor: isSelected ? '#C33332' : '#FADBD8',
+                        backgroundColor: isSelected ? '#d9822b' : '#FADBD8',
                     },
                 }),
             }}
